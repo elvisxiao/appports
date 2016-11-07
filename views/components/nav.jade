@@ -1,0 +1,184 @@
+nav.navbar.navbar-default(style="margin: 0")
+    .wrapper
+        .navbar-header
+            button.navbar-toggle.collapsed(type="button", data-toggle="collapse", data-target="#bs-example-navbar-collapse-1")
+                span.sr-only Toggle navigation
+                span.icon-bar
+                span.icon-bar
+                span.icon-bar
+            a.navbar-brand(href="/") 
+                img.mt5(src="/img/logo.png")
+        
+        #bs-example-navbar-collapse-1.collapse.navbar-collapse.navbar-right
+            ul.nav.navbar-nav
+                li
+                    a(href="/") 首页
+                li.dropdown
+                    a.dropdown-toggle(href="#", data-toggle="dropdown") 在线抽奖
+                        span.caret
+                    ul.dropdown-menu
+                        li
+                            a(href="/lucky/slotmachine") 老虎机
+                        li
+                            a(href="/lucky/turntable") 幸运转盘
+                //- li
+                //-     a(href="/flow") 图书管理
+                        
+                li.dropdown
+                    a(href="/ui") UI组件
+                li
+                    a(href="/") 关于我们
+                li
+                    a(href="/") 登录
+                li
+                    a(href="/") 注册
+            
+#navSpace
+
+#userForm.modal.fade
+    .modal-dialog
+        .modal-content
+            .modal-header
+                button.close(type="button", data-dismiss="modal")
+                    span(aria-hidden="true") &times;
+                    span.sr-only Close
+    
+                ul.nav.nav-tabs(role="tablist")
+                    li.active(role="presentation")
+                        a(href="#formLogin", role="tab", data-toggle="tab") 登 录
+                    li(role="presentation")
+                        a(href="#formRegister", role="tab", data-toggle="tab") 注 册
+            .modal-body
+                .tab-content.pt20
+                    form#formLogin.tab-pane.active(role="tabpanel")
+                        table.w(style="max-width: 400px; margin: 0 auto")
+                            tbody
+                                tr
+                                    td.w100.tr 身份证号码：
+                                    td 
+                                        input.form-control(name="cardId", type="text", autocomplete="false", minLength="15", maxLength="18", required)
+                                tr(style="height: 80px;")
+                                    td.tr 密码：
+                                    td
+                                        input.form-control(name="password", type="password", maxLength="30", minLength="8", required, title="密码长度为8 - 30位之间")
+                                tr
+                                    td.tc.pb10(colspan="2")
+                                        button.btn.btnReverse.w150(type="submit") 登 录
+
+                    form#formRegister.tab-pane(role="tabpanel")
+                        table.w(style="max-width: 400px; margin: 0 auto")
+                            tbody
+                                tr
+                                    td.w100.tr 身份证号码：
+                                    td 
+                                        input.form-control(type="text", name="cardId", minLength="15", maxLength="18", title="身份证号码为15或18位" ,required)
+                                tr(style="height: 80px;")
+                                    td.tr 密码：
+                                    td
+                                        input.form-control(type="password", name="password", maxLength="30", minLength="8", required, title="密码长度为8 - 30位之间")
+                                tr
+                                    td.tr 确认密码：
+                                    td
+                                        input.form-control(type="password", name="password2", maxLength="30", minLength="8", required, title="密码长度为8 - 30位之间")
+                                tr(style="height: 80px;")
+                                    td.pt20.tc(colspan="2")
+                                        button.btn.btnReverse.w150(type="submit") 注 册
+
+div#divBrowserAlert.alert.alert-danger(style="display: none; position: fixed; z-index:10000; margin:0; bottom: 0; right: 0; width: 100%; ") 您的浏览器已经老掉牙了，有些功能将得不到支持，来个潮流的吧：
+    a(href="http://www.google.cn/chrome/browser/desktop/index.html" target="_blank") Chrome
+    | 、
+    a(href="http://www.firefox.com.cn/download/" target="_blank") Firefox
+    | 、
+    a(href="http://www.apple.com/cn/safari/" target="_blank") Safari
+    | 、
+    a(href="http://www.opera.com/zh-cn" target="_blank") Opera
+    | 、
+    a(href="https://support.microsoft.com/zh-cn/help/17621/internet-explorer-downloads" target="_blank") Internet Explorer 10+
+
+script.
+    var GUSER = "#{ (user && user._id)? user._id: ''}";
+    window.showLoginModal = function() {
+        $('#userForm').modal({show: true});
+    }
+    //判断浏览器的支持情况
+    if(!window.FileReader || !window.FormData || document.createElement('canvas').getContext('2d') === undefined) {
+        $('#divBrowserAlert').show();
+    }
+    
+    (function() {
+        $(window).scroll(function () {
+            var scrollTop = $(window).scrollTop();
+            if (scrollTop > 0) {
+                $('nav.navbar.navbar-default').addClass('mini');
+            }
+            else if(scrollTop < 50) {
+                $('nav.navbar.navbar-default').removeClass('mini');
+            }
+        });
+
+        var userForm = $('#userForm');
+        $('#aPerson').on('click', function(e) {
+            if(!GUSER) {
+                userForm.modal({show: true});
+                e.preventDefault();
+                oc.location.setUrl('/my');
+                return false;
+            }
+            
+        });
+        var formLogin = userForm.find('#formLogin');
+        formLogin.submit(function() {
+            if(oc.tools.form.validity(formLogin)) {
+                var cardId = $.trim(userForm.find('#formLogin input[name="cardId"]').val());
+                var password = $.trim(userForm.find('#formLogin input[name="password"]').val());
+                oc.ajax.post('/user/login', { cardId: cardId, password: password }, function() {
+                    oc.dialog.tips('登录成功', function() {
+                        location.reload();
+                    });
+                }, function(res) {
+                    oc.dialog.tips('用户名或密码错误，请重试', -1);
+                    userForm.find('#formLogin input[name="password"]').val('');
+                })
+            }
+            
+            return false;
+        })
+
+        var formRegister = userForm.find('#formRegister');
+        formRegister.submit(function() {
+            if(oc.tools.form.validity(userForm.find('#formRegister'))) {
+                var iptCardId = userForm.find('#formRegister input[name="cardId"]');
+                var cardId = $.trim(iptCardId.val());
+                var password = $.trim(userForm.find('#formRegister input[name="password"]').val());
+                var passwordConfirmed = $.trim(userForm.find('#formRegister input[name="password2"]').val());
+                if(password !== passwordConfirmed) {
+                    oc.dialog.tips('两次输入的密码不一致');
+                    return false;
+                }
+                if(password.length < 8 || password.length > 30) {
+                    oc.dialog.tips('密码长度为8-30位，请检查');
+                    return false;
+                }
+                if(cardId.length !== 15 && cardId.length !== 18) {
+                    oc.dialog.tips('身份证为15或18位，请检查', iptCardId);
+                    return false;
+                }
+                oc.ajax.post('/user', { cardId: cardId, password: password }, function() {
+                    oc.dialog.tips('注册成功', function() {
+                        location.reload();
+                    });
+                }, function(res) {
+                    console.log(res)
+                    oc.dialog.tips(res.responseText, -1);
+                })
+            }
+            
+            return false;
+        })
+    })();
+    
+
+
+    
+    
+

@@ -1,0 +1,427 @@
+extends ../layout
+
+block content
+    div
+        .wrapper(style="overflow:visible")
+            div.tc.pt50
+                div#slotmachine
+                    #slotHead
+                        img(src="/img/money2.png")
+                        span 
+                            span#slotTitle 
+                            i.icon-arrow-right2
+                    .slotTop
+                    .slotRight
+                        img(src="/img/slot_right.png")
+                    .slotInner
+                        .slotScrool.row
+                            .col-xs-3
+                                #prizedPersonList(style="background: #2d343c")
+                            
+                            .col-xs-9
+                                .tc(style="background: #477d01")
+                                    #scrollMain
+                                        .scrollItem
+                                        .scrollItem
+                                        .scrollItem
+                                #prizeInfo
+                                    span 当前奖品：三等奖 - 价值2万的Mac Pro一台
+                                    button#btnPrize.btn.btnMain(type="button") 滚动起来
+
+    .wrapper
+        div#formSlotmachine.form-inline.mt50
+            div.mt30
+                h2(style="font-size: 18px; border-bottom: 1px solid #ddd; padding: 10px 5px;") 配置抽奖信息
+                    span.text-warning.ml20(style="font-size: 12px") 注：抽奖信息仅临时保存，如需下次继续试用，请登录
+                table.ml15.mt30
+                    tr 
+                        td 活动名称：
+                        td 
+                            input.form-control.input-sm(type="text", style="min-width:200px", name="slotTitle", maxlength="20", minlength="3", value="2016年海翼年终会议", required)
+                    tr.h50 
+                        td 允许重复中奖：
+                        td
+                            select.form-control.input-sm(style="min-width:200px", name="slotRepeat", required)
+                                option(value="0") 否
+                                option(value="1") 是
+                            span.text-warning.f12.ml20 如果在抽奖过程中添加名单，会导致出现同一人重复中奖的问题。
+                form#formAddPrize.f12.p15.mini.of
+                    h3#btnToggleAdd.hTitle 添加奖品
+                    table.ml15
+                        tr 
+                            td 奖品标题：
+                            td(colspan="3") 
+                                input.form-control.input-sm(type="text", value="一等奖", name="title", style="width:443px", required)
+                        tr.h50
+                            td 奖品名称：
+                            td(colspan="3") 
+                                input.form-control.input-sm(type="text", value="价值100万的别墅一栋", name="name", style="width:443px", required) 
+                        tr
+                            td 图片：
+                            td(colspan="3") 
+                                input#iptPrizeImg(type="file", required, accept="image/*")
+                        tr.h50
+                            td 奖品数量：
+                            td 
+                                input.form-control.input-sm(type="number", name="quantity", value="1", min="1", step="1", required)
+                            td.pl50 单次抽取数量：
+                            td 
+                                input.form-control.input-sm(type="number", name="once", value="1", min="1", step="1", required)
+                       
+                        tr
+                            td 
+                            td.pt10
+                                button.btn.btnMain.w100.btn-sm(type="submit") 添 加
+                div#prizeList.of
+                
+            div.p15
+                h3.hTitle 参与人员
+                    span.text-muted.ml10(style="font-size: 12px;") 格式：姓名 #描述/职位/部门 #识别号/工号
+                textarea#iptPerson.form-control.w(style="width: 100%; font-size: 12px;", rows="20")
+                p.vm.mt20
+                    button#btnSub.btn.btnMain.w100(type="button") 开始抽奖 
+                    
+    script.
+        var personText = 'Elvis #FED Develop(ERP) #354 \nTest1 #FED Develop2(ERP) #355 \nTest1 #FED Develop3(ERP) #356 \nTest4 #FED Develop4(ERP) #357 \nTest5 #FED Develop5(ERP) #365 \nTest7 #FED Develop7(ERP) #367 \nTest8 #FED Develop8(ERP) #368 \nTest9 #FED Develop9(ERP) #369 \nTest10 #FED Develop10(ERP) #370 \nTest11 #FED Develop2(ERP) #355 \nTest12 #FED Develop22(ERP) #355 \nTest13 #FED Develop23(ERP) #355 \nTest14 #FED Develop24(ERP) #355 \nTest15 #FED Develop25(ERP) #355 \nTest16 #FED Develo26(ERP) #355 \nTest17 #FED Develop27(ERP) #355 \nTest18 #FED Develop28(ERP) #355 \nTest19 #FED Develop29(ERP) #355 \nTest20 #FED Develop30(ERP) #355 \nElvis #FED Develop(ERP) #354 \nTest1 #FED Develop2(ERP) #355 \nTest1 #FED Develop3(ERP) #356 \nTest4 #FED Develop4(ERP) #357 \nTest5 #FED Develop5(ERP) #365 \nTest7 #FED Develop7(ERP) #367 \nTest8 #FED Develop8(ERP) #368 \nTest9 #FED Develop9(ERP) #369 \nTest10 #FED Develop10(ERP) #370 \nTest11 #FED Develop2(ERP) #355 \nTest12 #FED Develop22(ERP) #355 \nTest13 #FED Develop23(ERP) #355 \nTest14 #FED Develop24(ERP) #355 \nTest15 #FED Develop25(ERP) #355 \nTest16 #FED Develo26(ERP) #355 \nTest17 #FED Develop27(ERP) #355 \nTest18 #FED Develop28(ERP) #355 \nTest19 #FED Develop29(ERP) #355 \nTest20 #FED Develop30(ERP) #355';
+        document.getElementById('iptPerson').value = personText;
+        
+        var prizes = [
+            {
+                title: '三等奖',
+                name: '扫地机器人一个',
+                quantity: 8,
+                once: 4,
+                img: '/img/prize/1.jpg'
+            },
+            {
+                title: '二等奖',
+                name: 'Moto 360智能手表一只',
+                quantity: 3,
+                once: 3,
+                img: '/img/prize/2.jpg'
+            },
+            {
+                title: '一等奖',
+                name: 'Mac Pro 一台',
+                quantity: 1,
+                once: 1,
+                img: '/img/prize/4.jpg'
+            }
+        ];
+        
+        var App = function(config) {
+            this.slotTitle = '海翼2016年终会议';
+            this.slotRepeat = 0; //是否允许重复中奖， 默认为否 ---
+            this.prizedPerson = []; //所有人中奖的集合---
+            this.prizes = [];  //奖品集合-----
+            this.person = [];  //人员集合----
+            this.currentPrize = null; //当前在抽取的奖品 ----
+            this.currentPrizeRest = 0; //当前奖品剩余数量-----
+            this.timer = null; // 滚动的定时器---
+            this.canRepeat = false;  //中奖之后是否在允许重复中奖---
+            this.elePrizeList = $('#prizeList');
+            this.elePrizedPersonList = $('#prizedPersonList');
+            this.elePrizeInfo = $('#prizeInfo');
+            this.eleScrollMain = $('#scrollMain');
+            this.btnPrize = $('#btnPrize');
+            this.scrollDuration = 300;
+            
+            var self = this;
+            self = $.extend(self, config);
+            
+            self.loadPrize = function() {
+                self.elePrizeList.html('');
+                self.prizes.map(function(one) {
+                    var item = $('<div class="col-lg-3 col-md-6"><div class="prizeItem"></div></div>');
+                    var itemInner = item.find('.prizeItem');
+                    itemInner.append('<span class="icon">×</span>');
+                    itemInner.append('<img src="' + one.img + '" />');
+                    itemInner.append('<p class="prizeTitle">' + one.title + '</p>');
+                    itemInner.append('<div class="prizeInfo">' + one.name + '<br>数量：' + one.quantity + ' <br>每次抽取' + one.once + '个</div>');
+                    item.appendTo(self.elePrizeList);
+                })
+            }
+
+            self.reload = function(config) {
+                self = $.extend(self, config);
+                self.init();
+            }
+            
+            self.init = function() {
+                self.prizedPerson = [];
+                self.currentPrize = self.prizes[0];
+                self.currentPrizeRest = self.prizes[0].quantity;
+                $('#slotTitle').html(self.slotTitle);
+                self.elePrizedPersonList.html('抽奖尚未开始');
+                self.initItemElement();
+            }
+            
+            self.getOneAvalidSeed = function() {
+                var len = self.person.length;
+                if(len < self.eleScrollMain.find('.scrollPerson').length) {
+                    if($('.zDialogBd:contains("剩余人数不足")').length === 0) {
+                        oc.dialog.tips('剩余人数不足', -1);
+                    }
+                    return null;
+                }
+                var seed = Math.floor(Math.random() * len);
+                if(seed === len) {
+                    seed = len - 1;
+                }
+                if(self.eleScrollMain.find('.scrollPerson.on[data-seed="' + seed + '"]').length === 0) {
+                    return seed;
+                }
+                
+                return self.getOneAvalidSeed();
+            }
+            
+            //随机一个可用的人，绑定上去
+            self.bindRandomPerson = function(ele) {
+                var seed = self.getOneAvalidSeed();
+                if(seed === null) {
+                    return false;
+                }
+                var model = self.person[seed];
+                ele.attr('data-seed', seed);
+                ele.html('<p class="scrollPersonNumber">' + model.number + '</p><p class="scrollPersonName">' + model.name + '</p><p class="scrollPersonInfo">' + model.info + '</p>');
+                return true;
+            }
+            
+            self.clearTimeout = function() {
+                if(self.timer && self.timer.map) {
+                    self.timer.map(function(one) {
+                        clearTimeout(one);
+                    })
+                }
+                self.timer = [];
+            }
+            
+            self.check = function() {
+                if(!self.currentPrize || self.currentPrizeRest === 0) {
+                    oc.dialog.tips('奖品已经抽完', -1);
+                    return false;
+                }
+
+                return true;
+            }
+
+            self.scroll = function() {
+                self.eleScrollMain.find('.scrollItem').find('img').each(function() {
+                    var img = $(this);
+                    img.css('bottom', '200px');
+                    var elePerson = img.next('.scrollPerson');
+                    if(!self.bindRandomPerson(elePerson)) {
+                        return;
+                    }
+                    elePerson.css('bottom', 0);
+                    elePerson.addClass('on');
+                });
+                var move = function() {
+                    self.clearTimeout();
+                    self.eleScrollMain.find('.scrollItem').find('.scrollPerson:eq(0)').each(function(index) {
+                        var ele = $(this);
+                        var nextEle = ele.next('.scrollPerson:eq(0)');
+                        ele.css('bottom', '200px').removeClass('on');
+                        nextEle.css('bottom', '0').addClass('on').removeClass('disable');
+                        if(!self.bindRandomPerson(nextEle)) {
+                            return false;
+                        }
+                        var timer = null;
+                        var timer2 = null;
+                        timer = setTimeout(function() {
+                            ele.addClass('disable').css('bottom', '-200px');
+                            self.bindRandomPerson(ele);
+                            nextEle.after(ele);
+                            timer2 = setTimeout(function() {
+                                ele.removeClass('disable');
+                                move();
+                            }, 20);
+                            self.timer.push(timer2);
+                        }, self.scrollDuration);
+                        self.timer.push(timer);
+                    });
+                }
+                setTimeout(function() {
+                    move();
+                }, self.scrollDuration);
+            }
+            
+            self.initItemElement = function() {
+                self.eleScrollMain.html('');
+                self.elePrizeInfo.find('span').html(self.currentPrize.title + '：' + self.currentPrize.name);
+                var prizeQuantity = self.currentPrize.once;
+                if(self.currentPrizeRest < prizeQuantity) {
+                    prizeQuantity = self.currentPrizeRest;
+                }
+                $('#slotmachine').removeClass('lg');
+                if(prizeQuantity > 3) {
+                    $('#slotmachine').addClass('lg');
+                }
+                
+                for(var i = 0; i < prizeQuantity; i++) {
+                    self.eleScrollMain.append('<div class="scrollItem"><img src="' + self.currentPrize.img + '" /><div class="scrollPerson"></div><div class="scrollPerson"></div></div>');
+                }
+            }
+
+            self.next = function() {
+                self.currentPrize = null;
+                self.currentPrizeRest = 0;
+                var len = self.prizes.length;
+                for(var i = 0; i < len; i ++) {
+                    var prize = self.prizes[i];
+                    var finds = self.prizedPerson.filter(function(person) {
+                        return person.prize.name == prize.name && person.prize.title == prize.title;
+                    });
+                    if(finds.length < prize.quantity) {
+                        self.currentPrize = prize;
+                        self.currentPrizeRest = prize.quantity - finds.length;
+                        break;
+                    }
+                }
+                if(!self.currentPrize) {
+                    oc.dialog.tips('奖品已经抽完', -1);
+                    return;
+                }
+                self.initItemElement();
+            }
+            
+            self.setPrized = function() {
+                setTimeout(function() {
+                    self.clearTimeout();
+                    var seeds = [];
+                    var prevPrizeds = self.elePrizedPersonList.find('.text-warning');
+                    if(prevPrizeds.length === 0) {
+                        self.elePrizedPersonList.html('');
+                    }
+                    else {
+                        prevPrizeds.removeClass('text-warning');
+                    }
+                    self.eleScrollMain.find('.scrollPerson.on').each(function() {
+                        var seed = parseInt(this.getAttribute('data-seed'));
+                        seeds.push(seed);
+                        var person = $.extend({}, self.person[seed]);
+                        person.prize = self.currentPrize;
+                        self.prizedPerson.push(person);
+                        self.elePrizedPersonList.prepend('<p class="text-warning" title="' + person.name + ':（' + person.info + ', ' + person.number + '）- ' + self.currentPrize.name + '">' + person.name + ' - ' + self.currentPrize.name + '</p>');
+                    });
+
+                    //不允许重复中奖
+                    if(self.slotRepeat == 0) {
+                        self.person = self.person.filter(function(one, index) {
+                            return seeds.indexOf(index) === -1;
+                        });
+                    }
+                }, self.scrollDuration);
+            }
+
+            self.getImgSrc = function(cb) {
+                var canvas = document.createElement('canvas');
+                var context = canvas.getContext('2d');
+                canvas.setAttribute('width', 81);
+                canvas.setAttribute('height', 108);
+
+                var files = document.getElementById('iptPrizeImg').files;
+                if(files.length === 0) {
+                    return cb(null);
+                }
+
+                var reader = new FileReader();
+                reader.onload = function() {
+                    var image = new Image();
+                    image.onload = function() {
+                        context.clearRect(0, 0, 81, 108);
+                        context.drawImage(image, 0, 0, image.width, image.height, 0, 0, 81, 108);
+                        var imgStr = canvas.toDataURL("image/png", 0.7);
+                        
+                        image = null;
+                        canvas = null
+                        context = null;
+
+                        return cb(imgStr);
+                    }
+                    image.src = this.result;
+                }
+                reader.readAsDataURL(files[0]);
+            }
+            
+            self.bindEvent = function() {
+                var formAddPrize = $('#formAddPrize');
+                
+                self.btnPrize.on('click', function() {
+                    self.btnPrize.attr('disabled', 'disabled');
+                    setTimeout(function() {
+                        self.btnPrize.removeAttr('disabled');
+                    }, 1000)
+                    var text = self.btnPrize.html();
+                    if(text === '滚动起来') {
+                        if(!self.check()) {
+                            return;
+                        }
+                        self.scroll();
+                        self.btnPrize.html('停止滚动');
+                    }
+                    else if(text === '停止滚动') {
+                        self.setPrized();
+                        self.btnPrize.html('下一轮');
+                    }
+                    else {
+                        self.next();
+                        if(!self.check()) {
+                            return;
+                        }
+                        self.btnPrize.html('滚动起来');
+                    }
+                });
+
+                formAddPrize.submit(function() {
+                    var model = oc.tools.form.getJson(formAddPrize);
+                    self.getImgSrc(function(src) {
+                        model.img = src;
+                        prizes.push(model);
+                        //- self.prizes = prizes;
+                        //- self.loadPrize();
+                        //- self.next();
+                    });
+                    
+                    return false;
+                });
+                
+                document.getElementById('btnToggleAdd').onclick = function() {
+                    formAddPrize.toggleClass('mini');
+                }
+            }
+            
+            self.init();
+            self.bindEvent();
+        }  
+
+        var getPersonFromTextarea = function() {
+            var person = [];
+            var personText = document.getElementById('iptPerson').value;
+            personText.split(/\n/).map(function(one) {
+                one = one.split(' #');
+                if(one.length > 1) {
+                    person.push({
+                        name: one[0],
+                        info: one[1],
+                        number: one[2] || ''
+                    })
+                }
+            });
+            return person;
+        }
+        
+        var app = new App({
+            prizes: prizes,
+            person: getPersonFromTextarea()
+        });
+        app.loadPrize();
+        
+        document.getElementById('btnSub').onclick = function() {
+            app.reload({
+                slotTitle: $('[name="slotTitle"]').val(),
+                slotRepeat: $('[name="slotRepeat"]').val(),
+                prizes: prizes, 
+                person: getPersonFromTextarea()
+            });
+        }

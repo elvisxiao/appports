@@ -1,0 +1,319 @@
+* 
+    margin 0
+    padding 0 
+    border 0
+
+body 
+    font 14px Open Sans, "Lucida Grande", Helvetica, Arial, sans-serif
+    color #333
+    -webkit-font-smoothing antialiased
+a
+    color #00B7FF
+    &:hover 
+        text-decoration none !important
+.must
+    color red !important
+    font-size 16px !important
+    font-weight 700 !important
+    position absolute
+    left -10px
+    top 50%
+    margin-top -10px
+
+.wrapper
+    max-width 1170px
+    margin 0 auto
+    overflow hidden
+    clear both
+
+nav.navbar.navbar-default 
+    height 80px
+    position absolute
+    height auto
+    z-index 1
+    width 100%
+    box-shadow 0 2px 6px rgba(0,0,0,0.05)
+    transition height .5s
+    background #fff
+    transition all .5s
+    * 
+        transition all .3s
+    .navbar-nav>li>a 
+        color #a1b1bc
+        &:hover
+            color #00a7ea
+    .navbar-nav>.active>a
+        color #00a7ea
+        &:hover, &:focus
+            color #00a7ea
+    .navbar-brand 
+        height 100%
+        padding 0
+        img
+            width 240px
+            height auto
+    .navbar-collapse
+        padding 0
+    .wrapper 
+        height 100%
+        overflow visible
+    ul.nav.navbar-nav>li>a 
+        line-height 50px
+    + #navSpace
+        height 80px
+        transition all .5s
+    &.mini
+        opacity 0.9
+        position fixed
+        + #navSpace 
+            height 50px
+        .navbar-brand img
+            width 150px
+        ul.nav.navbar-nav>li>a
+            line-height 20px
+
+.btn.btnReverse 
+    background transparent
+    border 1px solid #00a7ea
+    color #00a7ea
+
+.slide 
+    .carousel-control 
+        position absolute
+        width 70px
+        height 40px
+        line-height 44px
+        background-image none !important
+        background-repeat none !important
+        border-radius 100px
+        border none!important
+        z-index 1
+        top 50%
+        color #a1b1bc
+        margin-top -20px
+        right 20px !important
+        border-color #ecf0f1
+        background #ffffff
+        font-size 26px
+        text-shadow none
+        opacity 0
+        transition all .3s
+    .carouselcontrol
+        >span 
+            color #a1b1bc !important
+            transition color .3s
+        &.left 
+            left 20px !important
+    &:hover 
+        .carousel-control 
+            opacity 1
+    .carousel-control:hover 
+        opacity 0.95
+        >span
+            color #000 !important
+
+.btnMain
+    background #00a7ea
+    color #fff
+    transition background-color .3s
+    &:hover
+        background rgba(0,169,238,.9)
+        color #fff !important
+
+#footer_bg 
+    background #21262a
+    clear both
+    overflow hidden
+    color #a1b1bc
+    padding 15px 0
+
+    .fl ul 
+        list-style-type none
+        li 
+            display inline-block 
+            padding 0 30px 0 0px
+    .fl a, i
+        color #a1b1bc
+    .footer_message a 
+        color #21c2f8
+
+    #ulSocail
+        display inline-block
+        margin-left 10px
+        li 
+            padding-right 22px !important
+
+#userForm 
+    .modal-header
+        padding 0 !important
+        border-bottom 0
+        position relative
+        .close 
+            display block
+            position absolute
+            top 2px
+            right -36px
+            width 37px
+            height 37px
+            opacity 1
+            outline none !important
+            font-size 40px
+            color #fff
+            >span:first-child
+                position relative
+                top -7px
+                font-weight 100
+        li 
+            width 50%
+            text-align center
+        a 
+            border 0
+            border-radius 0
+            margin-left 0
+            margin-right 0
+            border 0 !important
+            &:hover
+                background transparent
+        li.active a
+            background #00a7ec
+            color #fff
+        
+    .modal-content 
+        border-radius 0
+
+
+.sidebar 
+    border-top-right-radius 3px
+    border-left-left-radius 3px
+    margin-bottom 20px
+    p 
+        border-bottom 1px solid #ddd
+        margin 0
+        color #333
+        background #f0f0f0
+        &:last-child 
+            border-bottom 0
+        a 
+            color inherit
+            display block
+            height 40px
+            line-height 40px
+            padding-left 20px
+
+        &:not(.active) a:hover
+            color #00a7ea
+        &.active 
+            background #00a7ea
+            color #fff
+
+.spLine 
+    border-bottom 1px dashed #ddd
+    margin 15px 0
+
+
+.zDialogCover.tips 
+    display block
+    text-align center
+    .zDialog 
+        margin 0 auto
+        text-align left
+        position absolute
+        top 50%
+        left 50%
+        transform translate(-50%,-50%)
+    .zDialogHd, .zDialogBd 
+        display inline-block
+        width 100%
+
+@media (min-width: 1034px)
+    #userForm .modal-dialog
+        max-width 450px
+        position absolute
+        left 50%
+        top 50%
+        margin-left -225px
+        margin-top -120px
+
+@media (max-width: 1214px)
+    #aboutWrapper
+        width 100% !important
+        padding 0 !important
+
+@media (max-width: 1214px) and (min-width: 1034px)
+    .wrapper 
+        width 960px
+    #divPosition .positionItem
+        padding 20px 10px 20px 10px
+
+
+@media (max-width: 1035px) and (min-width: 768px)
+    .wrapper 
+        width 708px
+    nav.navbar.navbar-default
+        height 50px
+        + #navSpace
+            height 50px
+
+    nav .navbar-brand img
+        width 80px
+    nav ul.nav.navbar-nav>li>a 
+        line-height 20px
+
+@media (max-width: 767px) 
+    nav.navbar.navbar-default * 
+        transition none
+    
+    .navbar-collapse
+        transition height .3s !important
+    #aLogout
+        padding-left 15px !important
+    .wrapper
+        width 100%
+        padding 0 10px
+    nav.navbar.navbar-default 
+        height auto
+        + #navSpace
+            height 50px
+        .navbar-brand img
+            width 80px
+        ul.nav.navbar-nav>li>a 
+            line-height 20px
+    
+    #footer_bg 
+        text-align center
+        .fl, .fr
+            float none !important
+        #ftLinks
+            display none
+        #f_social_icons
+            margin-top 30px
+    #btnSub
+        width 100%
+        min-height 44px
+        line-height 30px
+        font-size 1.2em
+
+@media (max-width: 600px) 
+    .eleResponse 
+        display block !important
+        width 100% !important
+
+#iconShow
+    width 65px
+    height 45px
+    display block
+    line-height 45px 
+    text-align center
+    font-size 40px 
+    color #fff
+    transition all .3s
+    cursor pointer
+    position absolute
+    top 213px
+    left 0
+    &:hover
+        background #eee 
+        opacity 0.8
+        color #2b7bc4
+
+        

@@ -1,0 +1,42 @@
+extends ../layout
+
+block content
+    .wrapper.mt50
+        include components/sidebar
+        .col-xs-9.pl50
+            h3(data-active="本地存储") 本地存储 LocalStorage
+            p 浏览器本身提供的LocalStorage API仅能操作字符串，为js调用带来了很多不便，为此，LocalStorage组件提供一组封装好的操作本地存储的API，<font class="tRed">调用: oc.localStorage. ...</font>
+            
+            p.mt20 API文档：
+            h4.lh300 1. 设置值：oc.localStorage.set(key, value)
+            code.language-jade.
+                    oc.localStorage.set('user', {name: 'user1', age: 18});
+                    var user = oc.localStorage.get('user');
+
+                    参数：
+                    key: string，key值，如果重复会覆盖
+                    value: object/string/...，任意类型的值
+            
+            h4.lh300 2. 获取值：oc.localStorage.get(key)
+            .zCode
+                code.language-jade.
+                    var user = oc.localStorage.get('user');
+
+                    参数：
+                    key: string，唯一的key值
+
+                    返回值：
+                    object/string/...，当初设置的原始值
+            
+            h4.lh300 3. 根据key值删除对应的value：oc.localStorage.remove(key)
+            .zCode
+                code.language-jade.
+                    var user = oc.localStorage.remove('user');
+
+                    参数：
+                    key: string，唯一的key值
+
+            h4.lh300 4. 清空当前域名下的本地存储信息：oc.localStorage.clear()
+            .zCode
+                code.language-jade.
+                    var user = oc.localStorage.clear();

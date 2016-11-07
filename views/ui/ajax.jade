@@ -1,0 +1,72 @@
+extends ../layout
+
+block content
+    .wrapper.mt50
+        include components/sidebar
+        .col-xs-9.pl50
+            h3(data-active="Ajax") Ajax
+            p Ajax组件提供一组适用于Rest API的ajax封装。发送参数为：application/json格式。为了防止跨域攻击脚本，默认会去除参数里面的html代码，如需保留，设置各个方法中keepHTML为true<font class="tRed">调用: oc.ajax.get ...</font>
+            
+            p.mt20 API文档：
+            h4.lh300 1. oc.ajax.get(url, cbOk, cbError, keepHTML)
+            .zCode
+                code.language-jade.
+                    对应xmlHttpRequest的get方法：
+                    oc.ajax.get('/user?id=2', function(user) {
+                        console.log('获取到用户数据：', user);
+                    }, function(res) {
+                        alert('ajax失败：' + res.responseText);
+                    });
+
+                    url: 服务器地址,
+                    cbOK: 当服务器返回状态码为200/正常时执行的方法，必填
+                    cbError: 当服务器返回状态为非200执行的方法，非必填，默认会调用自身的Ajax.error方法，将返回错误信息以弹出框的形式展现
+                    keepHTML: 是否保留发送参数中的html代码。默认为否
+
+            h4.lh300 2. oc.ajax.post(url, data, cbOk, cbError, keepHTML)
+            .zCode
+                code.language-jade.
+                    对应xmlHttpRequest的post方法：
+                    oc.ajax.post('/user', {username: 'elvis', password: 'test'}, function() {
+                        alert('添加成功');
+                    }, function(res) {
+                        alert('ajax失败：' + res.responseText);
+                    });
+
+                    url: 服务器地址,
+                    data: JSON对象，必填，不发送数据需要填写{}或者null
+                    cbOK: 当服务器返回状态码为200/正常时执行的方法，必填
+                    cbError: 当服务器返回状态为非200执行的方法，非必填，默认会调用自身的Ajax.error方法，将返回错误信息以弹出框的形式展现
+                    keepHTML: 是否保留发送参数中的html代码。默认为否
+
+            h4.lh300 3. oc.ajax.put(url, data, cbOk, cbError, keepHTML)
+            .zCode
+                code.language-jade.
+                    对应xmlHttpRequest的put方法：
+                    oc.ajax.put('/user/2', {username: 'elvis', password: 'test2'}, function() {
+                        alert('更新成功');
+                    }, function(res) {
+                        alert('ajax失败：' + res.responseText);
+                    });
+
+                    url: 服务器地址,
+                    data: JSON对象，必填，不发送数据需要填写{}或者null
+                    cbOK: 当服务器返回状态码为200/正常时执行的方法，必填
+                    cbError: 当服务器返回状态为非200执行的方法，非必填，默认会调用自身的Ajax.error方法，将返回错误信息以弹出框的形式展现
+                    keepHTML: 是否保留发送参数中的html代码。默认为否
+
+            h4.lh300 4. oc.ajax.delete(url, cbOk, cbError, keepHTML)
+            .zCode
+                code.language-jade.
+                    对应xmlHttpRequest的delete方法：
+                    oc.ajax.delete('/user?id=2', function() {
+                        alert('删除成功');
+                    }, function(res) {
+                        alert('删除失败：' + res.responseText);
+                    });
+                    url: 服务器地址,
+                    data: JSON对象，必填，不发送数据需要填写{}或者null
+                    cbOK: 当服务器返回状态码为200/正常时执行的方法，必填
+                    cbError: 当服务器返回状态为非200执行的方法，非必填，默认会调用自身的Ajax.error方法，将返回错误信息以弹出框的形式展现
+                    keepHTML: 是否保留发送参数中的html代码。默认为否
+                   

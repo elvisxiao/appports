@@ -1,0 +1,54 @@
+extends ../layout
+
+block content
+    .wrapper.mt50
+        include components/sidebar
+        .col-xs-9.pl50
+            h3(data-active="Dialog 弹出框") Dropdown 下拉窗口
+            p 提供一个能指定方向输出的下拉框组件，调用<font class="tRed">oc.dropdown....</font>
+    
+            h4 1. 展现：oc.dropdown.show(target, title, content, defaultDirect)
+            .zExample.mt20
+                p.mt10
+                    button#btnDropdown.btn.btn-info.btn-sm(type="button") 来碗鸡汤
+                script.
+                    document.getElementById('btnDropdown').onclick = function() {
+                        var btn = $(this);
+                        if(btn.data('zTarget')) {
+                            oc.dropdown.remove(btn);
+                        }
+                        else {
+                            oc.dropdown.show(this, '弹出一个框', '<div class=\"p15\">    父母忽悠孩子叫教育，孩子忽悠父母叫欺骗，互相忽悠叫代沟。<br>从小我就立志要做一个大智若愚的人，无奈只成功了一半，而且还是后一半。</div>', 'up');
+                        }
+                    }
+                .zCode.mt20
+                    code.language-jade.
+                        p.mt10
+                            button#btnDropdown.btn.btn-info.btn-sm(type="button") 来碗鸡汤
+                        script.
+                            document.getElementById('btnDropdown').onclick = function() {
+                                var btn = $(this);
+                                if(btn.data('zTarget')) {
+                                    oc.dropdown.remove(btn);
+                                }
+                                else {
+                                    oc.dropdown.show(this, '弹出一个框', '<div class=\"p15\">    父母忽悠孩子叫教育，孩子忽悠父母叫欺骗，互相忽悠叫代沟。<br>从小我就立志要做一个大智若愚的人，无奈只成功了一半，而且还是后一半。</div>', 'up');
+                                }
+                            }
+
+                        参数：
+                            target：Jquery元素/选择器/HTML节点，目标元素
+                            title：string，标题
+                            content：string，内容
+                            defaultDirect：默认的方向，默认为'left'，可设置'right', 'up', 'down', 当设置的方向容纳不下时，会自动处理
+                        返回值：
+                            jquery对象，弹出框的最外层元素
+                    
+            
+            h4.mt30 2. 销毁dropdown：oc.dropdown.remove(target)
+                
+            .zCode.mt20
+                code.language-jade.
+                    参数：
+                        target：Jquery元素/选择器/HTML节点/dropdown最外层对象，目标元素
+                    

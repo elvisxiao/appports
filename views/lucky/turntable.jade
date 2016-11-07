@@ -1,0 +1,247 @@
+extends ../layout
+
+block content
+    #wrapperTurntable.wrapper.pt50.tc.pr
+        form#formTurntable.form-inline.tl
+            i#iconShow.icon-arrow-right2
+            h3 配置信息
+            table
+                tbody
+                    tr
+                        td 文本颜色：
+                        td
+                            input.form-control.input-sm(type="text", name="textColor", value="#fff", required)
+                            span.text-muted.ml20 默认：#fff（白色）
+                    tr.h50
+                        td 文本大小：
+                        td
+                            input.form-control.input-sm(type="number", name="fontSize", step="1", min="1", max="100", value="13", required)
+                            span.text-muted.ml20 单位：px，值为1 - 100之间的整数，默认为13px
+                    tr
+                        td 旋转时间：
+                        td
+                            input.form-control.input-sm(type="number", name="time", step="1", min="1", max="50000", value="6000", required)
+                            span.text-muted.ml20 单位：毫秒，值为1 - 50000之间的整数，默认为6S
+                    tr
+                        td.vt.pt10 奖品配色：
+                        td.pt10
+                            textarea.vt.form-control(name="colors", maxlength="1000", required, rows="2") #eca111 #729949 #b86dae
+                            span.text-muted 以空格或换货分隔
+                    tr
+                        td.vt.pt10 奖品信息：
+                        td.pt10
+                            textarea#txtPrizes.vt.form-control(name="prizes", maxlength="1000", required, rows="8")
+                            span.text-muted 每行一件奖品，奖品名 - 权重 以”#“区分
+                    tr
+                        td
+                        td.pt15
+                            button.btn.btn-info.w150(type="submit") 预 览
+
+        
+        #divTurntable
+            canvas#canvas(width="500" height="500")
+            img#btn(src="/img/z.png")
+        
+    script.
+        var config = {
+            time: 6000,
+            prizes: [
+                {
+                    name: '奔驰轿车一台',
+                    rate: 20
+                },
+                {
+                    name: 'Mac Pro笔记本一台',
+                    rate: 20
+                },
+                {
+                    name: 'Iphone 7 一台',
+                    rate: 20
+                },
+                {
+                    name: '扫地机器人',
+                    rate: 20
+                },
+                {
+                    name: '新版Kindle',
+                    rate: 20
+                },
+                {
+                    name: '充电宝一个',
+                    rate: 20
+                },
+                {
+                    name: '现金100',
+                    rate: 20
+                },
+                {
+                    name: '谢谢参与',
+                    rate: 20
+                }
+            ],
+            colors: ['#eca111', '#729949', '#b86dae'],
+            radius: 250,
+        }
+
+        //在这里配置奖品信息，name为显示名称，rate代表中奖概念值，比如
+        // -- 下面的7代表SKU1的中奖概率为：7 / (7 + 7 + ... + 7 + 24) = 8.75%;
+        // -- Good luck 的中奖率为 24 / (7 + 7 + 7 ... + 7 + 24) = 30%;
+        var App = function(conf) {
+            this.time = 6000;
+            this.currentRotate = 0;
+            this.radius = 250; //轮盘的大小
+            this.textColor = '#fff';
+            this.fontSize = 13;
+            this.result = null;
+            this.canvas = document.getElementById("canvas");
+            this.context = canvas.getContext('2d');
+            this.btn = document.getElementById('btn');
+            var self = this;
+            
+            self = $.extend(self, conf);
+
+            self.initPrizes = function() {
+                var prizeRateCount = 0;
+                self.prizes.map(function(one) { prizeRateCount += one.rate; });
+                var start = 0;
+                self.prizes = self.prizes.map(function(one) {
+                    one.start = start;
+                    one.end = start + (one.rate / prizeRateCount) * 360;
+                    start = one.end;
+                    return one;
+                });
+
+                console.log('prizes info:', self.prizes);
+            }
+
+            self.drawCircle = function() {
+                canvas.setAttribute('width', self.radius * 2);
+                canvas.setAttribute('height', self.radius * 2);
+                canvas.style.transition = 'all 6s ease-out';
+                self.context.translate(self.radius, self.radius);
+                var prizeLength = self.prizes.length;
+                for ( var i = 0; i < prizeLength; i++) {
+                    var item = self.prizes[i];
+                    self.context.save();
+                    self.context.beginPath();
+                    self.context.moveTo(0, 0);
+                    self.context.fillStyle = self.colors[i % self.colors.length];
+                    self.context.arc(0, 0, self.radius, item.start * Math.PI / 180, item.end * Math.PI / 180 );
+                    self.context.fill();
+                    self.context.restore();
+                }
+                
+                for (var i = 0; i < prizeLength; i++) {
+                    var item = self.prizes[i];
+                    self.context.save();
+                    self.context.beginPath();
+                    self.context.fillStyle = self.textColor;
+                    self.context.font = "bold " + (self.fontSize || 13) + "px Arial";
+                    self.context.textAlign = "center";
+                    self.context.textBaseline = "middle";
+                    self.context.rotate( (item.start + (item.end - item.start) / 2 ) * Math.PI / 180);
+                    self.context.fillText(self.prizes[i].name, self.radius * 0.65, 0);
+                    self.context.restore();
+                }
+            }
+            
+            self.bindEvent = function() {
+                self.btn.onclick = function(e) {
+                    if(self.btn.getAttribute('disabled')) {
+                        return;
+                    }
+                    self.btn.setAttribute('disabled', true);
+                    var deg = parseInt(Math.random() * 360);
+                    self.currentRotate += (deg + 2000);
+                    var realDeg = self.currentRotate % 360;
+                    var nowPoint = (270 - self.currentRotate) % 360;
+                    if(nowPoint < 0) {
+                        nowPoint += 360;
+                    }
+                    self.canvas.style.transform = 'rotate(' + self.currentRotate + 'deg)';
+
+                    for(var i = 0; i < self.prizes.length; i ++) {
+                        var item = self.prizes[i];
+                        if(item.start <= nowPoint && item.end > nowPoint) {
+                            setTimeout(function() {
+                                if(self.result) {
+                                    if(self.result[item.name]) {
+                                        self.result[item.name] ++;
+                                    }
+                                    else {
+                                        self.result[item.name] = 1;
+                                    }
+                                }
+                                else {
+                                    oc.dialog.tips('You get ' + item.name, -1);
+                                }
+                                self.btn.removeAttribute('disabled');
+                            }, self.time);
+                            break;
+                        }
+                    }
+                    
+                    e.stopPropagation();
+                }
+            }
+            
+            self.redraw = function(conf) {
+                self = $.extend(self, conf);
+                self.initPrizes();
+                self.drawCircle();
+            }
+
+            self.start = function() {
+                self.initPrizes();
+                self.drawCircle();
+                self.bindEvent();
+            }
+
+            return self;
+        };
+        var instance = new App(config);
+        instance.start();
+        
+        var form = $('#formTurntable');
+        form.find('#txtPrizes').val('奔驰轿车一台 #20 \nMac Pro笔记本一台 #20 \nIphone 7 一台 #20 \n扫地机器人 #20 \n新版Kindle #20 \n充电宝一个 #20 \n现金100 #20 \n谢谢参与 #20 ');
+        form.submit(function() {
+            var config = oc.tools.form.getJson(form);
+            config.colors = config.colors.split(/\s{1,1000}|\n/);
+            config.prizes = config.prizes.split(/\n/);
+            if(config.prizes.length) {
+                var prizes = [];
+                var errors = [];
+                config.prizes.map(function(one) {
+                    var index = one.lastIndexOf('#');
+                    if(index > 0) {
+                        var prizeModel = {
+                            name: one.slice(0, index),
+                            rate: parseInt(one.slice(index + 1))
+                        };
+                        if(isNaN(prizeModel.rate)) {
+                            errors.push(prizeModel.name + '的权重值必须为整数');
+                        }
+                        else {
+                            prizes.push(prizeModel);
+                        }
+                    }    
+                })
+                if(errors.length) {
+                    oc.dialog.tips(errors.join('<br>'));
+                    return false;
+                }
+                config.prizes = prizes;
+                instance.redraw(config);
+            }
+            
+            return false;
+        });
+    
+        var wrapperTurntable = $('#wrapperTurntable');
+        document.getElementById('iconShow').onclick = function() {
+            wrapperTurntable.toggleClass('mini');
+        }
+        
+        
+
+    

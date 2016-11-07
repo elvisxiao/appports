@@ -1,0 +1,73 @@
+extends ../layout
+
+block content
+    .wrapper.mt50
+        include components/sidebar
+        .col-xs-9.pl50
+            h3(data-active="算法") 算法 Algorithm
+            p 算法组件提供一组常用的算法的实现, <font class="tRed">调用: oc.algorithm. ...</font>
+            
+            p.mt20 API文档：
+            h4.lh300 1. 深度优先算法：oc.algorithm.depthFirstInTree(treeData, targetId, key)
+            p 用于对树形结构的遍历，查找，返回值为数组：目标节点以及往上的父级节点信息
+            .zCode
+                code.language-jade.
+                    var treeData = {
+                        name: 'Test true',
+                        items: [{
+                            id: 1,
+                            name: 'node1',
+                            items: [{
+                                id: 2,
+                                name: 'node2',
+                                items: [{
+                                    id:3,
+                                    name: 'node3'
+                                }]
+                            }, {
+                                id: 4,
+                                name: 'node4'
+                            }]
+                        }]
+                    };
+                    
+                    var target = oc.algorithm.depthFirstInTree(treeData, 3, 'items'); //输出为一个数组对象[id为3的Node，id为2的node，id为1的node];
+
+                    参数：
+                    treeData: 树形结构的数据, 必须有id的属性
+                    targetId: 查找的Id值
+                    key: 子节点的key值，默认为"items"，通常有：”children“， ”items“ ...
+                    
+                    返回值：
+                    arr: 目标节点以及其父元素集合
+
+                    cbError: 当服务器返回状态为非200执行的方法，非必填，默认会调用自身的Ajax.error方法，将返回错误信息以弹出框的形式展现
+                    keepHTML: 是否保留发送参数中的html代码。默认为否
+            
+            h4.lh300 2. 数组转树形结构：oc.algorithm.listToTree(arr, idKey, parentIdKey, rootId)
+            p 用于对树形结构的遍历，查找，返回值为数组：目标节点以及往上的父级节点信息
+            .zCode
+                code.language-jade.
+                    var arr = [
+                        { id: 2, parentId: 1, text: '节点1.1'},
+                        { id: 3, parentId: 1, text: '节点1.2'},
+                        { id: 4, parentId: 1, text: '节点1.3'},
+                        { id: 5, parentId: 2, text: '节点1.1.1'},
+                        { id: 6, parentId: 2, text: '节点1.1.2'},
+                        { id: 7, parentId: 3, text: '节点1.2.1'},
+                        { id: 8, parentId: 3, text: '节点1.2.2'}
+                    ]
+                    
+                    var target = oc.algorithm.listToTree(arr, 'id', 'parentId'); //输出为一个tree对象
+                    console.log(target);
+
+                    参数：
+                        arr: 数组, 必须有id和parentId的类似结构，并且第一级的parentIdKey对应的值为rootId
+                        idKey: id的key，示例中为id，默认为“id”
+                        parentIdKey: 父元素的key，示例中为parentId，默认为“parentId”
+                        rootId: root节点的id值，默认为1
+                    
+                    返回值：
+                        object: 树形结构的对象
+                    
+                   

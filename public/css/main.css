@@ -1,0 +1,843 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+body {
+  font: 14px Open Sans, "Lucida Grande", Helvetica, Arial, sans-serif;
+  color: #333;
+  -webkit-font-smoothing: antialiased;
+}
+a {
+  color: #00b7ff;
+}
+a:hover {
+  text-decoration: none !important;
+}
+.must {
+  color: #f00 !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  margin-top: -10px;
+}
+.wrapper {
+  max-width: 1170px;
+  margin: 0 auto;
+  overflow: hidden;
+  clear: both;
+}
+nav.navbar.navbar-default {
+  height: 80px;
+  position: absolute;
+  height: auto;
+  z-index: 1;
+  width: 100%;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: height 0.5s;
+  background: #fff;
+  transition: all 0.5s;
+}
+nav.navbar.navbar-default * {
+  transition: all 0.3s;
+}
+nav.navbar.navbar-default .navbar-nav>li>a {
+  color: #a1b1bc;
+}
+nav.navbar.navbar-default .navbar-nav>li>a:hover {
+  color: #00a7ea;
+}
+nav.navbar.navbar-default .navbar-nav>.active>a {
+  color: #00a7ea;
+}
+nav.navbar.navbar-default .navbar-nav>.active>a:hover,
+nav.navbar.navbar-default .navbar-nav>.active>a:focus {
+  color: #00a7ea;
+}
+nav.navbar.navbar-default .navbar-brand {
+  height: 100%;
+  padding: 0;
+}
+nav.navbar.navbar-default .navbar-brand img {
+  width: 240px;
+  height: auto;
+}
+nav.navbar.navbar-default .navbar-collapse {
+  padding: 0;
+}
+nav.navbar.navbar-default .wrapper {
+  height: 100%;
+  overflow: visible;
+}
+nav.navbar.navbar-default ul.nav.navbar-nav>li>a {
+  line-height: 50px;
+}
+nav.navbar.navbar-default + #navSpace {
+  height: 80px;
+  transition: all 0.5s;
+}
+nav.navbar.navbar-default.mini {
+  opacity: 0.9;
+  position: fixed;
+}
+nav.navbar.navbar-default.mini + #navSpace {
+  height: 50px;
+}
+nav.navbar.navbar-default.mini .navbar-brand img {
+  width: 150px;
+}
+nav.navbar.navbar-default.mini ul.nav.navbar-nav>li>a {
+  line-height: 20px;
+}
+.btn.btnReverse {
+  background: transparent;
+  border: 1px solid #00a7ea;
+  color: #00a7ea;
+}
+.slide .carousel-control {
+  position: absolute;
+  width: 70px;
+  height: 40px;
+  line-height: 44px;
+  background-image: none !important;
+  background-repeat: none !important;
+  border-radius: 100px;
+  border: none !important;
+  z-index: 1;
+  top: 50%;
+  color: #a1b1bc;
+  margin-top: -20px;
+  right: 20px !important;
+  border-color: #ecf0f1;
+  background: #fff;
+  font-size: 26px;
+  text-shadow: none;
+  opacity: 0;
+  transition: all 0.3s;
+}
+.slide .carouselcontrol >span {
+  color: #a1b1bc !important;
+  transition: color 0.3s;
+}
+.slide .carouselcontrol.left {
+  left: 20px !important;
+}
+.slide:hover .carousel-control {
+  opacity: 1;
+}
+.slide .carousel-control:hover {
+  opacity: 0.95;
+}
+.slide .carousel-control:hover >span {
+  color: #000 !important;
+}
+.btnMain {
+  background: #00a7ea;
+  color: #fff;
+  transition: background-color 0.3s;
+}
+.btnMain:hover {
+  background: rgba(0,169,238,0.9);
+  color: #fff !important;
+}
+#footer_bg {
+  background: #21262a;
+  clear: both;
+  overflow: hidden;
+  color: #a1b1bc;
+  padding: 15px 0;
+}
+#footer_bg .fl ul {
+  list-style-type: none;
+}
+#footer_bg .fl ul li {
+  display: inline-block;
+  padding: 0 30px 0 0px;
+}
+#footer_bg .fl a,
+#footer_bg i {
+  color: #a1b1bc;
+}
+#footer_bg .footer_message a {
+  color: #21c2f8;
+}
+#footer_bg #ulSocail {
+  display: inline-block;
+  margin-left: 10px;
+}
+#footer_bg #ulSocail li {
+  padding-right: 22px !important;
+}
+#userForm .modal-header {
+  padding: 0 !important;
+  border-bottom: 0;
+  position: relative;
+}
+#userForm .modal-header .close {
+  display: block;
+  position: absolute;
+  top: 2px;
+  right: -36px;
+  width: 37px;
+  height: 37px;
+  opacity: 1;
+  outline: none !important;
+  font-size: 40px;
+  color: #fff;
+}
+#userForm .modal-header .close >span:first-child {
+  position: relative;
+  top: -7px;
+  font-weight: 100;
+}
+#userForm .modal-header li {
+  width: 50%;
+  text-align: center;
+}
+#userForm .modal-header a {
+  border: 0;
+  border-radius: 0;
+  margin-left: 0;
+  margin-right: 0;
+  border: 0 !important;
+}
+#userForm .modal-header a:hover {
+  background: transparent;
+}
+#userForm .modal-header li.active a {
+  background: #00a7ec;
+  color: #fff;
+}
+#userForm .modal-content {
+  border-radius: 0;
+}
+.sidebar {
+  border-top-right-radius: 3px;
+  border-left-left-radius: 3px;
+  margin-bottom: 20px;
+}
+.sidebar p {
+  border-bottom: 1px solid #ddd;
+  margin: 0;
+  color: #333;
+  background: #f0f0f0;
+}
+.sidebar p:last-child {
+  border-bottom: 0;
+}
+.sidebar p a {
+  color: inherit;
+  display: block;
+  height: 40px;
+  line-height: 40px;
+  padding-left: 20px;
+}
+.sidebar p:not(.active) a:hover {
+  color: #00a7ea;
+}
+.sidebar p.active {
+  background: #00a7ea;
+  color: #fff;
+}
+.spLine {
+  border-bottom: 1px dashed #ddd;
+  margin: 15px 0;
+}
+.zDialogCover.tips {
+  display: block;
+  text-align: center;
+}
+.zDialogCover.tips .zDialog {
+  margin: 0 auto;
+  text-align: left;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.zDialogCover.tips .zDialogHd,
+.zDialogCover.tips .zDialogBd {
+  display: inline-block;
+  width: 100%;
+}
+@media (min-width: 1034px) {
+  #userForm .modal-dialog {
+    max-width: 450px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -225px;
+    margin-top: -120px;
+  }
+}
+@media (max-width: 1214px) {
+  #aboutWrapper {
+    width: 100% !important;
+    padding: 0 !important;
+  }
+}
+@media (max-width: 1214px) and (min-width: 1034px) {
+  .wrapper {
+    width: 960px;
+  }
+  #divPosition .positionItem {
+    padding: 20px 10px 20px 10px;
+  }
+}
+@media (max-width: 1035px) and (min-width: 768px) {
+  .wrapper {
+    width: 708px;
+  }
+  nav.navbar.navbar-default {
+    height: 50px;
+  }
+  nav.navbar.navbar-default + #navSpace {
+    height: 50px;
+  }
+  nav .navbar-brand img {
+    width: 80px;
+  }
+  nav ul.nav.navbar-nav>li>a {
+    line-height: 20px;
+  }
+}
+@media (max-width: 767px) {
+  nav.navbar.navbar-default * {
+    transition: none;
+  }
+  .navbar-collapse {
+    transition: height 0.3s !important;
+  }
+  #aLogout {
+    padding-left: 15px !important;
+  }
+  .wrapper {
+    width: 100%;
+    padding: 0 10px;
+  }
+  nav.navbar.navbar-default {
+    height: auto;
+  }
+  nav.navbar.navbar-default + #navSpace {
+    height: 50px;
+  }
+  nav.navbar.navbar-default .navbar-brand img {
+    width: 80px;
+  }
+  nav.navbar.navbar-default ul.nav.navbar-nav>li>a {
+    line-height: 20px;
+  }
+  #footer_bg {
+    text-align: center;
+  }
+  #footer_bg .fl,
+  #footer_bg .fr {
+    float: none !important;
+  }
+  #footer_bg #ftLinks {
+    display: none;
+  }
+  #footer_bg #f_social_icons {
+    margin-top: 30px;
+  }
+  #btnSub {
+    width: 100%;
+    min-height: 44px;
+    line-height: 30px;
+    font-size: 1.2em;
+  }
+}
+@media (max-width: 600px) {
+  .eleResponse {
+    display: block !important;
+    width: 100% !important;
+  }
+}
+#iconShow {
+  width: 65px;
+  height: 45px;
+  display: block;
+  line-height: 45px;
+  text-align: center;
+  font-size: 40px;
+  color: #fff;
+  transition: all 0.3s;
+  cursor: pointer;
+  position: absolute;
+  top: 213px;
+  left: 0;
+}
+#iconShow:hover {
+  background: #eee;
+  opacity: 0.8;
+  color: #2b7bc4;
+}
+
+#wrapperTurntable {
+  border-radius: 1000px;
+  min-height: 600px;
+}
+#wrapperTurntable #formTurntable {
+  height: 500px;
+  right: 340px;
+  left: 0;
+  top: 80px;
+  transition: all 1s;
+  margin-right: 20px;
+  background: #63a200;
+  border-radius: 600px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  color: #fff;
+  position: absolute;
+  overflow: hidden;
+  font-size: 12px;
+}
+#wrapperTurntable #formTurntable input {
+  width: 100px;
+  padding: 2px 10px;
+  height: 26px;
+}
+#wrapperTurntable #formTurntable textarea {
+  font-size: 12px;
+  width: 100%;
+}
+#wrapperTurntable #formTurntable .text-muted {
+  font-size: 12px;
+  color: #ddd;
+}
+#wrapperTurntable #formTurntable h3 {
+  font-size: 18px;
+  background: #7bbf0f;
+  color: #ffe63c;
+  margin-top: 0;
+  padding: 20px 0 15px 180px;
+  margin-bottom: 30px;
+}
+#wrapperTurntable #formTurntable table {
+  margin-left: 120px;
+}
+#wrapperTurntable #divTurntable {
+  transition: all 1s ease-out;
+  display: inline-block;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+  border-radius: 10000px;
+  border: 20px solid #3fa3e4;
+  position: absolute;
+  right: 0;
+}
+#wrapperTurntable #divTurntable:before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: -1px;
+  bottom: -1px;
+  right: -1px;
+  border: 6px solid #2b7bc4;
+  border-radius: inherit;
+  box-shadow: 0 0 20px #28659d inset;
+  z-index: 0;
+}
+#wrapperTurntable #divTurntable canvas {
+  z-index: -1;
+}
+#wrapperTurntable #divTurntable img {
+  cursor: pointer;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -19%;
+  margin-top: -19%;
+  width: 38%;
+  z-index: 1;
+}
+#wrapperTurntable.mini #formTurntable {
+  left: 600px;
+  right: 50%;
+  overflow: visible;
+}
+#wrapperTurntable.mini #formTurntable #iconShow {
+  left: -346px;
+  color: #ddd;
+  top: 220px;
+}
+#wrapperTurntable.mini #formTurntable #iconShow:before {
+  content: "\e630";
+}
+#wrapperTurntable.mini #formTurntable table,
+#wrapperTurntable.mini #formTurntable h3 {
+  display: none;
+}
+#wrapperTurntable.mini #divTurntable {
+  right: 50%;
+  margin-right: -270px;
+}
+#slotmachine {
+  display: inline-block;
+  min-width: 800px;
+  position: relative;
+  text-align: left;
+  transition: width 0.3s;
+  margin-top: 80px;
+}
+#slotmachine.lg {
+  width: 1150px;
+}
+#slotmachine.lg #slotHead {
+  top: -128px;
+}
+#slotmachine.lg .slotTop {
+  height: 50px;
+  margin: 0 26px -12px 26px;
+}
+#slotmachine.lg #prizeInfo {
+  font-size: 15px;
+  font-weight: 600;
+}
+#slotmachine #slotHead {
+  position: absolute;
+  left: 50px;
+  top: -136px;
+  z-index: 1;
+}
+#slotmachine #slotHead img {
+  width: 210px;
+  z-index: 1;
+  position: relative;
+}
+#slotmachine #slotHead >span {
+  padding: 12px 20px 12px 70px;
+  background: #6fb00e;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 50px;
+  position: relative;
+  left: -100px;
+  z-index: 0;
+  top: 26px;
+  color: #edf023;
+}
+#slotmachine #slotHead i {
+  background-color: #edf023;
+  color: #6fb00e;
+  font-size: 20px;
+  font-weight: 600;
+  border-radius: 50px;
+  padding: 1px;
+  vertical-align: middle;
+  margin-left: 10px;
+  position: relative;
+  top: -2px;
+}
+#slotmachine #iconShow {
+  color: #666;
+  left: -80px;
+  top: 180px;
+}
+#slotmachine .slotTop {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  margin: 0 13px -11px 13px;
+  height: 40px;
+  background-color: #7ec600;
+  transform: perspective(600px) rotateX(60deg);
+}
+#slotmachine .slotRight {
+  position: absolute;
+  right: -50px;
+  width: 50px;
+  top: 50%;
+  margin-top: -100px;
+}
+#slotmachine .slotRight img {
+  width: 100%;
+}
+#slotmachine .slotInner {
+  box-shadow: 0 5px 0 #335b02;
+  position: relative;
+  z-index: 2;
+  background-color: #6fb00e;
+  height: 350px;
+  border-radius: 6px;
+}
+#slotmachine .slotInner .slotScrool {
+  padding: 35px 18px;
+}
+#slotmachine .slotInner .slotScrool #prizedPersonList {
+  height: 280px;
+  color: #eee;
+  font-size: 12px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 10px;
+}
+#slotmachine .slotInner .slotScrool #prizedPersonList p {
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#slotmachine .slotInner .slotScrool #prizedPersonList p.text-warning {
+  color: #edf023;
+}
+#slotmachine .slotInner .slotScrool #scrollMain {
+  height: 230px;
+  white-space: nowrap;
+  padding: 4px;
+  display: inline-block;
+}
+#slotmachine .slotInner .slotScrool #scrollMain .scrollItem {
+  background: linear-gradient(#ddd, #fff, #aaa);
+  height: 200px;
+  width: 150px;
+  display: inline-block;
+  vertical-align: top;
+  margin: 7px;
+  overflow: hidden;
+  position: relative;
+}
+#slotmachine .slotInner .slotScrool #scrollMain .scrollItem img {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  transition: bottom 0.3s linear;
+}
+#slotmachine .slotInner .slotScrool #scrollMain .scrollItem img.in {
+  bottom: 200px;
+}
+#slotmachine .slotInner .slotScrool #scrollMain .scrollItem .scrollPerson {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  color: #666;
+  bottom: -200px;
+  transition: bottom 0.3s linear;
+}
+#slotmachine .slotInner .slotScrool #scrollMain .scrollItem .scrollPerson.disable {
+  transition: none;
+}
+#slotmachine .slotInner .slotScrool #scrollMain .scrollItem .scrollPerson .scrollPersonName {
+  font-size: 33px;
+  font-weight: 600;
+  padding-top: 70px;
+  color: #222;
+  font-family: fantasy;
+}
+#slotmachine .slotInner .slotScrool #scrollMain .scrollItem .scrollPerson .scrollPersonInfo {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  font-size: 12px;
+}
+#slotmachine .slotInner .slotScrool #scrollMain .scrollItem .scrollPerson .scrollPersonNumber {
+  position: absolute;
+  right: 10px;
+  font-size: 12px;
+  top: 10px;
+}
+#slotmachine #prizeInfo {
+  color: #edf023;
+  font-size: 13px;
+  padding-top: 30px;
+}
+#slotmachine #btnPrize {
+  float: right;
+  background-color: #edf023;
+  font-weight: 700;
+  font-size: 18px;
+  color: #6f2b00;
+  width: 130px;
+  box-shadow: 0 4px 0px #d1bc00;
+  margin-top: -12px;
+}
+#slotmachine #btnPrize:hover {
+  color: #6f2b00 !important;
+}
+.hTitle {
+  font-size: 14px;
+  background-color: #f0f2f5;
+  padding: 10px 15px;
+}
+#formSlotmachine #formAddPrize {
+  transition: all 0.3s;
+  overflow: hidden;
+  height: 290px;
+  width: 100%;
+}
+#formSlotmachine #formAddPrize.mini {
+  width: 150px;
+  height: 80px;
+  display: block;
+}
+#formSlotmachine #formAddPrize h3 {
+  cursor: pointer;
+  font-family: 'icomoon' !important;
+  transition: all 0.5s;
+}
+#formSlotmachine #formAddPrize h3:before {
+  float: right;
+  margin-left: 15px;
+  content: "\e62d";
+}
+#formSlotmachine #formAddPrize h3:hover {
+  background-color: #ddd;
+}
+#formSlotmachine label {
+  display: inline-block;
+  width: 100px;
+}
+#formSlotmachine .prizeItem {
+  position: relative;
+  padding: 20px 10px 20px 110px;
+  background-color: #f0f2f5;
+  border-radius: 3px;
+  height: 136px;
+  overflow: hidden;
+  margin-top: 20px;
+}
+#formSlotmachine .prizeItem img {
+  background-color: #aaa;
+  position: absolute;
+  left: 18px;
+  top: 13px;
+  width: 81px;
+  height: 108px;
+  opacity: 0.9;
+}
+#formSlotmachine .prizeItem .prizeTitle {
+  margin-top: 0;
+  color: #002e5b;
+  font-weight: 700;
+  font-size: 14px;
+}
+#formSlotmachine .prizeItem .prizeInfo {
+  font-size: 12px;
+  color: #888;
+}
+#formSlotmachine .prizeItem .icon {
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: block;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  color: #999;
+  cursor: pointer;
+}
+#formSlotmachine .prizeItem .icon:hover {
+  color: #000;
+}
+
+.banner {
+  height: 180px;
+  padding: 10px 0;
+  color: #666;
+  background-size: 30px 30px;
+  background-color: #f2f2f2;
+  background-image: linear-gradient(0, #eaeaef 1px, transparent 1px, transparent), linear-gradient(90deg, #eaeaef 1px, transparent 1px, transparent);
+}
+.banner h2 {
+  font-size: 36px;
+  font-weight: 100;
+  color: #444;
+}
+.zSidebar {
+  display: inline-block;
+  font-size: 14px;
+  border-right: 1px solid #dfdfdf;
+  box-sizing: border-box;
+}
+.zSidebar * {
+  box-sizing: border-box;
+}
+.zSidebar dl {
+  margin: 15px 0;
+}
+.zSidebar dt {
+  margin-left: 0;
+  padding-left: 15px;
+  margin-bottom: 5px;
+}
+.zSidebar dt {
+  border-left: 3px solid #3bb4f2;
+  color: #555;
+  font-weight: 600;
+  font-size: 16px;
+}
+.zSidebar dd {
+  color: #888;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  white-space: nowrap;
+}
+.zSidebar dd a {
+  padding-left: 17px;
+  text-decoration: none;
+  color: inherit;
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+  width: 100%;
+}
+.zSidebar dd a:hover {
+  background: #eee;
+}
+.zSidebar dd a.active {
+  background: #d9edf7;
+  color: #31708f;
+}
+.zCode {
+  border: 1px solid #dedede;
+  background: #f5f2f0;
+  word-break: break-all;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  font-size: 13px;
+  color: #555;
+  padding: 0.5em 1.2em;
+  line-height: 1.4em;
+}
+.tRed {
+  color: #c7254e;
+}
+blockquote {
+  border-left: 3px solid #dfdfdf;
+  margin: 0;
+  font-size: 15px;
+  padding: 1em 0 1em 3em;
+}
+p,
+div {
+  line-height: 1.5em;
+}
+p {
+  margin: 10px 0;
+}
+h1,
+h2,
+h3,
+h4 {
+  font-weight: bold;
+}
+h3 {
+  font-size: 20px;
+}
+h4 {
+  font-size: 16px;
+}
+h3[data-active] {
+  border-bottom: 1px solid #ddd;
+  margin: 15px 0;
+  padding: 5px 0 15px 0;
+}

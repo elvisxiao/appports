@@ -1,0 +1,59 @@
+extends ../layout
+
+block content
+    .wrapper.mt50
+        include components/sidebar
+        .col-xs-9.pl50
+            h3(data-active="CSV 工具") CSV 工具
+            p 提供与CSV文件操作相关的一组API, <font class="tRed">调用: oc.tools.csv. ...</font>
+            
+            p.mt20 API文档：
+            h4.lh300 1. 数组转为CSV行格式数据：oc.tools.csv.processRow(arr);
+            .zCode
+                code.language-javascript.
+                    参数：
+                        arr：object，数组
+                    返回值：
+                        string：CSV的行数据，以逗号分隔列，换行结尾
+
+                    var arr = ['name', 'age', 'department', 'tel'];
+                    var strLine = oc.tools.csv.processRow(arr); //返回："name,age,department,tel", 带换行
+            
+            h4.lh300 2. 将二维数组转为CSV字符串数据：oc.tools.csv.getCsvString(arr);
+            .zCode
+                code.language-javascript.
+                    参数：
+                        arr：object，二维数组，每一个值代表一行数据
+                    返回值：
+                        string：CSV数据，以逗号分隔列，换行结尾
+                
+                    var arr = [ ['name', 'age', 'department', 'tel'], ['elvis', '27', 'ERP', '18888888888'] ];
+                    var strLine = oc.tools.csv.getCsvString(arr); 
+                    //返回："name,age,department,tel
+                            elvis,27,ERP,18888888888
+                            "
+            h4.lh300 3. 将二维数组转化为CSV文件并下载：oc.tools.csv.export(fileName, arr);
+             .zExample.mt20        
+                div.mt20
+                    .tc
+                        button#btnExport.btn.btn-info.btn-sm(type="button") 下载CSV文件
+
+                    .zCode.mt20
+                        code.language-javascript.
+                            参数：
+                                fileName：string, 文件名
+                                arr：object，二维数组，每一个值代表一行数据
+                            
+                            var arr = [ ['name', 'age', 'department', 'tel'], ['elvis', '27', 'ERP', '18888888888'] ];
+                            document.getElementById('btnExport').onclick = function() {
+                                oc.tools.csv.export('csvExport.csv', arr); 
+                            }
+
+
+    script.
+        var arr = [ ['name', 'age', 'department', 'tel'], ['elvis', '27', 'ERP', '18888888888'] ];
+        
+        document.getElementById('btnExport').onclick = function() {
+            oc.tools.csv.export('csvExport.csv', arr); 
+        }
+                    

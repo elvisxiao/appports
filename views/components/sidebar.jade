@@ -1,0 +1,17 @@
+.sidebar
+    p
+        a(href="/jobs/other") 综合类
+    p
+        a(href="/jobs/sale") 销售运营类
+    p
+        a(href="/jobs/tech") 研发类
+    p 
+        a(href="/jobs/design") 设计类
+
+script.
+    (function() {
+        var sidebar = $('.sidebar');
+        var dataIndex = sidebar.parent().attr('data-active');
+        sidebar.find('>p:eq(' + dataIndex + ')').addClass('active')
+            //- .prependTo(sidebar);
+    })();

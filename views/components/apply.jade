@@ -1,0 +1,41 @@
+script.
+
+	;(function() {
+		var btnApply = $('.btnApply');
+		if(!window.GUSER) {
+			btnApply.show().after('<span class="text-warning ml20">请先登录, <a class="text-warning" style="text-decoration: underline" id="aLogin" href="javascript:showLoginModal()">现在去登录？</a></span>')
+			return;
+		}
+		oc.ajax.get('/my/isResumeOk', function(res) {
+			btnApply.each(function() {
+				var btn = $(this);
+				var thisJob = btn.attr('data-job');
+				if(res.list.indexOf(thisJob) !== -1) {
+					btn.replaceWith('<p class="alert alert-warning mt20">您已申请过该岗位</>');
+				}
+				else if(res.list.length > 1) {
+					btn.replaceWith('<p class="alert alert-warning mt20">您申请的职位数量已达上限，不能再申请了</>');
+				}
+				else {
+					btn.removeAttr('disabled').show().attr('data-resumeId', res.resumeId);
+				}
+			})
+		}, function(res) {
+			btnApply.show().after('<span class="text-warning ml20">你尚未填写简历，<a href="/my">现在去填写？</a></span>');
+		})
+		
+		btnApply.on('click', function() {
+			var btn = $(this);
+			var job = btn.attr('data-job');	
+			var resumeId = btn.attr('data-resumeId');
+			oc.tools.form.loadingButton(btn);
+			oc.ajax.post('/my/apply', {job: job, resumeId: resumeId}, function() {
+				btn.remove();
+				oc.dialog.tips('申请成功');
+			}, function(res) {
+				oc.tools.form.resetButton(btn);
+				oc.dialog.tips('申请失败：' + res.responseText);
+			})
+		})
+	})();
+	

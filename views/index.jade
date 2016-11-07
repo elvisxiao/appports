@@ -1,0 +1,72 @@
+extends layout
+
+block content
+    style.
+        #indexStart .col-sm-6.col-md-4 .thumbnail{
+            background: #f5f5f5;
+            padding: 0;
+            border: 1px solid #e9e9e9;
+            border-bottom: 2px solid #95e0da;
+        }
+        #indexStart .startContent {
+            height: 78px;
+            overflow: hidden;
+            font-size: 13px;
+        }
+        #indexStart .startContent li {list-style-type: none; color: #666;}
+        @keyframes scroll {
+            0% {
+                transform: translate(0);
+            }  
+            20%, 30% {
+                transform: translateY(-38px);
+            }
+            50%,60% {
+                transform: translateY(-76px);
+            }
+            80%,90% {
+                transform: translateY(-114px);
+            }
+        }
+        .startContent ul {
+            animation-name: scroll;
+            animation-iteration-count: infinite;
+            animation-duration : 15s;
+        }
+
+    include ./components/slide
+    p.tc.mt50
+        a#btnSub.btn.btnReverse.eleResponse.w200(type="button", href="/jobs/other") 登录享受更多服务
+    
+    .wrapper.mt30
+        #indexStart.row
+            .col-sm-6.col-md-4
+                .thumbnail
+                    img(src="/img/index-1.jpg")
+                    .caption
+                        h3 UI组件
+                        div.startContent 一个基于Jquery、Bootstrap的UI组件，包含很多有趣的东西：基于File Reader、FormData的CSV/XLS文件预览组件；周、时间选择器；提示框；本地存储组件；树形组件 ...
+            
+            .col-sm-6.col-md-4
+                .thumbnail
+                    img(src="/img/index-2.jpg")
+                    .caption
+                        h3 在线抽奖
+                        div.startContent 完全免费的在线抽奖程序，可以选择老虎机式多人抽奖、幸运转盘，可配置度高，登录后可以保存，下次可以直接用。同时抽奖模式还在持续新增中，期待您提供更好的建议。
+
+            .col-sm-6.col-md-4
+                .thumbnail
+                    img(src="/img/index-2.jpg")
+                    .caption
+                        h3 更多经典
+                        div.startContent 
+                            ul 
+                                li 当你觉得自己又丑又穷的时候，不要悲伤，至少你的判断是对的
+                                li 生活不止眼前的苟且，还有读不懂的诗和到不了的远方
+                                li 有时候你不努力下，你都不知道什么叫做绝望
+                                li 世上无难事，只要肯放弃
+                                li 等忙完这一阵子，就可以接着忙下一阵子了
+                                li 假如生活欺骗了你，不要悲伤，不要心急，反正明天也一样
+                                li 养鱼挺麻烦的，每周要换一次水，我经常忘记。后来就只好每周换一次鱼了
+                
+                

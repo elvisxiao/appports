@@ -1,0 +1,129 @@
+extends ../layout
+
+block content
+    .wrapper.mt50
+        include components/sidebar
+        .col-xs-9.pl50
+            h3(data-active="Dialog 弹出框") Dialog 弹出框
+            p 弹出框、提示框、警告框，confirm、alert、prompt替代，调用：<font class="tRed">oc.dialog. ...</font>
+    
+            h4 1. 提示框：oc.dialog.tips(msg, time, cb)
+            .zExample.mt20
+                p.mt10
+                    button.btn.btn-info.btn-sm(type="button", onclick="oc.dialog.tips('弹出一个框，3s消失', 3000)") 3s后自动消失的弹出框
+                    button.btn.btn-success.btn-sm.ml20(type="button", onclick="oc.dialog.tips('弹出一个框，手动关闭', -1)") 需要手动关闭的提示框
+                
+                .zCode.mt20
+                    code.language-jade.
+                        button.btn.btn-info.btn-sm(type="button", onclick="oc.dialog.tips('弹出一个框，3s消失', 3000)") 3s后自动消失的弹出框
+                        button.btn.btn-success.btn-sm(type="button", onclick="oc.dialog.tips('弹出一个框，手动关闭', -1)") 需要手动关闭的提示框
+
+                        参数：
+                            msg：string，弹出的文本信息
+                            time：number，弹出框自动消失的事件值，如果小于0，则需要手动点击关闭。默认值为1500ms
+                            cb：弹出框消失后的回调函数
+                        返回值：
+                            jquery对象，弹出框的最外层元素
+                    
+            
+            h4.mt30 2. window.confirm替代方法：oc.dialog.confirm(msg, cbOk, cbNo, required, autoRemove)
+            .zExample.mt20
+                p.mt10
+                    button.btn.btn-info.btn-sm(type="button", onclick="oc.dialog.confirm('你傻呀', function() {oc.dialog.tips('你点了确认')}, function() {oc.dialog.tips('你点了取消')})") Confirm
+
+                    button.btn.btn-success.ml20.btn-sm(type="button", onclick="oc.dialog.confirm('你傻呀', function() {oc.dialog.tips('你点了确认')}, function() {oc.dialog.tips('你点了取消')}, null, false)") 确定后不关闭
+
+                    button.btn.btn-warning.ml20.btn-sm(type="button", onclick="oc.dialog.confirm('<input placeholder=\"必填\" class=\"form-control\" type=\"text\">', function() {oc.dialog.tips('你点了确认')}, function() {oc.dialog.tips('你点了取消')}, true, false)") 必填的输入框
+
+                .zCode.mt20
+                    code.language-jade.
+                        参数：
+                            msg：string，确认的文本信息，可以是HTML片段
+                            cbOk：点击确定后的回调函数
+                            cbNo：点击取消后的回调函数，一般填写null或者不写
+                            required：当msg中有输入框时，第一个输入框为必填项，否则不能confirm
+                            autoRemove：点击confirm后是否关闭弹出框，为false时不关闭。默认关闭。
+                        返回值：
+                            jquery对象，弹出框的最外层元素
+                        
+                        button.btn.btn-info.btn-sm(type="button", onclick="oc.dialog.confirm('你傻呀', 
+                            function() {oc.dialog.tips('你点了确认')}, function() {oc.dialog.tips('你点了取消')})") 
+                            Confirm
+
+                        button.btn.btn-success.ml20.btn-sm(type="button", onclick="
+                            oc.dialog.confirm('你傻呀', function() {oc.dialog.tips('你点了确认')}, 
+                            function() {oc.dialog.tips('你点了取消')}, null, false)") 
+                            确定后不关闭
+
+                        button.btn.btn-success.ml20.btn-sm(type="button", onclick="oc.dialog.confirm('<input placeholder=\"必填\" class=\"form-control\" type=\"text\">', function() {
+                            oc.dialog.tips('你点了确认')}, function() {oc.dialog.tips('你点了取消')}, true, false)") 
+                            必填的输入框
+                        
+            h4.mt30 3. 元素左边的提示框：oc.dialog.tooltips(msg, ele)
+            .zExample.mt20
+                p.mt10
+                    button.btn.btn-info.btn-sm(type="button", onclick="oc.dialog.tooltips('弹出一个框，马上就会消失', this)") 侧边提示
+                
+                .zCode.mt20
+                    code.language-jade.
+                        参数：
+                            msg：string，弹出的文本信息
+                            ele：jquery对象/选择器/html节点，作用对象
+                        返回值：
+                            jquery对象，弹出框的最外层元素
+                    
+                        button.btn.btn-info.btn-sm(type="button", onclick="oc.dialog.tooltips('弹出一个框，马上就会消失', this)") 侧边提示
+                    
+            h4.mt30 4. 模拟Chrome的输入提示框：oc.dialog.warn(msg, ele)
+            .zExample.mt20
+                p.mt10.input-group
+                    input.form-control.input-sm
+                    span.input-group-btn
+                        button.btn.btn-info.btn-sm(type="button", onclick="oc.dialog.warn('这个值输入错误', this.parentNode.previousSibling)") 提交
+                
+                .zCode.mt20
+                    code.language-jade.
+                        参数：
+                            msg：string，弹出的文本信息
+                            ele：jquery对象/选择器/html节点，作用对象
+                        返回值：
+                            jquery对象，弹出框的最外层元素
+                        
+                        示例代码：
+                            p.mt10.input-group
+                                input.form-control.input-sm
+                                span.input-group-btn
+                                    button.btn.btn-info.btn-sm(type="button", onclick="oc.dialog.warn('这个值输入错误', 
+                                        this.parentNode.previousSibling)") 提交
+
+                    
+            h4.mt30 5. 打开对话框：oc.dialog.open(title, content, cb, showFoot)
+            .zExample.mt20
+                p.mt10
+                    button#btnOpen.btn.btn-info.btn-sm(type="button", onclick="oc.dialog.open('标题', '内容区域 ...', null)") 弹出框
+                    button#btnOpen.btn.btn-success.ml20.btn-sm(type="button", onclick="oc.dialog.open('标题', '内容区域 ...', null, true)") 带footer的弹出框
+                .zCode.mt20
+                    code.language-jade.
+                        参数：
+                            title：头部区域，一般为一段文本或者html片段
+                            content：内容区域，一般为一段文本或者html片段
+                            cb：弹出框动画完成，完全展现后的回调函数
+                            showFoot：是否显示默认的Footer，包含两个基本按钮
+                        返回值：
+                            jquery对象，弹出框的最外层元素
+                        
+                        示例代码：
+                            button.btn.btn-info.btn-sm(type="button", onclick="oc.dialog.open('标题', '内容区域 ...', null)") 弹出框
+                            button#btnOpen.btn.btn-success.ml20.btn-sm(type="button", onclick="oc.dialog.open('标题', '内容区域 ...', 
+                                null, true)") 带footer的弹出框
+
+            h4.mt30 6. 关闭对话框：oc.dialog.close(ele)
+            p 关闭由oc.dialog.open('..') 打开的对话框
+            .zCode.mt20
+                code.language-jade.
+                    参数：
+                        ele：jquery对象，一般为由oc.dialog.open所返回，如不填，则去除页面上所有类.zDialogCover
+
+            h4.mt30 7. 关闭所有提示框，对话框：oc.dialog.removeMadal()
+            p 关闭由oc.dialog 打开的所有提示框，对话框，包含oc.dialog.open, oc.dialog.warn, oc.dialog.tips，oc.dialog.confirm ...
+            

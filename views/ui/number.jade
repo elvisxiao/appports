@@ -1,0 +1,39 @@
+extends ../layout
+
+block content
+    .wrapper.mt50
+        include components/sidebar
+        .col-xs-9.pl50
+            h3(data-active="数字") 数字 Number
+            p 扩展number对象相关的方法。<font class="tRed">调用: oc.tools.number. ...</font>
+            
+            p.mt20 API文档：
+            h4.lh300 1. 四舍五入浮点到特定位置：oc.tools.number.toFixed(number, fixLength=2)
+            .zCode
+                code.language-jade.
+                    var number = 3.1415926;
+                    var number1 = oc.tools.number.toFixed(number, 4); //返回值 3.1416
+                    var number2 = oc.tools.number.toFixed(number); //默认保留两位
+                    var number3 = oc.tools.number.toFixed(null);   //返回空字符串 ""
+
+                    参数：
+                    number：目标值，可为null/undefined。
+                    fixLength：需要保留的长度，默认为2
+                    
+                    返回值：
+                    四舍五入后的字符串（非数字会返回空字符串“”）
+
+            h4.lh300 2. 金钱格式，如10,000,000.23：oc.tools.number.formatMoney(number, fixLength)
+            .zCode
+                code.language-jade.
+                    var number = 30000000.1415926;
+                    var number1 = oc.tools.number.formatMoney(number, 4); //30,000,000.1416
+                    var number2 = oc.tools.number.formatMoney(number); //30,000,000.1415926
+                    var number3 = oc.tools.number.formatMoney(null);   //返回非数字 "NaN"
+
+                    参数：
+                    number：目标值
+                    fixLength：需要保留的长度，默认不去除
+                    
+                    返回值：
+                    四舍五入后，以金钱格式返回（非数字会返回空字符串“NaN”）

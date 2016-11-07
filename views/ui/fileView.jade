@@ -1,0 +1,125 @@
+extends ../layout
+
+block content
+    .wrapper.mt50
+        include components/sidebar
+        .col-xs-9.pl50
+            h3(data-active="FileView 文件预览") FileView 文件预览
+            p 前端CSV预览组件（XLS文件可通过后台接口），<font class="tRed">new oc.FileView(options)....</font>
+    
+            h4 1. 构造函数：new FileView(options)
+            .zExample.mt20
+                p 示例文件：
+                    a(href="/demo/fileViewDemo.csv", target="_blank", download="fileViewDemo.csv") 下载
+                div#fileViewContainer.mt10
+
+                script.
+                    self.fileView = new oc.FileView({
+                        container: '#fileViewContainer',
+                        maxHeight: 300,
+                        removeEmptyLine: true,
+                        heads: ['user', 'age', 'time'],
+                        afterLoad: function() {
+                            oc.dialog.tips('文件读取完成', true);
+                        }
+                    });
+                
+                .zCode.mt20
+                    code.language-jade.
+                        div#fileViewContainer.mt10
+                        
+                        script.
+                            var fileView = new oc.FileView({
+                                container: '#fileViewContainer',
+                                maxHeight: 300,
+                                removeEmptyLine: true,
+                                heads: ['user', 'age', 'time'],
+                                afterLoad: function() {
+                                    oc.dialog.tips('文件读取完成', true);
+                                }
+                            });
+
+                        参数：
+                            container: jquery对象/选择器/HTML节点，容器对象，一般为div,
+                            canEdit: boolean，是否表格内容为可编辑项目,默认值为true
+                            maxHeight: number，单位为px，内容区域最大高度
+                            heads: array，获取数据时，设置在model中的头部信息，与显示头部区分
+                            removeEmptyLine: boolean,默认为false，是否需要自动去除空行
+                            afterLoad: fn, 加载完成后的回调函数
+                            validHeads: array，必须validHeads与文件头完全一致，才能加载文件，否则报错
+                            showLineNo: boolean，默认为false，是否显示行号
+                        返回值：
+                            FileView对象
+                    
+            
+            h4.mt30 2. 将csv文件转化为对象列表：instance.getDataList()
+                
+            .zExample.mt20
+                div.mt20 在上一例子中预览文件后，点击此按钮，对象将被console到控制台中：
+                p
+                    button#btn.btn.btn-info.btn-sm(type="button") 获取文件对象
+                script.
+                    document.getElementById('btn').onclick = function() {
+                        if(!fileView._dataList.length) {
+                            return oc.dialog.tips('请先在示例1中预览文件');
+                        }
+                        console.log('FileView.getDataList：', fileView.getDataList());
+                        oc.dialog.tips('获取成功，请打开console查看文件对象');
+                    }
+                .zCode.mt20
+                    code.language-jade.
+                        div.mt20 在上一例子中预览文件后，点击此按钮，对象将被console到控制台中：
+                        p
+                            button#btn.btn.btn-info.btn-sm(type="button", onclick="console.log(fileView.getDataList())") 获取文件对象
+                        script.
+                            document.getElementById('btn').onclick = function() {
+                                if(!fileView) {
+                                    return oc.dialog.tips('请先在示例1中预览文件');
+                                }
+                                console.log('FileView.getDataList：', fileView.getDataList());
+                                oc.dialog.tips('获取成功，请打开console查看文件对象');
+                            }
+
+            h4.mt30 3. 标记数据错误：instance.mark(markArr)
+                
+            .zExample.mt20
+                div.mt20 在示例1中预览文件后，点击此按钮：
+                p
+                    button#btnMark.btn.btn-info.btn-sm(type="button") 标记错误
+                script.
+                    document.getElementById('btnMark').onclick = function() {
+                        if(!fileView._dataList.length) {
+                            return oc.dialog.tips('请先在示例1中预览文件');
+                        }
+                        var marks = [{msg: '名称有误', row: 1, col: 0}];
+                        fileView.mark(marks);
+                        oc.dialog.tips('标记成功,效果见示例1的表格');
+                    }
+                .zCode.mt20
+                    code.language-jade.
+                        参数：
+                            markArr：标记对象，msg指的是具体提示内容，row：从0开始，第一行为head行，col，从0开始，忽略行号的列
+
+                        p
+                            button#btnMark.btn.btn-info.btn-sm(type="button") 标记错误
+                        script.
+                            document.getElementById('btnMark').onclick = function() {
+                                if(!fileView._dataList.length) {
+                                    return oc.dialog.tips('请先在示例1中预览文件');
+                                }
+                                var marks = [{msg: '名称有误', row: 1, col: 0}];
+                                fileView.mark(marks);
+                                oc.dialog.tips('标记成功,效果见示例1的表格');
+                            }
+            h4.mt30 4. 清除数据错误：instance.clearMark()
+                
+            .zExample.mt20
+                div.mt20 在示例1中预览文件后，点击此按钮：
+                p
+                    button#btnMarkCancel.btn.btn-info.btn-sm(type="button", onclick="fileView.clearMark()") 清除标记
+                
+                .zCode.mt20
+                    code.language-jade.
+                        button.btn.btn-info.btn-sm(type="button", onclick="fileView.clearMark()") 清除标记
+                    
+                    

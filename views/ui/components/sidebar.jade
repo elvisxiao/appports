@@ -1,0 +1,63 @@
+link(rel='stylesheet', href='/js/prism/prism.css')
+script(src="/js/prism/prism.js")
+script.
+    $(function() {
+        var text = $('[data-active').attr('data-active');
+        $('.zSidebar').find('a:contains(' + text + '):eq(0)').addClass('active');
+    });
+
+div.zSidebar.col-xs-3
+    dl
+        dt 基础样式
+        dd
+            a(href="/ui/normalize") 样式统一 Normalize
+        dd
+            a(href="/ui/base") 基类元素 Base
+        dd
+            a(href="/ui/animation") CSS动画 Animation
+        dd
+            a(href="/ui/icon") CSS图标 Icon
+    dl
+        dt JS工具
+        dd 
+            a(href="/ui/ajax") Ajax
+        dd 
+            a(href="/ui/algorithm") 算法 Algorithm
+        dd 
+            a(href="/ui/date") 日期时间 Date
+        dd 
+            a(href="/ui/localStorage") 本地存储 LocalStorage
+        dd 
+            a(href="/ui/dojo") DOJO
+        dd
+            a(href="/ui/number") 数字 number
+        dd
+            a(href="/ui/csv") CSV 工具
+        dd
+            a(href="/ui/location") Location API
+    dl
+        dt 常用组件
+        dd
+            a(href="/ui/buSelect") BU Select
+        dd 
+            a(href="/ui/dialog") Dialog 弹出框
+        dd
+            a(href="/ui/dropdown") Dropdown 下拉窗口
+        dd
+            a(href="/ui/fileView") FileView 文件预览
+        dd
+            a(href="/ui/imageCrop") ImageCrop 图片裁剪
+        dd
+            a(href="/ui/select") Select 选择框
+        dd
+            a(href="/ui/table") Table 
+        dd
+            a(href="/ui/form") Form 表单
+        dd
+            a(href="/ui/tree") Tree 树形结构
+        dd
+            a(href="/ui/uploader") Uploader 文件上传
+        dd
+            a(href="/ui/ui") 其他UI
+        
+        

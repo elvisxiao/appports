@@ -1,0 +1,147 @@
+extends ../layout
+
+block content
+    .wrapper.mt50
+        include components/sidebar
+        .col-xs-9.pl50
+            h3(data-active="日期时间") 日期时间 Date
+            p Date组件封装了很多日期和时间处理的相关组件。<font class="tRed">调用: oc.date. ...</font>
+            
+            p.mt20 API文档：
+            h4.lh300 1. 日期/时间格式化 oc.date.format(date, format)
+            .zCode
+                code.language-jade.
+                    oc.date.format('Fri Oct 21 2016 15:17:35 GMT+0800 (CST)');  //返回值 2016-10-21
+                    oc.date.format(1477034296760);  //返回值 2016-10-21
+                    oc.date.format(1477034296760, 'yyyymmdd');  //返回值 20161021
+                    oc.date.format(1477034296760, 'yyyy-mm-dd hh:MM:ss');  //返回值 2016-10-21 15:18:16
+
+                    参数：
+                    date: 时间对象/字符串/timespan
+                    format: 格式，默认为’yyyy-mm-dd’，年：yyyy，月：mm，日：dd，小时：hh，分钟：MM，秒：ss，分秒：ms
+
+                    返回值：
+                    格式化后的字符串
+
+            h4.lh300.mt20 2. 获取UTC时间的Timespan oc.date.getUTCTimespan(date)
+            p 多用于计算当前本地时间与UTC时间的差值
+            .zCode
+                code.language-jade.
+                    var date = oc.date.getUTCTimespan('Fri Oct 21 2016 15:24:01 GMT+0800 (CST)');
+                    oc.date.format(date); 返回值 "2016-10-21 07:24:01"
+
+                    参数：
+                    date: 时间对象/字符串/timespan
+
+                    返回值：
+                    string，格式化后的字符串
+
+            h4.lh300 3. 格式化成UTC时间 oc.date.formatUTC(date, fomart)
+            .zCode
+                code.language-jade.
+                    方法与oc.date.format类似，返回值为当前时间对应的UTC时间的格式
+
+                    参数：
+                    date: 时间对象/字符串/timespan
+                    format: 格式，默认为’yyyy-mm-dd’，年：yyyy，月：mm，日：dd，小时：hh，分钟：MM，秒：ss，分秒：ms
+
+                    返回值：
+                    string，UTC时间对应的格式化后的字符串
+    
+            h4.lh300 4. 格式化成PDT时间 oc.date.formatPDT(date, fomart)
+            .zCode
+                code.language-jade.
+                    方法与oc.date.format类似，返回值为当前时间对应的PDT时间的格式
+
+                    参数：
+                    date: 时间对象/字符串/timespan
+                    format: 格式，默认为’yyyy-mm-dd’，年：yyyy，月：mm，日：dd，小时：hh，分钟：MM，秒：ss，分秒：ms
+
+                    返回值：
+                    string，PDT时间对应的格式化后的字符串
+
+            h4.lh300 5. 时间比较 oc.date.compare(date1, date2)
+            .zCode
+                code.language-jade.
+                    比较时间先后顺序，返回date1 - date2得到的timespane
+                    
+                    参数：
+                    date1: 时间对象/字符串/timespan
+                    date2: 时间对象/字符串/timespan
+
+                    返回值：
+                    number(整数)，date1 - date2的timespan值
+
+            h4.lh300 6. 获取周数 oc.date.getWeeksByYear(year)
+            p 根据输入的年，获取该年中，一共有多少个周（海翼周）
+            .zCode
+                code.language-jade.
+                    oc.date.getWeeksByYear('2016');
+
+                    参数：
+                    year: string, 年对应的字符串
+
+                    返回值：
+                    number(整数)，该年一共有多少周，一般为：52/53
+
+            h4.lh300 7. 根据日期获取对应的周 oc.date.getWeekString(date)
+            p 根据输入的日期值，返回该天属于当年的哪一周
+            .zCode
+                code.language-jade.
+                    oc.date.getWeekString('2016-10-21'); //返回值 201643
+
+                    参数：
+                    date: 时间对象/字符串/timespan
+
+                    返回值：
+                    string，输入时间对应的周数
+
+
+            h4.lh300 8. 根据日期获取对应的周 oc.date.getStartDateByWeek(week)
+            p 根据输入的周数，返回该周的开始的日期
+            .zCode
+                code.language-jade.
+                    var date = oc.date.getStartDateByWeek('201643'); 
+                    oc.format(date) 返回值 2016-10-16
+
+                    参数：
+                    date: string, 四位年两位周，如201643，2016年的43周
+
+                    返回值：
+                    时间对象，该周的起始天的时间对象
+
+            
+            h4.lh300 9. 获取输入周的下一周 oc.date.getNextWeek(week)
+            p 根据输入的周数，返回下一周的字符串，通常用于每年最后一周时，获取下一周的值
+            .zCode
+                code.language-jade.
+                    oc.date.getWeekString('201643'); //返回值 201644
+                    
+                    参数：
+                    week: string, 周字符串，四位年两位周，如201643
+                
+                    返回值：
+                    string, 周字符串，四位年两位周，如201643
+
+            h4.lh300 10. 周选择器 oc.date.weekPicker(ipt)
+            p 弹出一个可选择周的控件
+            .zExample.mt20
+                p.mt10
+                    input#iptWeek.form-control(type="text", style="width:200px;")
+
+                script.
+                    oc.date.weekPicker('#iptWeek');
+
+                .zCode.mt20
+                    code.language-jade.
+                        p.mt10
+                            input#iptWeek.form-control(type="text", style="width:200px;")
+
+                        script.
+                            oc.date.weekPicker('#iptWeek');
+
+                        参数：
+                        ipt: 输入框的选择器或者对象
+                        
+            
+                   

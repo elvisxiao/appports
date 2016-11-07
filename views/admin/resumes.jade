@@ -1,0 +1,132 @@
+extends ../layout
+
+block content
+    link(rel='stylesheet', href='/css/datepicker.css')
+    script(src='/js/datepicker.js')
+    
+    .wrapper
+        #divResume.info.mt50
+            .col-md-2
+                .sidebar
+                    p.active 
+                        a(href="/admin/resumes") 投递记录管理
+                    p
+                        a(href="/admin/users") 用户管理
+            .col-md-10
+                form#formSearch.form-inline
+                    span 身份证号码：
+                    input.form-control.input-sm(type="text", name="cardId")
+                    span 姓名：
+                    input.form-control.input-sm(type="text", name="name")
+                    span.pl5 岗位名称：
+                    input.form-control.input-sm(style="width: 100px;", type="text", name="jobTitle")
+                    span.pl5 参加场次：
+                    input.form-control.input-sm(style="width: 100px;", type="text", name="session")
+                    span.pl5 投递时间：
+                    input.form-control.input-sm.iptDate(style="width: 80px;", type="text", name="createdAtFrom") 
+                    |  - 
+                    input.form-control.input-sm.iptDate(style="width: 80px;", type="text", name="createdAtTo")
+
+                    button.btn.btnGray.btn-sm.ml5(type="submit") 搜索
+                    button#btnExport.btn.btn-info.btn-sm.ml10(type="submit") 导出
+                #tableContainer
+
+    script.
+        (function() {
+            $('.iptDate').datepicker({format: 'yyyy-mm-dd'});
+
+            var params = {
+                pageNo: 1,
+                pageSize: 25
+            };
+            
+            var getEducationEle = function(resume) {
+                var ret = [];
+                resume.educationBackground.map(function(one) {
+                    if(one.education && one.school) {
+                        ret.push(one.education + '-' + one.major + '-' + one.school);
+                    }
+                })
+
+                return ret.join('; ');
+            }
+            
+            var tableUsers = new oc.Table();
+            tableUsers.headMapping = {
+                //- user._id: {text: '用户ID', sort: true},
+                'resume.name': {text: '用户名', sort: true},
+                'user.cardId': {text: '身份证号码', sort: true},
+                jobTitle: {text: '岗位名称', sort: true},
+                'resume.session': {text: '参加场次', sort: true},
+                'resume.tel': {text: '电话', sort: true},
+                'resume.email': {text: '邮箱', sort: true},
+                'nodate': {text: '教育经历'}
+            }
+            tableUsers.renderTr = function(model) {
+                if(!model.resume) {
+                    model.resume = {};
+                }
+                var tr = $('<tr data-id="' + model._id + '" data-userId="' + model.user._id + '"></tr>');
+                //- tr.append('<td>' + model.user._id + '</td>');
+                tr.append('<td><a href="/admin/view/' + model._id + '" target="_blank">' + model.resume.name + '</a></td>');
+                tr.append('<td>' + model.resume.cardId + '</td>');
+                tr.append('<td>' + model.jobTitle + '</td>');
+                tr.append('<td>' + model.resume.session + '</td>');
+                tr.append('<td>' + model.resume.tel + '</td>');
+                tr.append('<td>' + model.resume.email + '</td>');
+                tr.append('<td>' + getEducationEle(model.resume) + '</td>');
+                return tr;
+            }
+            tableUsers.pageSize = params.pageSize;
+            tableUsers.placeAt($('#tableContainer'));
+            tableUsers.ajaxCallback = function(tableParams) {
+                params = $.extend(params, tableParams);
+                fetchData();
+            }
+
+            var formSearch = $('#formSearch');
+            formSearch.submit(function() {
+                var searchParams = oc.tools.form.getJson(formSearch);
+                params = $.extend(params, searchParams);
+                params.pageNo = 1;
+                tableUsers.pageNo = 1;
+                fetchData();
+                return false;
+            })
+            
+            var fetchData = function() {
+                oc.ajax.post('/admin/resumes', params, function(res) {
+                    tableUsers.load(res.items, res.allsize);
+                })
+            }
+            
+            fetchData();
+            
+            //导出 ---
+            document.getElementById('btnExport').onclick = function() {
+                var exportParams = $.extend({}, params);
+                exportParams.pageSize = 100000;
+                exportParams.pageNo = 1;
+    
+                oc.ajax.post('/admin/resumes', exportParams, function(res) {
+                    var rows = [];
+                    rows.push(['用户名', '身份证号码', '岗位名称', '参加场次', '意向工作地', '电话', '邮箱', '教育经历', '投递时间']);
+                    res.items.map(function(model) {
+                        rows.push([
+                            model.resume.name,
+                            model.resume.cardId,
+                            model.jobTitle,
+                            model.resume.session,
+                            model.resume.intentionCity || '未填',
+                            model.resume.tel,
+                            model.resume.email,
+                            getEducationEle(model.resume),
+                            oc.date.format(model.created_at, 'yyyy-mm-dd hh:MM:ss')
+                        ])
+                    });
+
+                    oc.tools.csv.export('投递记录.csv', rows);
+                })
+            }
+        })();
+        

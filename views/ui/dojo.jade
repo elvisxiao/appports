@@ -1,0 +1,16 @@
+extends ../layout
+
+block content
+    .wrapper.mt50
+        include components/sidebar
+        .col-xs-9.pl50
+            h3(data-active="DOJO") DOJO
+            p 扩展基于dojo的方法。<font class="tRed">调用: oc.tools.dojo. ...</font>
+            
+            p.mt20 API文档：
+            h4.lh300 1. 销毁place到该节点的dojo widget：oc.localStorage.destroyByNode(node)
+            .zCode
+                code.language-jade.
+                    参数：
+                    node: html节点
+            
