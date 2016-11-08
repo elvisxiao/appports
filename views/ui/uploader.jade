@@ -1,0 +1,127 @@
+extends ../layout
+
+block content
+    .wrapper.mt50
+        include components/sidebar
+        .col-xs-9.pl50
+            h3(data-active="Uploader") Uploader 前端预览上传
+            p 基于FileReader，FormData的前端预览（仅限图片）上传组件，调用<font class="tRed">oc.Uploader(options)</font>
+
+            h4.mt20 1. 构造函数 oc.Uploader(options)
+            p 您可以将文件拖拽，或者点击添加按钮，来开始此demo
+            .zExample.mt20
+                div#fileContainer 
+                script.
+                    var uploader = new oc.Uploader({
+                        container: '#fileContainer',
+                        postParams: {
+                            savePath: 'upload'
+                        },
+                        callback: function(files){
+                            console.log('all file uploaded:', files);
+                        },
+                        uploadOneCallback: function(file){
+                            console.log('uploaded one file:', file);
+                        }
+                    })
+
+                .zCode.mt20
+                    code.language-jade.
+                        参数：
+                            container: jquery选择器/对象/html元素，容器对象
+                            auto: boolean，是否自动开启上传，默认为false
+                            maxSize: number,最大允许上传的文件数量，默认为10
+                            uploadAction: string，服务器接收文件的地址
+                            postParams: object，JSON对象，额外发送的附加值
+                            oneFileLimit: number，单个文件最大限制，默认为10M
+                            callback: fn，单次点击上传，所有文件上传完成后的毁掉函数,
+                            uploadOneCallback: fn，每个文件上传完成后触发一次,
+                            checkFileCallback: fn，如果限制了文件类型，检查后触发一次
+                        返回值：
+                            ele下所有可见表单项，并且带有name树形值拼成的JSON对象
+                        
+                        div#fileContainer 
+                        script.
+                            var uploader = new oc.Uploader({
+                                container: '#fileContainer',
+                                postParams: {
+                                    savePath: 'upload'
+                                },
+                                callback: function(files){
+                                    console.log('all file uploaded:', files);
+                                },
+                                uploadOneCallback: function(file){
+                                    console.log('uploaded one file:', file);
+                                }
+                            })
+
+            
+            h4 2.自定义文件 instance.reloadList() 、instance.deleteFile()
+            .zExample.mt20
+                div#fileContainer2 
+                script.
+                    var uploader2 = new oc.Uploader({
+                        container: '#fileContainer2',
+                        postParams: {
+                            savePath: 'upload'
+                        },
+                        callback: function(files){
+                            console.log('all file uploaded:', files);
+                        },
+                        uploadOneCallback: function(file){
+                            console.log('uploaded one file:', file);
+                        }
+                    })
+               
+                    uploader2.deleteFile = function(file, cb) {
+                        cb();
+                    }
+
+                    uploader2.files = [{
+                        name: 'test.jpg',
+                        status: uploader.STATUS.success
+                    },
+                    {
+                        name: 'test2.jpg',
+                        status: uploader.STATUS.success
+                    }]
+                    uploader2.reloadList();
+
+                .zCode.mt20
+                    code.language-jade.
+                        相关方法：
+                            instance.files；内部的文件对象
+                            instance.deleteFile(file, cb); 删除已经选中的文件
+                            instance.reloadList()；根据当前的files，重新load元素
+                            
+                        div#fileContainer2 
+                        script.
+                            var uploader2 = new oc.Uploader({
+                                container: '#fileContainer2',
+                                postParams: {
+                                    savePath: 'upload'
+                                },
+                                callback: function(files){
+                                    console.log('all file uploaded:', files);
+                                },
+                                uploadOneCallback: function(file){
+                                    console.log('uploaded one file:', file);
+                                }
+                            })
+                            
+                            uploader2.deleteFile = function(file, cb) {
+                                cb();
+                            }
+
+                            uploader2.files = [{
+                                name: 'test.jpg',
+                                status: uploader.STATUS.success
+                            },
+                            {
+                                name: 'test2.jpg',
+                                status: uploader.STATUS.success
+                            }]
+                            uploader2.reloadList();
+                        
+
+        

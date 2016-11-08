@@ -1,0 +1,60 @@
+extends ../layout
+
+block content
+    .wrapper.mt50
+        include components/sidebar
+        .col-xs-9.pl50
+            h3(data-active="ImageCrop 图片裁剪") ImageCrop 图片裁剪
+            p 基于FileReader、Canvas的图片裁剪工具，<font class="tRed">new oc.ImageCrop(options)....</font>
+    
+            h4 1. 构造函数：new ImageCrop(options)
+            .zExample.mt20
+                p.tc
+                    button#btnGetImg.btn.btn-info.btn-sm(type="button") 获取裁剪后的图片
+                p 选择图片格式的文件：
+                   
+                div#fileContainer.mt10
+
+                script.
+                    var imageCrop = new oc.ImageCrop({
+                        container: '#fileContainer',
+                        height: 300
+                    });
+                    document.getElementById('btnGetImg').onclick = function() {
+                        if(!imageCrop.img.src) {
+                            oc.dialog.tips('请先选择图片');
+                            return;
+                        }
+                        window.open(imageCrop.img.src);
+                    }
+                    
+                .zCode.mt20
+                    code.language-jade.
+                        p 选择图片格式的文件
+                        button#btnGetImg.btn.btn-info.btn-sm(type="button") 获取裁剪后的图片
+                        div#fileContainer.mt10
+                        
+                        script.
+                            var imageCrop = new oc.ImageCrop({
+                                container: '#fileContainer',
+                                height: 300
+                            });
+                            document.getElementById('btnGetImg').onclick = function() {
+                                if(!imageCrop.img.src) {
+                                    oc.dialog.tips('请先选择图片');
+                                    return;
+                                }
+                                window.open(imageCrop.img.src);
+                            }
+
+                        options参数：
+                            container: jquery对象/选择器/HTML节点，容器对象，一般为div
+                            remoteImg: boolean，是否为远程图片，默认值为false
+                            height: number, 元素的高度值, 单位为“px”, 默认为500
+
+                        返回值：
+                            ImageCrop对象
+                    
+            
+            h4.mt30 2. 获取图片数据：instance.getImage()
+            

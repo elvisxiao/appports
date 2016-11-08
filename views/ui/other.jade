@@ -1,0 +1,88 @@
+extends ../layout
+
+block content
+    .wrapper.mt50
+        include components/sidebar
+        .col-xs-9.pl50
+            h3(data-active="其他UI") 其他UI
+
+            h4.mt20 1. Toggle Button oc.ui.toggleBtn(onText, offText)
+            p 在普通HTML的input:checkbox元素上加上class ”zToggleBtnSm“ 或者 “zToggleBtn”后，调用oc.ui.toggleBtn()即可
+            .zExample.mt20
+                div.mt10
+                    span.mr50
+                        input.zToggleBtnSm(type="checkbox")
+                    input.zToggleBtnSm(type="checkbox", checked)
+                div.mt20
+                    span.mr20
+                        input.zToggleBtn(type="checkbox")
+                    input.zToggleBtn(type="checkbox", checked)
+                script.
+                    oc.ui.toggleBtn('开', '关');
+
+                .zCode.mt20
+                    code.language-jade.
+                        参数：
+                            onText：打开时显示的文本，默认为"on"
+                            offText：关闭状态时显示的文本，默认为"off"
+
+                        div.mt10
+                            span.mr50
+                                input.zToggleBtnSm(type="checkbox")
+                            input.zToggleBtnSm(type="checkbox", checked)
+                        div.mt20
+                            span.mr20
+                                input.zToggleBtn(type="checkbox")
+                            input.zToggleBtn(type="checkbox", checked)
+                        script.
+                            oc.ui.toggleBtn('开', '关');
+                
+            h4.mt30 2. Toggle Button oc.ui.toggleOneBtn(btn, onText, offText)
+            p 针对单个进行toggle操作，btn为目标对象，其他与方法1相同
+            
+            h4.mt30 3. 加载中状态 oc.ui.loading(ele, isReset)
+            .zExample.mt20
+                div.mt10
+                    ul#ulLoading.pl20
+                        li 众里寻她千百度,蓦然回首,那人依旧对我不屑一顾
+                        li 脂肪那么厚,动一下都那么难受!
+                        li 这么不要脸,这么没心没肺,你的体重应该会很轻吧?
+
+                    button#btnLoadingDiv.btn.btn-info(type="button") Toggle加载状态
+                    
+                script.
+                    var ul = document.getElementById('ulLoading');
+                    document.getElementById('btnLoadingDiv').onclick = function() {
+                        if(ul.classList.contains('zLoadingCover')) {
+                            oc.ui.loading(ul, true);
+                        }
+                        else {
+                            oc.ui.loading(ul);
+                        }
+                    }
+
+                .zCode.mt20
+                    code.language-jade.
+                        参数：
+                            ele：jquery对象/选择器/HTML节点，目标对象
+                            isReset：boolean，是否重置loading状态，用于取消loading时
+
+                        div.mt10
+                            ul#ulLoading.pl20
+                                li 众里寻她千百度,蓦然回首,那人依旧对我不屑一顾
+                                li 脂肪那么厚,动一下都那么难受!
+                                li 这么不要脸,这么没心没肺,你的体重应该会很轻吧?
+
+                            button#btnLoadingDiv.btn.btn-info(type="button") Toggle加载状态
+                            
+                        script.
+                            var ul = document.getElementById('ulLoading');
+                            document.getElementById('btnLoadingDiv').onclick = function() {
+                                if(ul.classList.contains('.zLoading')) {
+                                    oc.ui.loading(ul, true);
+                                }
+                                else {
+                                    oc.ui.loading(ul);
+                                }
+                            }
+                        

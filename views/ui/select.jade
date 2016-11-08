@@ -1,0 +1,75 @@
+extends ../layout
+
+block content
+    .wrapper.mt50
+        include components/sidebar
+        .col-xs-9.pl50
+            h3(data-active="下拉选框") Select 下拉框
+            
+            h4.mt20 1. 单选框
+            .zExample.mt20
+                p.mt20
+                    select.zIpt.zSlc.w200.form-control
+                        option(disabled) anker.com
+                        option(selected) apple.com
+                        option mi.com
+                        option google.com
+                .zCode
+                    code.language-jade.
+                        select.zIpt.zSlc.w200(multiple)
+                            option(disabled) anker.com
+                            option(selected) apple.com
+                            option mi.com
+                            option google.com
+
+            h4.mt20 2. 多选框
+            .zExample.mt20
+                p.mt20
+                    select.zIpt.zSlc.w200.form-control(multiple)
+                        option(selected) anker.com
+                        option(selected) apple.com
+                        option mi.com 
+                        option google.com
+                .zCode
+                    code.language-jade.
+                        select.zIpt.zSlc.w200(multiple)
+                            option(disabled) anker.com
+                            option(selected) apple.com
+                            option mi.com 
+                            option google.com
+
+            h4.mt20 3. 分组多选下拉框
+            .zExample.mt20
+                p.mt20
+                    select.zIpt.zSlc.w200(multiple)
+                        optgroup(label="Sites")
+                            option(selected) anker.com
+                            option(selected) apple.com
+                            option mi.com 
+                            option google.com
+                        optgroup(label="Fruit")
+                            option Pear
+                            option Bananer
+                            option Apple
+                        
+                .zCode
+                    code.language-jade.
+                        select.zIpt.zSlc.w200(multiple)
+                            optgroup(label="Sites")
+                                option(selected) anker.com
+                                option(selected) apple.com
+                                option mi.com 
+                                option google.com
+                            optgroup(label="Fruit")
+                                option Pear
+                                option Bananer
+                                option Apple
+
+
+
+            .cb.h50
+
+    //- script.
+    //-     $('button').on('click', function(){
+    //-         console.log($('.zSlc').val());
+    //-     });

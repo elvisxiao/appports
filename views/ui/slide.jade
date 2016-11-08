@@ -1,0 +1,74 @@
+extends ../layout
+
+block content
+    .wrapper.mt50
+        include components/sidebar
+        .col-xs-9.pl50
+            h3(data-active="Slide 侧滑栏") Slide 侧滑栏
+
+            h4.mt30 1. 右侧侧滑栏 oc.ui.slide(width, showFullScreenIcon)
+            .zExample.mt20
+                div.mt10
+                    p 默认侧滑栏：
+                    button.btn.btn-info.mr20(type="button", onclick="oc.ui.slide()") 800px宽度
+                    p 自定义宽度侧滑栏：
+                    button.btn.btn-success.mr20(type="button", onclick="oc.ui.slide(1100)") 1100px宽度
+                    p 可全屏的侧滑栏：
+                    button.btn.btn-warning.mr20(type="button", onclick="oc.ui.slide(1000, true)") 可全屏
+
+                    p 关闭时的回调：
+                    button#btnSlide.btn.btn-info.mr20(type="button", onclick="oc.ui.slide(1000, true)") 回调的侧滑栏
+                    
+                
+                script.
+                    document.getElementById('btnSlide').onclick = function() {
+                        var slide = oc.ui.slide();
+                        slide.find('.fixRightBd').append('我是带回调参数的侧滑栏，5s后将自动关闭');
+                        slide.data('onClose', function() {
+                            oc.dialog.tips('侧滑栏被关闭了');
+                        });
+
+                        setTimeout(function() {
+                            oc.ui.destroySlide();
+                        }, 5000)
+                    }
+
+                .zCode.mt20
+                    code.language-jade.
+                        参数：
+                            width：number，默认值为800，单位为"px"
+                            showFullScreenIcon：boolean，是否显示全屏Icon，默认为false
+                        返回值：
+                            最外层的Jquery对象
+
+                        div.mt10
+                            p 默认侧滑栏：
+                            button.btn.btn-info.mr20(type="button", onclick="oc.ui.slide()") 800px宽度
+                            p 自定义宽度侧滑栏：
+                            button.btn.btn-success.mr20(type="button", onclick="oc.ui.slide(1100)") 1100px宽度
+                            p 可全屏的侧滑栏：
+                            button.btn.btn-warning.mr20(type="button", onclick="oc.ui.slide(1000, true)") 可全屏
+
+                            p 关闭时的回调：
+                            button#btnSlide.btn.btn-info.mr20(type="button", onclick="oc.ui.slide(1000, true)") 回调的侧滑栏
+                            
+                        
+                        script.
+                            document.getElementById('btnSlide').onclick = function() {
+                                var slide = oc.ui.slide();
+                                slide.find('.fixRightBd').append('我是带回调参数的侧滑栏，5s后将自动关闭');
+                                slide.data('onClose', function() {
+                                    oc.dialog.tips('侧滑栏被关闭了');
+                                });
+
+                                setTimeout(function() {
+                                    oc.ui.destroySlide();
+                                }, 5000)
+                            }
+
+
+            h4.mt30 2. 销毁右侧侧滑栏 oc.ui.destroySlide(ele)
+            p ele为oc.ui.slide()返回的jquery对象，如果不传，则关闭所有slide
+
+
+            

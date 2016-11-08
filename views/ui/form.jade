@@ -1,0 +1,226 @@
+extends ../layout
+
+block content
+    .wrapper.mt50
+        include components/sidebar
+        .col-xs-9.pl50
+            h3(data-active="Form 表单") Form 表单
+            
+            h4 1. HTML5 原生表单验证
+            p HTML5 原生表单需要与Form元素一起使用，需要Ajax提交时，请在$form.submit() 函数中return false。
+            .zExample.mt20
+                form#form1.mt20
+                    input.form-control.mt10.w(type="text", placeholder="用户名", required)
+                    input.form-control.mt10.w(type="email", placeholder="输入邮箱", required)
+                    input.form-control.mt10.w(type="url", placeholder="输入网址", required)
+                    input.form-control.mt10.w(type="number", placeholder="年龄", min="16", max="200", required)
+                    button.mt20.btn.btn-info(type="submit") 提交
+    
+                script.
+                    $('#form1').submit(function(){
+                        return false;
+                    })
+
+                .zCode.mt20
+                    code.language-jade.
+                        form.mt20
+                            input.zIpt.ml10.w(type="text", placeholder="用户名", required)
+                            input.zIpt.ml10.w(type="email", placeholder="输入邮箱", required)
+                            input.zIpt.ml10.w(type="url", placeholder="输入网址", required)
+                            input.zIpt.ml10.w(type="number", placeholder="年龄", min="16", max="200", required)
+                        script.
+                            $('#form1').submit(function(){
+                                return false;
+                            })
+
+            h4.mt20 2. 手动验证：oc.tools.form.validity(ele)
+            p 适用于非表单元素下，又需要使用HTML5验证的地方。
+            .zExample.mt20
+                div#div.mt20
+                    input.form-control.mt10.w(type="text", placeholder="用户名", required)
+                    input.form-control.mt10.w(type="email", placeholder="输入邮箱", required)
+                    input.form-control.mt10.w(type="url", placeholder="输入网址", required)
+                    input.form-control.mt10.w(type="number", placeholder="年龄", min="16", max="200", required)
+                    button#btnSub.mt20.btn.btn-info(type="button") 提交
+
+                script.
+                    document.getElementById('btnSub').onclick = function() {
+                        if(oc.tools.form.validity('#div')) {
+                            oc.dialog.tips('验证通过');
+                        }    
+                    };
+
+                .zCode.mt20
+                    code.language-jade.
+                        div#form1.mt20
+                            input.form-control.mt10.w(type="text", placeholder="用户名", required)
+                            input.form-control.mt10.w(type="email", placeholder="输入邮箱", required)
+                            input.form-control.mt10.w(type="url", placeholder="输入网址", required)
+                            input.form-control.mt10.w(type="number", placeholder="年龄", min="16", max="200", required)
+                            button#btnSub.mt20.btn.btn-info(type="button") 提交
+
+                        script.
+                            document.getElementById('btnSub').onclick = function() {
+                                if(oc.tools.form.validity('#form1')) {
+                                    oc.dialog.tips('验证通过');
+                                }    
+                            };
+
+            
+
+            h4 3. 表单数据获取 oc.tools.form.getJson(ele, removeEmpty)
+            p 从form或者div中获取可见的input数据，转为json对象。
+            .zExample.mt20
+                form#formGetData.mt20
+                    input.form-control.mt10.w(type="text", name="username", placeholder="用户名")
+                    input.form-control.mt10.w(type="email", name="info.email", placeholder="输入邮箱")
+                    input.form-control.mt10.w(type="url", name="info.url", placeholder="输入网址")
+                    input.form-control.mt10.w(type="number", name="info.age", placeholder="年龄", min="16", max="200")
+                    div.mt10 性别：
+                        label.mr30
+                            input(type="radio", name="sex", value="male") 
+                            | &nbsp;男
+                        label 
+                            input(type="radio", name="sex", value="female") 
+                            | &nbsp;女
+                    button.mt20.btn.btn-info(type="submit") 获取数据
+                
+                script.
+                    $('#formGetData').submit(function(){
+                        var model = oc.tools.form.getJson('#formGetData');
+                        console.log('oc.tools.form.getJson：', model);
+                        oc.dialog.tips('获取成功，请查看console');
+                        
+                        return false;
+                    })
+
+                .zCode.mt20
+                    code.language-jade.
+                        参数：
+                            ele: jquery对象/选择器/html节点，一般为form或者div
+                            removeEmpty: boolean, 默认为false，true时会去除空值
+                        返回值：
+                            ele下所有可见表单项，并且带有name树形值拼成的JSON对象
+
+                        form#formGetData.mt20
+                            input.form-control.mt10.w(type="text", name="username", placeholder="用户名")
+                            input.form-control.mt10.w(type="email", name="info.email", placeholder="输入邮箱")
+                            input.form-control.mt10.w(type="url", name="info.url", placeholder="输入网址")
+                            input.form-control.mt10.w(type="number", name="info.age", placeholder="年龄", min="16", max="200")
+                            div.mt10 性别：
+                                label.mr30
+                                    input(type="radio", name="sex", value="male") 
+                                    | &nbsp;男
+                                label 
+                                    input(type="radio", name="sex", value="female") 
+                                    | &nbsp;女
+                            button.mt20.btn.btn-info(type="submit") 获取数据
+            
+                        script.
+                            $('#formGetData').submit(function(){
+                                var model = oc.tools.form.getJson('#formGetData');
+                                console.log('oc.tools.form.getJson：', model);
+                                oc.dialog.tips('获取成功，请查看console');
+            
+                                return false;
+                            })
+
+
+            h4 4. 设置表单值 oc.tools.form.fill(ele, model)
+            p 将model的值设置到表单上
+            .zExample.mt20
+                form#formSetData.mt20
+                    input.form-control.mt10.w(type="text", name="username", placeholder="用户名")
+                    input.form-control.mt10.w(type="email", name="info.email", placeholder="输入邮箱")
+                    input.form-control.mt10.w(type="url", name="info.url", placeholder="输入网址")
+                    input.form-control.mt10.w(type="number", name="info.age", placeholder="年龄", min="16", max="200")
+                    div.mt10 性别：
+                        label.mr30
+                            input(type="radio", name="sex", value="male") 
+                            | &nbsp;男
+                        label 
+                            input(type="radio", name="sex", value="female") 
+                            | &nbsp;女
+                    button#btnSetData.mt20.btn.btn-info(type="button") 设置表单
+    
+                script.
+                    document.getElementById('btnSetData').onclick = function() {
+                        var model = {
+                            username: '我叫小明',
+                            info: {
+                                email: 'xiaoming@qq.com',
+                                url: 'www.xiaoming.com',
+                                age: '18'
+                            },
+                            sex: 'male'
+                        }
+                        oc.tools.form.fill('#formSetData', model);
+                    }
+
+                .zCode.mt20
+                    code.language-jade.
+                        参数：
+                            ele: jquery对象/选择器/html节点，一般为form或者div
+                            model: JSON对象
+                        
+
+                        form#formSetData.mt20
+                            input.form-control.mt10.w(type="text", name="username", placeholder="用户名")
+                            input.form-control.mt10.w(type="email", name="info.email", placeholder="输入邮箱")
+                            input.form-control.mt10.w(type="url", name="info.url", placeholder="输入网址")
+                            input.form-control.mt10.w(type="number", name="info.age", placeholder="年龄", min="16", max="200")
+                            div.mt10 性别：
+                                label.mr30
+                                    input(type="radio", name="sex", value="male") 
+                                    | &nbsp;男
+                                label 
+                                    input(type="radio", name="sex", value="female") 
+                                    | &nbsp;女
+                            button#btnSetData.mt20.btn.btn-info(type="button") 设置表单
+            
+                        script.
+                            document.getElementById('btnSetData').onclick = function() {
+                                var model = {
+                                    username: '我叫小明',
+                                    info: {
+                                        email: 'xiaoming@qq.com',
+                                        url: 'www.xiaoming.com',
+                                        age: '18'
+                                    },
+                                    sex: 'male'
+                                }
+                                oc.tools.form.fill('#formSetData', model);
+                            }
+
+
+
+            h4.mt20 5. Ajax提交时按钮状态：oc.tools.form.loadingButton(btn)/oc.tools.form.resetButton(btn)
+            .zExample.mt20
+                div#div.mt20
+                    button#btnLoading.mt20.btn.btn-info.mr20.w80(type="button") 提交
+                    button#btnReset.mt20.btn.btn-success(type="button") 恢复上一个
+
+                script.
+                    var btnLoading = document.getElementById('btnLoading');
+                    btnLoading.onclick = function() {
+                        oc.tools.form.loadingButton(btnLoading);
+                    }
+                    document.getElementById('btnReset').onclick = function() {
+                        oc.tools.form.resetButton(btnLoading);
+                    }
+
+
+                .zCode.mt20
+                    code.language-jade.
+                        div#div.mt20
+                            button#btnLoading.mt20.btn.btn-info.mr20.w80(type="button") 提交
+                            button#btnReset.mt20.btn.btn-success(type="button") 恢复上一个
+
+                        script.
+                            var btnLoading = document.getElementById('btnLoading');
+                            btnLoading.onclick = function() {
+                                oc.tools.form.loadingButton(btnLoading);
+                            }
+                            document.getElementById('btnReset').onclick = function() {
+                                oc.tools.form.resetButton(btnLoading);
+                            }

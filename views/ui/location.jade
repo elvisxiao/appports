@@ -1,0 +1,79 @@
+extends ../layout
+
+block content
+    .wrapper.mt50
+        include components/sidebar
+        .col-xs-9.pl50
+            h3(data-active="Location") Location API
+            p 提供一组操作location API和浏览器url的相关方法<font class="tRed">调用: oc.location. ...</font>
+            
+            p.mt20 API文档：
+            h4.lh300 1. 将对象转化为query string oc.ajax.getString(model)
+            .zExample.mt20
+                p model = { name: 'test name', age: 18 };
+                button.btn.btn-info(type="button", onclick="oc.dialog.tips(oc.location.getString({name: 'test name', age: 18}))") 获取数据
+                .zCode.mt20
+                    code.language-jade.
+                        参数：
+                            model：object，目标对象
+                        返回值：
+                            string，格式的query string
+
+                        button.btn.btn-info(type="button", 
+                            onclick="oc.dialog.tips(oc.location.getString({name: 'test name', age: 18}))") 获取数据
+            
+            h4.lh300 从浏览器url获取查询参数 2. oc.location.getParams(frame)
+            .zExample.mt20
+                p
+                    button.btn.btn-info(type="button", onclick="oc.dialog.tips(oc.location.getParams())") 获取参数
+                .zCode.mt20
+                    code.language-jade.
+                        参数：
+                            frame：目标窗口，默认为window
+                        返回值：
+                            object，根据query string格式化的JSON对象
+
+                        var queryString = oc.location.getParams();
+            
+
+            h4.lh300 3. 设置Hash值 oc.location.setHash(hash, params, needReload) 
+            .zExample.mt20
+                p
+                    button.btn.btn-info(type="button", onclick="oc.location.setHash('#oc', {name: 'user1'}, false)") 设置Hash
+                .zCode.mt20
+                    code.language-jade.
+                        参数：
+                            hash：string,必须以“#”开头，hash值
+                            params：object跟在Hash后的query string
+                            needReload：是否重新加载主内容框架（Fantasia），默认为false
+
+                        oc.location.setHash('#oc', {name: 'user1'}, false)
+
+            h4.lh300 4. 设置搜索项 oc.location.setSearch(params, needReload) 
+            .zExample.mt20
+                p
+                    button.btn.btn-info(type="button", onclick="oc.location.setSearch({name: 'user3'}, false)") 设置Search
+                .zCode.mt20
+                    code.language-jade.
+                        参数：
+                            params：object/string，查询参数query string
+                            needReload：是否重新加载主内容框架（Fantasia），默认为false
+                        
+                        oc.location.setSearch({name: 'user1'}, false)
+
+            h4.lh300 5. 设置URL oc.location.setUrl(pathname, search, hash, needReload) 
+            .zExample.mt20
+                p
+                    button.btn.btn-info(type="button", onclick="oc.location.setUrl('location', {name: 'user2'}, '#aaa', false)") 设置URL
+                .zCode.mt20
+                    code.language-jade.
+                        参数：
+                            pathname：string，url的最后一截
+                            params：object/string，查询参数query string
+                            hash：string,必须以“#”开头，hash值
+                            needReload：是否重新加载主内容框架（Fantasia），默认为false
+                        
+                        oc.location.setUrl('location', {name: 'user1'}, '#aaa', false)
+            
+
+                   

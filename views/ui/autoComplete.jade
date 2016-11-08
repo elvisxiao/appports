@@ -1,0 +1,65 @@
+extends ../layout
+
+block content
+    .wrapper.mt50
+        include components/sidebar
+        .col-xs-9.pl50
+            h3(data-active="自动补全") AutoComplete 自动补全
+
+            h4.mt30 1. 自动补全 oc.ui.autoComplete(ele, array, cb, prefix, autoAddPrefix)
+            .zExample.mt20
+                p 数组均为：['ibm', 'google', 'hp', 'huawei', 'tencent', 'baidu', 'oracle', 'microsoft', 'zte', 'skyvision'];
+
+                div.mt10
+                    p 基础：
+                    input#ipt1.form-control(type="text", placeholder="自动提示：")
+                    p 回调函数：
+                    input#ipt2.form-control(type="text", placeholder="自动提示：")
+                    p 多个值：
+                    input#ipt3.form-control(type="text", placeholder="可添加多个，分号分隔")
+                    p 多个值，自动添加隔断：
+                    input#ipt4.form-control(type="text", placeholder="可添加多个，分号分隔")
+
+                script.
+                    var arr = ['ibm', 'google', 'hp', 'huawei', 'tencent', 'baidu', 'oracle', 'microsoft', 'zte', 'skyvision'];
+                    oc.ui.autoComplete('#ipt1', arr);
+                    oc.ui.autoComplete('#ipt2', arr, function(data) {
+                        oc.dialog.tips(data);
+                    });
+                    oc.ui.autoComplete('#ipt3', arr, function(data) {
+                        oc.dialog.tips(data);
+                    }, ';');
+                    oc.ui.autoComplete('#ipt4', arr, null, ';', true);
+
+                .zCode.mt20
+                    code.language-jade.
+                        参数：
+                            ele：打开时显示的文本，默认为"on"
+                            offText：关闭状态时显示的文本，默认为"off"
+
+                        div.mt10
+                            p 基础：
+                            input#ipt1.form-control(type="text", placeholder="自动提示：")
+                            p 回调函数：
+                            input#ipt2.form-control(type="text", placeholder="自动提示：")
+                            p 多个值：
+                            input#ipt3.form-control(type="text", placeholder="可添加多个，分号分隔")
+                            p 多个值，自动添加隔断：
+                            input#ipt4.form-control(type="text", placeholder="可添加多个，分号分隔")
+
+                        script.
+                            var arr = ['ibm', 'google', 'hp', 'huawei', 'tencent', 'baidu', 'oracle', 'microsoft', 'zte', 'skyvision'];
+                            oc.ui.autoComplete('#ipt1', arr);
+                            oc.ui.autoComplete('#ipt2', arr, function(data) {
+                                oc.dialog.tips(data);
+                            });
+                            oc.ui.autoComplete('#ipt3', arr, function(data) {
+                                oc.dialog.tips(data);
+                            }, ';');
+                            oc.ui.autoComplete('#ipt4', arr, null, ';', true);
+
+
+            
+
+
+            
