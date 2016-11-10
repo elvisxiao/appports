@@ -23,16 +23,16 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     secret: '12345',
-    name: 'anker_career',   //这里的name值得是cookie的name，默认cookie的name是：connect.sid
+    name: 'appports',   //这里的name值得是cookie的name，默认cookie的name是：connect.sid
     cookie: {
         path: '/', 
         // maxAge: 24 * 60 * 60000, 
         secure: false, 
         httpOnly: true 
     },  //设置maxAge, session和相应的cookie失效过期
-    store: new MongoStore({
-        url: 'mongodb://' + config.db.user + ':' + config.db.pwd + '@' + config.db.host + ':' + config.db.port + '/' + config.db.db
-    })
+    // store: new MongoStore({
+    //     url: 'mongodb://' + config.db.user + ':' + config.db.pwd + '@' + config.db.host + ':' + config.db.port + '/' + config.db.db
+    // })
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));
