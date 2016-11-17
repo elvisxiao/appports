@@ -2148,7 +2148,8 @@ var ImageCrop = function(options){
     /** @property {object} options 配置变量对象：<br /> container为容器对象, remoteImg: 初始化时，加载远程图片 */
     this.config = {
 		container: 'body',
-        remoteImg: 0
+        remoteImg: 0,
+        height: 500,
 	};
 
     /** @property {object} ele - 最外层Jquery对象 */
@@ -2181,12 +2182,22 @@ var ImageCrop = function(options){
 
     var self = this;
 
+    self.getImage = function() {
+        return self.img;
+    }
+
     /** @method _render 初始化界面
     *@memberof ImageCrop 
     *@instance
     */
 	self.render = function(){
 		self.ele = $('<div class="zImageCrop"></div>');
+        if(self.config.height) {
+            self.ele.css({
+                'min-height': self.config.height + 'px',
+                height: self.config.height + 'px'
+            })
+        }
 		var wrap = $('<div class="zImageCropWrap"></div>').appendTo(self.ele);
 		wrap.append('<canvas class="zImageCropCanvas"></canvas>');
         wrap.append('<span class="zImageCropCover zImageCropCoverTop"></span>');
@@ -2255,8 +2266,13 @@ var ImageCrop = function(options){
         self.scaleHeight = self.img.height;
 
         self.ele.find('.zCutImageSize').html(self.img.width + ' × ' + self.img.height);
-        self.ele.find('.zCutRange input').val(100);
-        self.ele.find('.zRangePercent').html('100%');
+        var min = self.ele.width() * 100 / self.img.width;
+        if(min > 100) {
+            min = 100;
+        }
+        var max = min * 10;
+        var iptRange = self.ele.find('.zCutRange input').attr({min: min, max: max}).val(100);
+        self.ele.find('.zRangePercent').html(parseInt(iptRange.val()) + '%');
     }
     /** 
     * 通过FileReader读取文件内容
@@ -2267,7 +2283,6 @@ var ImageCrop = function(options){
     */
     self.readFile = function(file){
         var reader = new FileReader();
-
 
         reader.onload = function(e){
             self.img.src = this.result;
@@ -2315,20 +2330,23 @@ var ImageCrop = function(options){
             self.readFile(this.files[0]);
         })
         .on('input', '.zImageCropControl input[type="range"]', function(){
-            self.ele.find('.zImageCropControl .zRangePercent').html(this.value + '%');
+            self.ele.find('.zImageCropControl .zRangePercent').html(parseInt(this.value) + '%');
             self.range();
         })
         .on('click', '.zImageCropControl b', function(){
             var range = parseInt(self.ele.find('.zImageCropControl .zRangePercent').html());
+            var iptRange = self.ele.find('input[type="range"]');
+            var min = parseFloat(iptRange.attr('min'));
+            var max = parseFloat(iptRange.attr('max'));
             if(this.innerHTML === '－'){
                 range -= 10;
-                (range < 50) && (range = 50);
+                (range < min) && (range = min);
             }
             else{
                 range += 10;
-                (range > 500) && (range = 500);
+                (range > max) && (range = max);
             }
-            self.ele.find('.zImageCropControl .zRangePercent').html(range + '%');
+            self.ele.find('.zImageCropControl .zRangePercent').html(parseInt(range) + '%');
             self.ele.find('.zImageCropControl input[type="range"]').val(range);
             self.range();
         })
@@ -2338,7 +2356,7 @@ var ImageCrop = function(options){
                 self.downPosition = e.originalEvent;
                 downLeft = self.filter.position().left;
                 downTop = self.filter.position().top;
-       
+                
                 $(document).off('mousemove');
                 $(document).on('mousemove', function(e){
                 	self.moveFilter(e);
@@ -2393,10 +2411,10 @@ var ImageCrop = function(options){
         self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
 
         self.ctx.drawImage(self.img, 0, 0, self.img.width, self.img.height);
-
+        self.resetFilter();
         self.resetCover();
     }
-
+    
     /** 放大或者缩小图片
     * @method range 
     * @memberof ImageCrop 
@@ -2426,30 +2444,29 @@ var ImageCrop = function(options){
             return;
         }
 
-        self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
         var currRange = self.ele.find('.zImageCropControl input[type="range"]').val() / 100;
-        var width = self.filter.width();
-        var height = self.filter.height();
+        var width = self.filter.outerWidth();
+        var height = self.filter.outerHeight();
         self.canvas.width = width;
         self.canvas.height = height;
-
         $(self.canvas).parent().css({
             'margin-left': self.canvas.width / -2.0,
             'margin-top': self.canvas.height / -2.0,
         });
 
+        self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
+
         self.ctx.drawImage(self.img, self.filter.position().left / currRange, self.filter.position().top / currRange, 
            width / currRange, height / currRange, 0, 0, width, height);
-
         self.resetFilter();
         self.resetCover();
         
         self.ele.find('.zImageCropCover').css({
             width: 0,
             height: 0
-        })
-        self.ele.find('.zImageCropControl input[type="range"]').val(100);
-        self.ele.find('.zImageCropControl .zRangePercent').html('100%');
+        });
+        var iptRange = self.ele.find('.zImageCropControl input[type="range"]').val(100);
+        self.ele.find('.zImageCropControl .zRangePercent').html(parseInt(iptRange.val()) + '%');
         self.ele.find('.zImageCropControl .zCutImageSize').html(width + ' × ' + height);
         self.scaleWidth = width / currRange;
         self.scaleHeight = height / currRange;
@@ -2472,7 +2489,11 @@ var ImageCrop = function(options){
         if(top < 0){
             top = 0;
         }
-        self.resetFilter();
+        self.filter.css({
+            left: left,
+            top: top
+        })
+        // self.resetFilter();
 
         self.resetCover();
     }
@@ -2523,7 +2544,7 @@ var ImageCrop = function(options){
         self.ele.find('.zImageCropCoverBottom').css({
             height: self.canvas.height - position.top - self.filter.height() - 2,
             width: '100%',
-            bottom: '2px',
+            bottom: '0',
             left: 0
         });
         self.ele.find('.zImageCropCoverRight').css({
@@ -2879,6 +2900,29 @@ Instance.setUrl = function(pathname, search, hash, needReload) {
 		window.app && window.app.loadPage();
 	}
 }
+
+Instance.replaceUrl = function(pathname, search, hash, needReload) {
+	var url = pathname;
+	var searchStr = Instance._generateString(search);
+	if(searchStr) {
+		url += '?' + searchStr;
+	}
+	if(hash) {
+		url += hash;
+	}
+	
+	var state = {
+	 	url : url
+	};
+	
+	window.history.replaceState(state, "", url);
+	
+	if(typeof pathname === "boolean" || typeof search === "boolean" || typeof hash === "boolean" || needReload === true) {
+		window.app && window.app.loadPage();
+	}
+}
+
+
 
 module.exports = Instance;
 
@@ -3982,8 +4026,10 @@ Instance.toFixed = function(number, fixLength) {
     if(number === 0 || number === "0") {
         return 0;
     }
-    
-    return number.toFixed(fixLength || 2);
+    if(fixLength === undefined || fixLength === null) {
+        fixLength = 2;
+    }
+    return number.toFixed(fixLength);
 }
 
 Instance.formatMoney = function(number, fixLength) {
@@ -6584,7 +6630,8 @@ UI.popOver = function(btn, title, content, popPosition){
 
     var ele = $('<div class="zPopOver zPopOver' + popPosition + '"></div>');
     ele.append('<div class="zPopOverTitle">' + title + '<i class="icon-close"></i></div>');
-    ele.append('<div class="zPopOverContent">' + content + '</div>');
+    var popOverContent = $('<div class="zPopOverContent"></div>').appendTo(ele);
+    popOverContent.append(content);
     btn = $(btn);
     var position = btn.position();
     btn.after(ele);
@@ -6653,6 +6700,7 @@ UI.slide = function(width, showFullScreen) {
         }
         setTimeout(function() {
             fixRight.onClose && fixRight.onClose();
+            fixRight.data('onClose') && fixRight.data('onClose')();
             if(fixRight.data('target')) {
                 $(fixRight.data('target')).find('tr.success').removeClass('success');
             }
@@ -6689,6 +6737,7 @@ UI.destroySlide = function (ele) {
         one.find('.fixRightBd').html('');
         setTimeout(function() {
             one.onClose && one.onClose();
+            one.data('onClose') && one.data('onClose')();
             one.remove();
         }, 300)
     })
@@ -6815,7 +6864,7 @@ var Uploader = function(options) {
 			this.config[key] = options[key];
 		}
 	}
-
+	
 	/** 
 	* 更新统计信息
     * @method _renderFoot 
