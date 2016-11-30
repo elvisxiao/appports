@@ -31,4 +31,14 @@ router.get('/life', function(req, res, next) {
   	res.render('life', { title: 'Express' });
 });
 
+
+router.get('/lucky/turntable', function(req, res, next) {
+  	res.render('lucky/turntable');
+});
+
+router.get('/lucky/slotmachine', function(req, res, next) {
+  	res.render('lucky/slotmachine');
+});
+
+
 module.exports = router;

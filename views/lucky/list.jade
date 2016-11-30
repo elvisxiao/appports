@@ -1,0 +1,33 @@
+extends ../layout
+
+block content
+    .wrapper.pt50.pr
+        form.form-inline.tl
+            h3(style="margin-bottom: 15px") 我的抽奖列表
+        div#tableContainer
+    
+    script.
+        var table = new oc.Table();
+        table.headMapping = {
+            title: { text: '标题' },
+            type: { text: '类别' },
+            update_at: { text: '更新时间' }
+        }
+        table.renderTr = function(model) {
+            var tr = $('<tr></tr>');
+            tr.append('<td><a href="/lucky/' + model._id + '">' + model.title + '</a></td>');
+            tr.append('<td>' + LuckyTypes[model.type] + '</td>');
+            tr.append('<td>' + oc.date.format(model.update_at, 'yyyy-mm-dd hh:MM:ss') + '</td>');
+            
+            return tr;
+        }
+        table.placeAt(document.getElementById('tableContainer'));
+        oc.ajax.post('/lucky/list', {}, function(res) {
+            table.load(res);
+        })
+
+
+        
+        
+
+    

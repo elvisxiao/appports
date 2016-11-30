@@ -1,0 +1,209 @@
+extends ../layout
+
+block content
+    .wrapper.mt50
+        include components/sidebar
+        .col-xs-9.pl50
+            h3(data-active="Tree") Tree 树形结构
+            p 无限级的树形结构, 调用: <font class="tRed">new oc.Tree(config);</font>
+            .zCode.mt20
+                code.language-jade.
+                    config参数说明：
+                        container：jquery对象或者选择器，放置对象，一般为div，默认值为body
+                        data：object，BU树形结构的数据集合
+                        showLevel：number，显示到树形结构的第几层
+
+                    其他属性：
+                        ele：jquery对象，保存着树形的html结构
+                    
+                    回调函数：
+                        addClickCallback：function, 点击了添加节点后，执行的回调函数
+                        editClickCallback：function，点击了编辑节点之后，执行的回调函数
+            
+            .zExample.mt20        
+                div.mt20
+                    span.form-inline(style="padding-left:40px;") Filter：
+                        input#iptSearch.form-control.input-sm(type="text", placeholder="Search here", style="width: 250px")
+                    #treeContainer1.h200.mt10
+                script.
+                    var tree = new oc.Tree({
+                        container: '#treeContainer1',
+                        showLevel: 3,
+                        data: {
+                            "id": "1",
+                            "name": "Root category",
+                            "description": "",
+                            "items": [{
+                                "id": "2",
+                                "name": "ERP's",
+                                "description": "",
+                                "items": [{
+                                    "id": "3",
+                                    "name": "email sent related",
+                                    "description": "",
+                                    "items": null
+                                }, {
+                                    "id": "4",
+                                    "name": "ERP's others",
+                                    "description": "",
+                                    "items": null
+                                }, {
+                                    "id": "5",
+                                    "name": "Test",
+                                    "description": "",
+                                    "items": null
+                                }]
+                            }]
+                        }
+                    });
+
+                    $('#iptSearch').on('input', function() {
+                        tree.filter(this.value);
+                    })
+                    
+                .zCode.mt20
+                    code.language-javascript.
+                        div.mt20
+                            span.form-inline(style="padding-left:40px;") Filter：
+                                input#iptSearch.form-control.input-sm(type="text", placeholder="Search here", style="width: 250px")
+                            #treeContainer1.h200.mt10
+                        script.
+                            var tree = new oc.Tree({
+                                container: '#treeContainer1',
+                                showLevel: 3,
+                                data: {
+                                    "id": "1",
+                                    "name": "Root category",
+                                    "description": "",
+                                    "items": [{
+                                        "id": "2",
+                                        "name": "ERP's",
+                                        "description": "",
+                                        "items": [{
+                                            "id": "3",
+                                            "name": "email sent related",
+                                            "description": "",
+                                            "items": null
+                                        }, {
+                                            "id": "4",
+                                            "name": "ERP's others",
+                                            "description": "",
+                                            "items": null
+                                        }, {
+                                            "id": "5",
+                                            "name": "Test",
+                                            "description": "",
+                                            "items": null
+                                        }]
+                                    }]
+                                }
+                            });
+
+                            $('#iptSearch').on('input', function() {
+                                tree.filter(this.value);
+                            })
+            
+
+            h4.mt20 1. 搜索节点：instance.filter(keyword)
+            p 搜素到的节点用高亮的动画展示，参考示例1
+            .zCode.mt10
+                code.language-jade.
+                    参数：
+                        keyword: string，搜索的关键字，忽略大小写，包含性的模糊搜索
+                    
+
+
+            h4.mt20 2. 移动节点：instance.moveNode(sourceId, targetId, cb)
+            p 需要自己完成服务器端数据接收与处理
+            .zCode.mt10
+                code.language-jade.
+                    参数：
+                        sourceId: number，移动的节点id
+                        targetId: 被放置的节点id
+                        cb：处理完成后的回调函数，传入参数true表示操作成功：cb(true)
+                    
+                    var tree = new Tree({...})
+                    tree.moveNode = function(sourceId, targetId, cb){
+                        $.ajax({
+                            url: '/moveNode',
+                            type: 'post',
+                            data: {sourceId: sourceId, targetId: targetId},
+                            success: function(){
+                                cb(true);
+                            },
+                            error: function(res){
+                                cb(false, res.responseText);
+                            }
+                        })
+                    })
+            
+            h4.mt20 3. 删除节点：instance.deleteNode(nodeId, cb)
+            p 需要自己完成服务器端数据接收与处理
+            .zCode.mt10
+                code.language-jade.
+                    参数：
+                        nodeId: number，移动的节点id
+                        cb：处理完成后的回调函数，调用即代表删除成功
+                    
+                    var tree = new Tree({...})
+                    tree.deleteNode = function(nodeId, cb){
+                        $.ajax({
+                            url: '/delete/' + nodeId,
+                            type: 'delete',
+                            success: function(){
+                                cb();
+                            },
+                            error: function(res){
+                                oc.dialog.tips(res.responseText);
+                            }
+                        })
+                    }
+
+            h4.mt20 4. 更新节点：instance.updateNode(model, cb)
+            p 需要自己完成服务器端数据接收与处理
+            .zCode.mt10
+                code.language-jade.
+                    参数：
+                        model: object, 节点对象
+                        cb：动作完成后执行回调，设置树结构，，传入参数true表示操作成功：cb(true)
+                    
+                    var tree = new Tree({...})
+                    tree.update = function(model, cb){
+                        $.ajax({
+                            url: '/update/' + model.id,
+                            type: 'post',
+                            data: model,
+                            success: function(){
+                                cb(true);
+                            },
+                            error: function(res){
+                                oc.dialog.tips(res.responseText);
+                                cb(false);
+                            }
+                        })
+                    }
+
+            h4.mt20 5. 新增节点：instance.addNode(model, cb)
+            p 需要自己完成服务器端数据接收与处理
+            .zCode.mt10
+                code.language-jade.
+                    参数：
+                        model: object, 节点对象
+                        cb：动作完成后执行回调，设置树结构，，传入参数true表示操作成功：cb(true)
+                    
+                    var tree = new Tree({...})
+                    tree.addNode = function(model, cb){
+                        $.ajax({
+                            url: '/add',
+                            type: 'put',
+                            data: model,
+                            success: function(){
+                                cb(true);
+                            },
+                            error: function(res){
+                                oc.dialog.tips(res.responseText);
+                                cb(false);
+                            }
+                        })
+                    }
+

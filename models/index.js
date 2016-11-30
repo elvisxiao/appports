@@ -8,5 +8,4 @@ if(!config || !config.db || !config.db.host || !config.db.port) {
 var db = mongoose.createConnection('mongodb://' + config.db.user + ':' + config.db.pwd + '@' + config.db.host + ':' + config.db.port + '/' + config.db.db);
 
 exports.User = db.model('User', require('./user'));
-exports.Resume = db.model('Resume', require('./resume'));
-exports.Record = db.model('Record', require('./record'));
+exports.Lucky = db.model('Lucky', require('./lucky'));

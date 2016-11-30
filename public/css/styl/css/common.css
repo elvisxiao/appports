@@ -30,18 +30,15 @@ a:hover {
   clear: both;
 }
 nav.navbar.navbar-default {
-  height: 80px;
-  position: absolute;
-  height: auto;
-  z-index: 1;
+  height: 60px;
+  opacity: 0.9;
+  position: fixed;
+  z-index: 3;
   width: 100%;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
   transition: height 0.5s;
   background: #fff;
   transition: all 0.5s;
-}
-nav.navbar.navbar-default * {
-  transition: all 0.3s;
 }
 nav.navbar.navbar-default .navbar-nav>li>a {
   color: #a1b1bc;
@@ -61,7 +58,7 @@ nav.navbar.navbar-default .navbar-brand {
   padding: 0;
 }
 nav.navbar.navbar-default .navbar-brand img {
-  width: 240px;
+  width: 180px;
   height: auto;
 }
 nav.navbar.navbar-default .navbar-collapse {
@@ -72,24 +69,10 @@ nav.navbar.navbar-default .wrapper {
   overflow: visible;
 }
 nav.navbar.navbar-default ul.nav.navbar-nav>li>a {
-  line-height: 50px;
+  line-height: 30px;
 }
 nav.navbar.navbar-default + #navSpace {
-  height: 80px;
-  transition: all 0.5s;
-}
-nav.navbar.navbar-default.mini {
-  opacity: 0.9;
-  position: fixed;
-}
-nav.navbar.navbar-default.mini + #navSpace {
-  height: 50px;
-}
-nav.navbar.navbar-default.mini .navbar-brand img {
-  width: 150px;
-}
-nav.navbar.navbar-default.mini ul.nav.navbar-nav>li>a {
-  line-height: 20px;
+  height: 60px;
 }
 .btn.btnReverse {
   background: transparent;
@@ -290,18 +273,6 @@ nav.navbar.navbar-default.mini ul.nav.navbar-nav>li>a {
   .wrapper {
     width: 708px;
   }
-  nav.navbar.navbar-default {
-    height: 50px;
-  }
-  nav.navbar.navbar-default + #navSpace {
-    height: 50px;
-  }
-  nav .navbar-brand img {
-    width: 80px;
-  }
-  nav ul.nav.navbar-nav>li>a {
-    line-height: 20px;
-  }
 }
 @media (max-width: 767px) {
   nav.navbar.navbar-default * {
@@ -324,7 +295,7 @@ nav.navbar.navbar-default.mini ul.nav.navbar-nav>li>a {
     height: 50px;
   }
   nav.navbar.navbar-default .navbar-brand img {
-    width: 80px;
+    width: 150px;
   }
   nav.navbar.navbar-default ul.nav.navbar-nav>li>a {
     line-height: 20px;

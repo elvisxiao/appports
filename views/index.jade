@@ -2,71 +2,95 @@ extends layout
 
 block content
     style.
+        body {
+            background: #eceff4;
+        }
         #indexStart .col-sm-6.col-md-4 .thumbnail{
-            background: #f5f5f5;
+            background: #fff;
             padding: 0;
             border: 1px solid #e9e9e9;
             border-bottom: 2px solid #95e0da;
         }
-        #indexStart .startContent {
-            height: 78px;
-            overflow: hidden;
-            font-size: 13px;
+        #indexJok #indexJokContainer {
+            font-size: 16px;
+            margin-bottom: 20px;
+            margin-top: 10px;
+            font-family: serif;
         }
-        #indexStart .startContent li {list-style-type: none; color: #666;}
-        @keyframes scroll {
-            0% {
-                transform: translate(0);
-            }  
-            20%, 30% {
-                transform: translateY(-38px);
-            }
-            50%,60% {
-                transform: translateY(-76px);
-            }
-            80%,90% {
-                transform: translateY(-114px);
-            }
-        }
-        .startContent ul {
-            animation-name: scroll;
-            animation-iteration-count: infinite;
-            animation-duration : 15s;
+        #jokCount {
+            font-size: 26px;
+            font-weight: 700;
+            font-family: -webkit-pictograph;
+            margin: 0 10px;
+            color: #ff3c1f;
+            background: #ff3c1f;
+            display: inline-block;
+            width: 80px;
+            height: 30px;
+            line-height: 30px;
+            border-radius: 50px;
+            color: #aaa;
+            background: linear-gradient(#ddd, #fff, #aaa);
         }
 
     include ./components/slide
-    p.tc.mt50
-        a#btnSub.btn.btnReverse.eleResponse.w200(type="button", href="/jobs/other") 登录享受更多服务
+    p.f26.tc.mt50(style="color: #3d4d65") LASTEST UPDATES
     
-    .wrapper.mt30
+    .wrapper.mt50
         #indexStart.row
             .col-sm-6.col-md-4
                 .thumbnail
                     img(src="/img/index-1.jpg")
                     .caption
                         h3 UI组件
-                        div.startContent 一个基于Jquery、Bootstrap的UI组件，包含很多有趣的东西：基于File Reader、FormData的CSV/XLS文件预览组件；周、时间选择器；提示框；本地存储组件；树形组件 ...
-            
+                        div.startContent UI组件集合：基于File Reader、FormData的CSV/XLS文件预览组件；周、时间选择器；提示框；本地存储组件；树形组件 ...
+                        a.btn.btn-main.btn-info.mb20.mt20(href="/ui", style="font-size:12px;") READ MORE
             .col-sm-6.col-md-4
                 .thumbnail
                     img(src="/img/index-2.jpg")
                     .caption
-                        h3 在线抽奖
-                        div.startContent 完全免费的在线抽奖程序，可以选择老虎机式多人抽奖、幸运转盘，可配置度高，登录后可以保存，下次可以直接用。同时抽奖模式还在持续新增中，期待您提供更好的建议。
+                        h3 幸运大转盘
+                        div.startContent 适用于不确定抽奖人员，但确定奖品以及概率的抽奖。可自定义奖品信息、中奖概率、转盘的外观等，登录后可将配置保存在线
+                        a.btn.btn-main.btn-info.mb20.mt20(href="/lucky/turntable", style="font-size:12px;") READ MORE
 
             .col-sm-6.col-md-4
                 .thumbnail
-                    img(src="/img/index-2.jpg")
+                    img(src="/img/index-3.jpg")
                     .caption
-                        h3 更多经典
-                        div.startContent 
-                            ul 
-                                li 当你觉得自己又丑又穷的时候，不要悲伤，至少你的判断是对的
-                                li 生活不止眼前的苟且，还有读不懂的诗和到不了的远方
-                                li 有时候你不努力下，你都不知道什么叫做绝望
-                                li 世上无难事，只要肯放弃
-                                li 等忙完这一阵子，就可以接着忙下一阵子了
-                                li 假如生活欺骗了你，不要悲伤，不要心急，反正明天也一样
-                                li 养鱼挺麻烦的，每周要换一次水，我经常忘记。后来就只好每周换一次鱼了
+                        h3 老虎机
+                        div.startContent 适用于每轮奖品固定、多人名单滚动形式的抽奖，可配置参加人员、奖品信息、中奖概率、单次抽取数量等，登录后可将配置保存在线
+                        a.btn.btn-main.btn-info.mb20.mt20(href="/lucky/slotmachine", style="font-size:12px;") READ MORE
+        
+    #indexJok.pr(style="background: #fff; top: 50px;")
+        .wrapper.tc.p30
+            p.f26.tc(style="color: #3d4d65") TAKE A BREATHER
+            p.tl.mt20(style="font-size: 50px; color: #aaa; line-height:20px;") “
+            #indexJokContainer
                 
-                
+            span#jokCount 8
+            
+            p.tr(style="font-size: 50px; color: #aaa; line-height:20px;") ”
+    
+    script.
+        var jokArr = [
+            '翻出前些天的毕业照，刹那间感概万千。有一天我们会发现，时光就像筛子，大多朝夕相处的人，经过这个筛子，终会随风远去散落天涯。最后能留在筛子中的那些人，往往是脸大的。'
+        ]
+        var eleJokContainer = $('#indexJokContainer');
+        var eleCount = $('#jokCount');
+        var timer = null;
+        (function() {
+            timer && clearInterval(timer);
+            eleCount.html(10);
+            
+            var callee = arguments.callee;
+            timer = setInterval(function() {
+                var count = parseInt(eleCount.html());
+                if(count === 0) {
+                    callee();
+                }
+                else {
+                    eleCount.html(count - 1);
+                }
+            }, 1000);
+        })();
+        

@@ -28,11 +28,17 @@ nav.navbar.navbar-default(style="margin: 0")
                     a(href="/ui") UI组件
                 li
                     a(href="/") 关于我们
-                li
-                    a(href="/") 登录
-                li
-                    a(href="/") 注册
-            
+
+                -if(user && user.email) 
+                    li
+                        a(style="text-transform: capitalize;") #{user.email.slice(0, user.email.indexOf('@'))} 
+                    li
+                        a#aLogout(href="/logout", style="padding-left:0; padding-right:0") 注销
+                -else
+                    li
+                        a#aPerson(href="/") 登录
+                
+                
 #navSpace
 
 #userForm.modal.fade
@@ -42,7 +48,7 @@ nav.navbar.navbar-default(style="margin: 0")
                 button.close(type="button", data-dismiss="modal")
                     span(aria-hidden="true") &times;
                     span.sr-only Close
-    
+                
                 ul.nav.nav-tabs(role="tablist")
                     li.active(role="presentation")
                         a(href="#formLogin", role="tab", data-toggle="tab") 登 录
@@ -54,13 +60,13 @@ nav.navbar.navbar-default(style="margin: 0")
                         table.w(style="max-width: 400px; margin: 0 auto")
                             tbody
                                 tr
-                                    td.w100.tr 身份证号码：
+                                    td.w100.tr 邮箱：
                                     td 
-                                        input.form-control(name="cardId", type="text", autocomplete="false", minLength="15", maxLength="18", required)
+                                        input.form-control(name="email", placeholder="账号为邮箱地址", type="email", autocomplete="false", required)
                                 tr(style="height: 80px;")
                                     td.tr 密码：
                                     td
-                                        input.form-control(name="password", type="password", maxLength="30", minLength="8", required, title="密码长度为8 - 30位之间")
+                                        input.form-control(name="password", type="password", maxLength="30", minLength="6", required, title="密码长度为6 - 30位之间")
                                 tr
                                     td.tc.pb10(colspan="2")
                                         button.btn.btnReverse.w150(type="submit") 登 录
@@ -69,17 +75,17 @@ nav.navbar.navbar-default(style="margin: 0")
                         table.w(style="max-width: 400px; margin: 0 auto")
                             tbody
                                 tr
-                                    td.w100.tr 身份证号码：
+                                    td.w100.tr 邮箱：
                                     td 
-                                        input.form-control(type="text", name="cardId", minLength="15", maxLength="18", title="身份证号码为15或18位" ,required)
+                                        input.form-control(name="email", type="email", placeholder="账号为邮箱地址", autocomplete="false", required)
                                 tr(style="height: 80px;")
                                     td.tr 密码：
                                     td
-                                        input.form-control(type="password", name="password", maxLength="30", minLength="8", required, title="密码长度为8 - 30位之间")
+                                        input.form-control(type="password", name="password", placeholder="密码长度为6 - 30位之间", maxLength="30", minLength="6", required, title="密码长度为6 - 30位之间")
                                 tr
                                     td.tr 确认密码：
                                     td
-                                        input.form-control(type="password", name="password2", maxLength="30", minLength="8", required, title="密码长度为8 - 30位之间")
+                                        input.form-control(type="password", name="password2", maxLength="30", minLength="6", required, title="密码长度为6 - 30位之间")
                                 tr(style="height: 80px;")
                                     td.pt20.tc(colspan="2")
                                         button.btn.btnReverse.w150(type="submit") 注 册
@@ -106,32 +112,20 @@ script.
     }
     
     (function() {
-        $(window).scroll(function () {
-            var scrollTop = $(window).scrollTop();
-            if (scrollTop > 0) {
-                $('nav.navbar.navbar-default').addClass('mini');
-            }
-            else if(scrollTop < 50) {
-                $('nav.navbar.navbar-default').removeClass('mini');
-            }
-        });
-
         var userForm = $('#userForm');
         $('#aPerson').on('click', function(e) {
             if(!GUSER) {
                 userForm.modal({show: true});
                 e.preventDefault();
-                oc.location.setUrl('/my');
                 return false;
             }
-            
         });
         var formLogin = userForm.find('#formLogin');
         formLogin.submit(function() {
             if(oc.tools.form.validity(formLogin)) {
-                var cardId = $.trim(userForm.find('#formLogin input[name="cardId"]').val());
+                var email = $.trim(userForm.find('#formLogin input[name="email"]').val());
                 var password = $.trim(userForm.find('#formLogin input[name="password"]').val());
-                oc.ajax.post('/user/login', { cardId: cardId, password: password }, function() {
+                oc.ajax.post('/user/login', { email: email, password: password }, function() {
                     oc.dialog.tips('登录成功', function() {
                         location.reload();
                     });
@@ -147,23 +141,20 @@ script.
         var formRegister = userForm.find('#formRegister');
         formRegister.submit(function() {
             if(oc.tools.form.validity(userForm.find('#formRegister'))) {
-                var iptCardId = userForm.find('#formRegister input[name="cardId"]');
-                var cardId = $.trim(iptCardId.val());
+                var iptAccount = userForm.find('#formRegister input[name="email"]');
+                var email = $.trim(iptAccount.val());
                 var password = $.trim(userForm.find('#formRegister input[name="password"]').val());
                 var passwordConfirmed = $.trim(userForm.find('#formRegister input[name="password2"]').val());
                 if(password !== passwordConfirmed) {
                     oc.dialog.tips('两次输入的密码不一致');
                     return false;
                 }
-                if(password.length < 8 || password.length > 30) {
-                    oc.dialog.tips('密码长度为8-30位，请检查');
+                if(password.length < 6 || password.length > 30) {
+                    oc.dialog.tips('密码长度为6-30位，请检查');
                     return false;
                 }
-                if(cardId.length !== 15 && cardId.length !== 18) {
-                    oc.dialog.tips('身份证为15或18位，请检查', iptCardId);
-                    return false;
-                }
-                oc.ajax.post('/user', { cardId: cardId, password: password }, function() {
+                
+                oc.ajax.post('/user', { email: email, password: password }, function() {
                     oc.dialog.tips('注册成功', function() {
                         location.reload();
                     });

@@ -1,48 +1,58 @@
 extends ../layout
 
 block content
-    #wrapperTurntable.wrapper.pt50.tc.pr
-        form#formTurntable.form-inline.tl
-            i#iconShow.icon-arrow-right2
-            h3 配置信息
-            table
-                tbody
-                    tr
-                        td 文本颜色：
-                        td
-                            input.form-control.input-sm(type="text", name="textColor", value="#fff", required)
-                            span.text-muted.ml20 默认：#fff（白色）
-                    tr.h50
-                        td 文本大小：
-                        td
-                            input.form-control.input-sm(type="number", name="fontSize", step="1", min="1", max="100", value="13", required)
-                            span.text-muted.ml20 单位：px，值为1 - 100之间的整数，默认为13px
-                    tr
-                        td 旋转时间：
-                        td
-                            input.form-control.input-sm(type="number", name="time", step="1", min="1", max="50000", value="6000", required)
-                            span.text-muted.ml20 单位：毫秒，值为1 - 50000之间的整数，默认为6S
-                    tr
-                        td.vt.pt10 奖品配色：
-                        td.pt10
-                            textarea.vt.form-control(name="colors", maxlength="1000", required, rows="2") #eca111 #729949 #b86dae
-                            span.text-muted 以空格或换货分隔
-                    tr
-                        td.vt.pt10 奖品信息：
-                        td.pt10
-                            textarea#txtPrizes.vt.form-control(name="prizes", maxlength="1000", required, rows="8")
-                            span.text-muted 每行一件奖品，奖品名 - 权重 以”#“区分
-                    tr
-                        td
-                        td.pt15
-                            button.btn.btn-info.w150(type="submit") 预 览
+    .wrapper
+        -if(locals.user)
+            p.tr.pt20
+                a(href="/lucky/list") 我的抽奖列表 &gt;&gt;
+        #wrapperTurntable
+            div.tc.pt30.pr
+                form#formTurntable.form-inline.tl
+                    i#iconShow.icon-arrow-right2
+                    h3(style="margin-bottom: 15px") #{ doc? doc.title: '配置信息' }
+                    table
+                        tbody
+                            tr
+                                td 文本颜色：
+                                td
+                                    input.form-control.input-sm(type="text", name="textColor", value="#fff", required)
+                                    span.text-muted.ml20 默认：#fff（白色）
+                            tr.h50
+                                td 文本大小：
+                                td
+                                    input.form-control.input-sm(type="number", name="fontSize", step="1", min="1", max="100", value="13", required)
+                                    span.text-muted.ml20 单位：px，值为1 - 100之间的整数，默认为13px
+                            tr
+                                td 旋转时间：
+                                td
+                                    input.form-control.input-sm(type="number", name="time", step="1", min="1", max="50000", value="6000", required)
+                                    span.text-muted.ml20 单位：毫秒，值为1 - 50000之间的整数，默认为6S
+                            tr
+                                td.vt.pt10 奖品配色：
+                                td.pt10
+                                    textarea.vt.form-control(name="colors", maxlength="1000", required, rows="2") #eca111 #729949 #b86dae
+                                    span.text-muted 以空格，换行，逗号分隔
+                            tr
+                                td.vt.pt10 奖品信息：
+                                td.pt10
+                                    textarea#txtPrizes.vt.form-control(name="prizes", maxlength="1000", required, rows="8")
+                                    span.text-muted 每行一件奖品，奖品名 - 权重 以”#“区分
+                            tr
+                                td
+                                td.pt10
+                                    button.btn.btn-info.w100.mr20(type="submit") 预 览
+                                    -if(locals.user)
+                                        button#btnSave.btn.btn-warning.w100(type="button") 保 存
+                                    -else
+                                        span.text-muted 登陆后可保存该抽奖信息，以便下次使用
 
-        
-        #divTurntable
-            canvas#canvas(width="500" height="500")
-            img#btn(src="/img/z.png")
-        
+                
+                #divTurntable
+                    canvas#canvas(width="500" height="500")
+                    img#btn(src="/img/z.png")
+    
     script.
+        var form = $('#formTurntable');
         var config = {
             time: 6000,
             prizes: [
@@ -82,7 +92,12 @@ block content
             colors: ['#eca111', '#729949', '#b86dae'],
             radius: 250,
         }
-
+        var modelId = '!{doc && doc._id}';
+        if(modelId) {
+            config = JSON.parse('!{doc && doc.config}');
+            oc.tools.form.fill(form, config);
+        }
+        
         //在这里配置奖品信息，name为显示名称，rate代表中奖概念值，比如
         // -- 下面的7代表SKU1的中奖概率为：7 / (7 + 7 + ... + 7 + 24) = 8.75%;
         // -- Good luck 的中奖率为 24 / (7 + 7 + 7 ... + 7 + 24) = 30%;
@@ -196,17 +211,20 @@ block content
                 self.drawCircle();
                 self.bindEvent();
             }
-
+            
             return self;
         };
         var instance = new App(config);
         instance.start();
+        console.log('prize config:', config);
+        var prizeText = config.prizes.map(function(one) {
+            return one.name + '#' + one.rate;
+        }).join(' \n');
+        form.find('#txtPrizes').val(prizeText);
         
-        var form = $('#formTurntable');
-        form.find('#txtPrizes').val('奔驰轿车一台 #20 \nMac Pro笔记本一台 #20 \nIphone 7 一台 #20 \n扫地机器人 #20 \n新版Kindle #20 \n充电宝一个 #20 \n现金100 #20 \n谢谢参与 #20 ');
-        form.submit(function() {
+        var getConfig = function() {
             var config = oc.tools.form.getJson(form);
-            config.colors = config.colors.split(/\s{1,1000}|\n/);
+            config.colors = config.colors.split(/\s{1,1000}|\n|,/);
             config.prizes = config.prizes.split(/\n/);
             if(config.prizes.length) {
                 var prizes = [];
@@ -228,20 +246,59 @@ block content
                 })
                 if(errors.length) {
                     oc.dialog.tips(errors.join('<br>'));
-                    return false;
+
+                    return;
                 }
                 config.prizes = prizes;
+
+                return config;
+            }
+        }
+       
+        form.submit(function() {
+            var config = getConfig();
+            if(config) {
                 instance.redraw(config);
             }
             
             return false;
         });
-    
+        
         var wrapperTurntable = $('#wrapperTurntable');
         document.getElementById('iconShow').onclick = function() {
             wrapperTurntable.toggleClass('mini');
         }
         
-        
-
-    
+        $('#btnSave').on('click', function() {
+            if(!GUSER) {
+                $('#userForm').modal({show: true});
+            }
+            var subData = function() {
+                oc.ajax[method]('/lucky', model, function() {
+                    oc.dialog.tips('保存成功');
+                    oc.dialog.close(dialog);
+                })
+            }
+            
+            var config = getConfig();
+            var model = {
+                user:GUSER, 
+                type:1, 
+                config: JSON.stringify(config)
+            }
+            var method = 'put';
+            if(modelId) {
+                method = 'post';
+                model._id = modelId;
+                subData();
+            }
+            else {
+                var dialog = oc.dialog.confirm('<p>抽奖标题：</p><input class="form-control input-sm" required>', function() {
+                    var title = $.trim(dialog.find('input').val());
+                    if(!title) {
+                        return;
+                    }
+                    subData();
+                }, null, true, false);
+            }
+        });

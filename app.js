@@ -62,7 +62,7 @@ function requiredAuthentication(req, res, next) {
 }
 
 app.use('/', require('./routes/index'));
-app.use('/lucky', require('./routes/lucky'));
+app.use('/lucky', requiredAuthentication, require('./routes/lucky'));
 app.use('/ui', require('./routes/ui'));
 
 app.use('/user', require('./routes/users'));

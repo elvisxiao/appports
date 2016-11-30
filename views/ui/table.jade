@@ -37,43 +37,266 @@ block content
             
             .zCode.mt10
                 code.language-jade.
+                    //分页相关
                     pageNo: number, 默认1，当前的页面数
                     pageSize: number，默认10，当前每页显示的条数
-                    showPager：boolean，默认true，是否显示分页数据，如false，则所有数据均在一页显示
-                    
+                    showPager: boolean，默认true，是否显示分页数据，如false，则所有数据均在一页显示
+                    hasNext: boolean，默认为false，当为true时，不显示分页，只显示上一页，下一页的按钮
+    
+                    //增强功能
+                    showSearchBox: boolean, 默认false, 是否显示table默认的模糊搜索框
+                    exportFile：string, 调用table.export()时，导出csv文件的文件名（自动添加后缀.csv）
+                    showBtnExport: boolean，默认为false，是否显示tablemore的导出按钮
+                    showCheckbox：boolean，默认为false，是否在第一列显示默认的选择框
 
-            h4.mt20 3. 分组多选下拉框
-            .zExample.mt20
-                p.mt20
-                    select.zIpt.zSlc.w200(multiple)
-                        optgroup(label="Sites")
-                            option(selected) anker.com
-                            option(selected) apple.com
-                            option mi.com 
-                            option google.com
-                        optgroup(label="Fruit")
-                            option Pear
-                            option Bananer
-                            option Apple
-                        
+                    //数据区域
+                    table：object, table的jquery对象
+                    pageData: object(array)，当前页的数据
+    
+                    //回调函数
+                    ajaxCallback：function, 服务器端加载数据时用的回调函数，在点击页脚，头部排序时触发
+                    afterLoad：function，table数据加载完毕/重新加载时触发，一般用于添加额外的样式
+            
+            h4.mt20 3. 头部区域配置 table.headMapping
+            .zCode.mt20
+                code.language-jade.
+                    headMapping = {
+                        key1: { text: 'TH显示字符', sort: 'boolean', width: '宽度值', export: '该列是否导出' },
+                        ....
+                    }
+                    
+                    key1: "string", 表示从model中哪个字段获取值，服务器端排序时会回传，具有唯一性，不能重复
+                    text: "string", 如无，则默认显示Key值
+                    sort: "boolean", 该列是否支持排序
+                    width: "number", 该列设置宽度值
+                    export: "boolean"，默认true，该列是否在导出的csv文件中
+
+            h4.mt20 4. 头部区域配置 table.placeAt(ele)
+            .zCode.mt20
+                code.language-jade.
+                    参数：
+                        ele: jquery元素/选择器/HTML节点，table的容器
+            
+    
+            h4.mt20 5. 加载数据 table.renderTr(model)
+            .zExample
+                div#tableContainer2
+
+                script.
+                    var table2 = new oc.Table();
+                    table2.headMapping = {
+                        name: { text: '用户名', sort: true },
+                        lastLoginTime: { text: '最后登录时间' },
+                        status: { text: '状态' }
+                    }
+                    table2.renderTr = function(model) {
+                        var tr = $('<tr></tr>');
+                        tr.append('<td>' + model.name + '</td>');
+                        tr.append('<td>' + oc.date.format(model.lastLoginTime, 'yyyy-mm-dd hh:MM:ss') + '</td>');
+                        tr.append('<td>' + (model.status? '在线':'离线') + '</td>');
+
+                        return tr;
+                    }
+
+                    table2.placeAt(document.getElementById('tableContainer2'));
+                    table2.load([
+                        {name: 'User1', lastLoginTime: 1479720397353, status: 1},
+                        {name: 'User2', lastLoginTime: 1479720337353, status: 0}
+                    ]);
                 .zCode
                     code.language-jade.
-                        select.zIpt.zSlc.w200(multiple)
-                            optgroup(label="Sites")
-                                option(selected) anker.com
-                                option(selected) apple.com
-                                option mi.com 
-                                option google.com
-                            optgroup(label="Fruit")
-                                option Pear
-                                option Bananer
-                                option Apple
+                        div#tableContainer2
+                        script.
+                            var table2 = new oc.Table();
+                            table2.headMapping = {
+                                name: { text: '用户名', sort: true },
+                                lastLoginTime: { text: '最后登录时间' },
+                                status: { text: '状态' }
+                            }
+                            table2.renderTr = function(model) {
+                                var tr = $('<tr></tr>');
+                                tr.append('<td>' + model.name + '</td>');
+                                tr.append('<td>' + oc.date.format(model.lastLoginTime, 'yyyy-mm-dd hh:MM:ss') + '</td>');
+                                tr.append('<td>' + (model.status? '在线':'离线') + '</td>');
+
+                                return tr;
+                            }
+
+                            table2.placeAt(document.getElementById('tableContainer2'));
+                            table2.load([
+                                {name: 'User1', lastLoginTime: 1479720397353, status: 1},
+                                {name: 'User2', lastLoginTime: 1479720337353, status: 0}
+                            ]);
+                    
 
 
+            h4.mt20 6. 加载数据 table.load(arr, allSize)
+            .zExample.mt20
+                p.mt20
+                    div#tableContainerDemo4
+                    button#btnDemo41.btn.btn-sm.btn-info.mr20(type="button") 一次性加载数据
+                    button#btnDemo42.btn.btn-sm.btn-success.mr20(type="button") 服务器端获取数据
+                    button#btnDemo43.btn.btn-sm.btn-warning(type="button") 只显示下一页，无具体行数
+                    script.
+                        var tableDemo4 = new oc.Table();
+                        tableDemo4.headMapping = {
+                            name: { text: '姓名', sort: true },
+                            department: { text: '部门' },
+                            age: { text: '年龄' }
+                        }
+                        tableDemo4.placeAt(document.getElementById('tableContainerDemo4'));
+                        
+                        document.getElementById('btnDemo41').onclick = function() {
+                            tableDemo4.load([
+                                {name: 'A1', department: 'DV', age: 18},
+                                {name: 'A2', department: 'DV', age: 18}
+                            ]);
+                        }
+                        document.getElementById('btnDemo42').onclick = function() {
+                            tableDemo4.pageSize = 2;
+                            tableDemo4.ajaxCallback = function(params) {
+                                tableDemo4.load([
+                                    {name: '我是回调后的数据', department: 'DV', age: 18},
+                                    {name: '我是回调后的数据', department: 'DV', age: 18}
+                                ], 1000);
+                            }
+                            tableDemo4.load([
+                                {name: '第一页数据，点击页码试试', department: 'DV', age: 18},
+                                {name: '第一页数据，点击页码试试', department: 'DV', age: 18}
+                            ], 1000);
+                        }
+                        document.getElementById('btnDemo43').onclick = function() {
+                            tableDemo4.load([
+                                {name: 'A', department: 'DV', age: 18},
+                                {name: 'B', department: 'DV', age: 18}
+                            ], true);
+                        }
+                .zCode
+                    code.language-jade.
+                        div#tableContainerDemo4
+                        button#btnDemo41.btn.btn-sm.btn-info.mr20(type="button") 一次性加载数据
+                        button#btnDemo42.btn.btn-sm.btn-success.mr20(type="button") 服务器端获取数据
+                        button#btnDemo43.btn.btn-sm.btn-warning(type="button") 只显示下一页，无具体行数
+                        script.
+                            var tableDemo4 = new oc.Table();
+                            tableDemo4.headMapping = {
+                                name: { text: '姓名', sort: true },
+                                department: { text: '部门' },
+                                age: { text: '年龄' }
+                            }
+                            tableDemo4.placeAt(document.getElementById('tableContainerDemo4'));
+                            
+                            document.getElementById('btnDemo41').onclick = function() {
+                                tableDemo4.load([
+                                    {name: 'A1', department: 'DV', age: 18},
+                                    {name: 'A2', department: 'DV', age: 18}
+                                ]);
+                            }
+                            document.getElementById('btnDemo42').onclick = function() {
+                                tableDemo4.pageSize = 2;
+                                tableDemo4.ajaxCallback = function(params) {
+                                    tableDemo4.load([
+                                        {name: '我是回调后的数据', department: 'DV', age: 18},
+                                        {name: '我是回调后的数据', department: 'DV', age: 18}
+                                    ], 1000);
+                                }
+                                tableDemo4.load([
+                                    {name: '第一页数据，点击页码试试', department: 'DV', age: 18},
+                                    {name: '第一页数据，点击页码试试', department: 'DV', age: 18}
+                                ], 1000);
+                            }
+                            document.getElementById('btnDemo43').onclick = function() {
+                                tableDemo4.load([
+                                    {name: 'A', department: 'DV', age: 18},
+                                    {name: 'B', department: 'DV', age: 18}
+                                ], true);
+                            }
+            
+            
+            h4.mt20 7. 导出数据 table.export()
+            .zExample
+                p.mt20.tc
+                    button#btnDemo71.btn.btn-sm.btn-info.mr20(type="button") 导出示例1的数据
 
-            .cb.h50
+                script.
+                    table1.exportFile = '下载测试文件';
+                    document.getElementById('btnDemo71').onclick = function() {
+                        table1.export();
+                    }
+                .zCode
+                    code.language-jade.
+                        button#btnDemo71.btn.btn-sm.btn-info.mr20(type="button") 导出示例1的数据
+                        
+                        script.
+                            table1.exportFile = '下载测试文件';
+                            document.getElementById('btnDemo71').onclick = function() {
+                                table1.export();
+                            }
+            
+            h4.mt20 8. 模糊搜索 table.search(params)
+            .zExample
+                p.mt20.tc
+                    form#form8
+                        input.form-control.input-sm.w300(type="text", placeholder="Search here")
+                    div#tableContainer8
+    
+                script.
+                    var tableDemo8 = new oc.Table();
+                    tableDemo8.headMapping = {
+                        name: { text: '姓名', sort: true },
+                        department: { text: '部门' },
+                        age: { text: '年龄' }
+                    }
 
-    //- script.
-    //-     $('button').on('click', function(){
-    //-         console.log($('.zSlc').val());
-    //-     });
+                    tableDemo8.placeAt(document.getElementById('tableContainer8'));
+                    
+                    tableDemo8.load([
+                        {name: 'A1', department: 'DV', age: 18},
+                        {name: 'A2', department: 'DV', age: 18},
+                        {name: 'B1', department: 'CD', age: 28},
+                        {name: 'B2', department: 'CD', age: 38}
+                    ]);
+                    
+                    var form = document.getElementById('form8');
+                    form.onsubmit = function() {
+                        var keyword = form.querySelector('input').value;
+                        tableDemo8.search(keyword);
+
+                        return false;
+                    }
+
+                .zCode
+                    code.language-jade.
+                        参数:
+                            params: string，搜索的关键词，忽略大小写的模糊搜索
+
+
+                        p.mt20.tc
+                            form#form8
+                                input.form-control.input-sm.w300(type="text", placeholder="Search here")
+                            div#tableContainer8
+                
+                        script.
+                            var tableDemo8 = new oc.Table();
+                            tableDemo8.headMapping = {
+                                name: { text: '姓名', sort: true },
+                                department: { text: '部门' },
+                                age: { text: '年龄' }
+                            }
+
+                            tableDemo8.placeAt(document.getElementById('tableContainer8'));
+                            
+                            tableDemo8.load([
+                                {name: 'A1', department: 'DV', age: 18},
+                                {name: 'A2', department: 'DV', age: 18},
+                                {name: 'B1', department: 'CD', age: 28},
+                                {name: 'B2', department: 'CD', age: 38}
+                            ]);
+                            
+                            var form = document.getElementById('form8');
+                            form.onsubmit = function() {
+                                var keyword = form.querySelector('input').value;
+                                tableDemo8.search(keyword);
+                                
+                                return false;
+                            }

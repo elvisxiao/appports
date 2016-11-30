@@ -2,7 +2,6 @@
     margin 0
     padding 0 
     border 0
-
 body 
     font 14px Open Sans, "Lucida Grande", Helvetica, Arial, sans-serif
     color #333
@@ -27,18 +26,16 @@ a
     clear both
 
 nav.navbar.navbar-default 
-    height 80px
-    position absolute
-    height auto
-    z-index 1
+    height 60px
+    opacity 0.9
+    position fixed
+    z-index 3
     width 100%
     box-shadow 0 2px 6px rgba(0,0,0,0.05)
     transition height .5s
     background #fff
     transition all .5s
-    * 
-        transition all .3s
-    .navbar-nav>li>a 
+    .navbar-nav>li>a
         color #a1b1bc
         &:hover
             color #00a7ea
@@ -50,7 +47,7 @@ nav.navbar.navbar-default
         height 100%
         padding 0
         img
-            width 240px
+            width 180px
             height auto
     .navbar-collapse
         padding 0
@@ -58,19 +55,9 @@ nav.navbar.navbar-default
         height 100%
         overflow visible
     ul.nav.navbar-nav>li>a 
-        line-height 50px
+        line-height 30px
     + #navSpace
-        height 80px
-        transition all .5s
-    &.mini
-        opacity 0.9
-        position fixed
-        + #navSpace 
-            height 50px
-        .navbar-brand img
-            width 150px
-        ul.nav.navbar-nav>li>a
-            line-height 20px
+        height 60px
 
 .btn.btnReverse 
     background transparent
@@ -249,15 +236,6 @@ nav.navbar.navbar-default
 @media (max-width: 1035px) and (min-width: 768px)
     .wrapper 
         width 708px
-    nav.navbar.navbar-default
-        height 50px
-        + #navSpace
-            height 50px
-
-    nav .navbar-brand img
-        width 80px
-    nav ul.nav.navbar-nav>li>a 
-        line-height 20px
 
 @media (max-width: 767px) 
     nav.navbar.navbar-default * 
@@ -275,7 +253,7 @@ nav.navbar.navbar-default
         + #navSpace
             height 50px
         .navbar-brand img
-            width 80px
+            width 150px
         ul.nav.navbar-nav>li>a 
             line-height 20px
     

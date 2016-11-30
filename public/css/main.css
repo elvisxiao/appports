@@ -30,18 +30,15 @@ a:hover {
   clear: both;
 }
 nav.navbar.navbar-default {
-  height: 80px;
-  position: absolute;
-  height: auto;
-  z-index: 1;
+  height: 60px;
+  opacity: 0.9;
+  position: fixed;
+  z-index: 3;
   width: 100%;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
   transition: height 0.5s;
   background: #fff;
   transition: all 0.5s;
-}
-nav.navbar.navbar-default * {
-  transition: all 0.3s;
 }
 nav.navbar.navbar-default .navbar-nav>li>a {
   color: #a1b1bc;
@@ -61,7 +58,7 @@ nav.navbar.navbar-default .navbar-brand {
   padding: 0;
 }
 nav.navbar.navbar-default .navbar-brand img {
-  width: 240px;
+  width: 180px;
   height: auto;
 }
 nav.navbar.navbar-default .navbar-collapse {
@@ -72,24 +69,10 @@ nav.navbar.navbar-default .wrapper {
   overflow: visible;
 }
 nav.navbar.navbar-default ul.nav.navbar-nav>li>a {
-  line-height: 50px;
+  line-height: 30px;
 }
 nav.navbar.navbar-default + #navSpace {
-  height: 80px;
-  transition: all 0.5s;
-}
-nav.navbar.navbar-default.mini {
-  opacity: 0.9;
-  position: fixed;
-}
-nav.navbar.navbar-default.mini + #navSpace {
-  height: 50px;
-}
-nav.navbar.navbar-default.mini .navbar-brand img {
-  width: 150px;
-}
-nav.navbar.navbar-default.mini ul.nav.navbar-nav>li>a {
-  line-height: 20px;
+  height: 60px;
 }
 .btn.btnReverse {
   background: transparent;
@@ -290,18 +273,6 @@ nav.navbar.navbar-default.mini ul.nav.navbar-nav>li>a {
   .wrapper {
     width: 708px;
   }
-  nav.navbar.navbar-default {
-    height: 50px;
-  }
-  nav.navbar.navbar-default + #navSpace {
-    height: 50px;
-  }
-  nav .navbar-brand img {
-    width: 80px;
-  }
-  nav ul.nav.navbar-nav>li>a {
-    line-height: 20px;
-  }
 }
 @media (max-width: 767px) {
   nav.navbar.navbar-default * {
@@ -324,7 +295,7 @@ nav.navbar.navbar-default.mini ul.nav.navbar-nav>li>a {
     height: 50px;
   }
   nav.navbar.navbar-default .navbar-brand img {
-    width: 80px;
+    width: 150px;
   }
   nav.navbar.navbar-default ul.nav.navbar-nav>li>a {
     line-height: 20px;
@@ -428,7 +399,8 @@ nav.navbar.navbar-default.mini ul.nav.navbar-nav>li>a {
   border-radius: 10000px;
   border: 20px solid #3fa3e4;
   position: absolute;
-  right: 0;
+  right: 20px;
+  top: 50px;
 }
 #wrapperTurntable #divTurntable:before {
   content: "";
@@ -440,7 +412,7 @@ nav.navbar.navbar-default.mini ul.nav.navbar-nav>li>a {
   border: 6px solid #2b7bc4;
   border-radius: inherit;
   box-shadow: 0 0 20px #28659d inset;
-  z-index: 0;
+  z-index: 1;
 }
 #wrapperTurntable #divTurntable canvas {
   z-index: -1;
@@ -590,18 +562,36 @@ nav.navbar.navbar-default.mini ul.nav.navbar-nav>li>a {
   white-space: nowrap;
   padding: 4px;
   display: inline-block;
-}
-#slotmachine .slotInner .slotScrool #scrollMain .scrollItem {
-  background: linear-gradient(#ddd, #fff, #aaa);
-  height: 200px;
-  width: 150px;
-  display: inline-block;
-  vertical-align: top;
-  margin: 7px;
-  overflow: hidden;
   position: relative;
 }
-#slotmachine .slotInner .slotScrool #scrollMain .scrollItem img {
+#slotmachine .slotInner .slotScrool #scrollMain .scrollItem {
+  padding: 7px;
+  position: relative;
+  display: inline-block;
+}
+#slotmachine .slotInner .slotScrool #scrollMain .scrollItem::after {
+  content: ' ';
+  background: #f00;
+  position: absolute;
+  top: 15%;
+  bottom: 15%;
+  left: 7px;
+  right: 7px;
+  box-shadow: 0 0 30px rgba(0,0,0,0.9);
+  border-radius: 40px;
+  z-index: 0;
+}
+#slotmachine .slotInner .slotScrool #scrollMain .scrollItemInner {
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3), 0 0 40px rgba(0,0,0,0.1) inset;
+  background: linear-gradient(#477d01, #fff, #477d01);
+  height: 200px;
+  width: 150px;
+  vertical-align: top;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+#slotmachine .slotInner .slotScrool #scrollMain .scrollItemInner img {
   position: absolute;
   left: 0;
   bottom: 0;
@@ -609,36 +599,35 @@ nav.navbar.navbar-default.mini ul.nav.navbar-nav>li>a {
   height: 100%;
   transition: bottom 0.3s linear;
 }
-#slotmachine .slotInner .slotScrool #scrollMain .scrollItem img.in {
+#slotmachine .slotInner .slotScrool #scrollMain .scrollItemInner img.in {
   bottom: 200px;
 }
-#slotmachine .slotInner .slotScrool #scrollMain .scrollItem .scrollPerson {
+#slotmachine .slotInner .slotScrool #scrollMain .scrollItemInner .scrollPerson {
   position: absolute;
   width: 100%;
   height: 100%;
   left: 0;
-  color: #666;
+  color: #444;
   bottom: -200px;
   transition: bottom 0.3s linear;
 }
-#slotmachine .slotInner .slotScrool #scrollMain .scrollItem .scrollPerson.disable {
+#slotmachine .slotInner .slotScrool #scrollMain .scrollItemInner .scrollPerson.disable {
   transition: none;
 }
-#slotmachine .slotInner .slotScrool #scrollMain .scrollItem .scrollPerson .scrollPersonName {
+#slotmachine .slotInner .slotScrool #scrollMain .scrollItemInner .scrollPerson .scrollPersonName {
   font-size: 33px;
-  font-weight: 600;
-  padding-top: 70px;
+  font-weight: 700;
+  padding-top: 60px;
   color: #222;
-  font-family: fantasy;
 }
-#slotmachine .slotInner .slotScrool #scrollMain .scrollItem .scrollPerson .scrollPersonInfo {
+#slotmachine .slotInner .slotScrool #scrollMain .scrollItemInner .scrollPerson .scrollPersonInfo {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
   font-size: 12px;
 }
-#slotmachine .slotInner .slotScrool #scrollMain .scrollItem .scrollPerson .scrollPersonNumber {
+#slotmachine .slotInner .slotScrool #scrollMain .scrollItemInner .scrollPerson .scrollPersonNumber {
   position: absolute;
   right: 10px;
   font-size: 12px;
@@ -736,6 +725,16 @@ nav.navbar.navbar-default.mini ul.nav.navbar-nav>li>a {
 }
 #formSlotmachine .prizeItem .icon:hover {
   color: #000;
+}
+#iconExportPrizedPerson {
+  position: absolute;
+  right: 20px;
+  top: 13px;
+  color: #888;
+  cursor: pointer;
+}
+#iconExportPrizedPerson:hover {
+  color: #ddd;
 }
 
 .banner {

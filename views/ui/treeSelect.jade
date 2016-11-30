@@ -1,0 +1,178 @@
+extends ../layout
+
+block content
+    .wrapper.mt50
+        include components/sidebar
+        .col-xs-9.pl50
+            h3(data-active="TreeSelect") TreeSelect 树形选择
+            p 针对树形结构的单选框: <font class="tRed">new oc.TreeSelect(config);</font>
+            .zCode.mt20
+                code.language-jade.
+                    config参数说明：
+                        container：jquery对象或者选择器，放置对象，一般为div，默认值为body
+                        dataList：object，BU树形结构的数据集合
+                        iptClass: string, 额外附加到input框的样式类
+                        width: number, 默认值为'auto',与容器对象相关
+                        height: number, 默认值为'auto',与容器对象相关
+                        showAll: boolean，默认为false, 是否显示一个虚拟节点“ALL”
+                        forbidPNode: boolean，默认为false，是否禁止选中非末级几点
+                    
+                    其他属性：
+                        ele：jquery对象，保存着树形的html结构
+                        selectedItem：当前选中节点的对象
+                        selectedList：当前选中节点以及其父节点的集合
+                    
+                    回调函数：
+                        valueChangeHanlder：function, 值改变时的回调函数
+            
+            .zExample.mt20        
+                div.mt20
+                    #treeContainer1.mt10.mb15
+                    button#btnSetResult.btn.btn-info.btn-sm.mr20(type="button") 设置选项
+                    button#btnGetResult.btn.btn-success.btn-sm.mr20(type="button") 获取选中的值
+                    button#btnGetResultList.btn.btn-warning.btn-sm(type="button") 获取选中的值及其父节点
+                script.
+                    var treeSelect = new oc.TreeSelect({
+                        dataList: [{
+                            "id": "2",
+                            "name": "ERP's",
+                            "fid": "1",
+                            "items": [{
+                                "id": "3",
+                                "name": "email sent related",
+                                "fid": "2",
+                                "items": null
+                            }, {
+                                "id": "4",
+                                "name": "ERP's others",
+                                "fid": "2",
+                                "items": null
+                            }]
+                        }, {
+                            "id": "5",
+                            "name": "B2B's",
+                            "fid": "1",
+                            "items": [{
+                                "id": "7",
+                                "name": "refund discount",
+                                "fid": "5",
+                                "items": null
+                            }, {
+                                "id": "8",
+                                "name": "wholesale related",
+                                "fid": "5",
+                                "items": null
+                            }, {
+                                "id": "208",
+                                "name": "B2B‘s others",
+                                "fid": "5",
+                                "items": null
+                            }]
+                        }],
+                        container: '#treeContainer1', 
+                        iptClass: 'form-control input-sm', 
+                        width: '400px'
+                    });
+                    
+                    //设置选中的值
+                    document.getElementById('btnSetResult').onclick = function() {
+                        treeSelect.setSelected(3);
+                    }
+                    
+                    //设置选中的model
+                    document.getElementById('btnGetResult').onclick = function() {
+                        var result = treeSelect.selectedItem;
+                        var name = '你逗我呢，还没选';
+                        if(result) {
+                            name = '你选中了：' + result.name;
+                        }
+                        oc.dialog.tips(name);
+                    }
+
+                    //设置选中的modelList
+                    document.getElementById('btnGetResultList').onclick = function() {
+                        var result = treeSelect.selectedList;
+                        var name = '你逗我呢，还没选';
+                        if(result && result.length) {
+                            name = '你选中了：' + result.map(function(one) {return one.name;}).join(' - ');
+                        }
+                        oc.dialog.tips(name);
+                    }
+
+                    
+                    
+                .zCode.mt20
+                    code.language-javascript.
+                        div.mt20
+                            #treeContainer1.mt10.mb15
+                            button#btnSetResult.btn.btn-info.btn-sm.mr20(type="button") 设置选项
+                            button#btnGetResult.btn.btn-success.btn-sm.mr20(type="button") 获取选中的值
+                            button#btnGetResultList.btn.btn-warning.btn-sm(type="button") 获取选中的值及其父节点
+                        script.
+                            var treeSelect = new oc.TreeSelect({
+                                dataList: [{
+                                    "id": "2",
+                                    "name": "ERP's",
+                                    "fid": "1",
+                                    "items": [{
+                                        "id": "3",
+                                        "name": "email sent related",
+                                        "fid": "2",
+                                        "items": null
+                                    }, {
+                                        "id": "4",
+                                        "name": "ERP's others",
+                                        "fid": "2",
+                                        "items": null
+                                    }]
+                                }, {
+                                    "id": "5",
+                                    "name": "B2B's",
+                                    "fid": "1",
+                                    "items": [{
+                                        "id": "7",
+                                        "name": "refund discount",
+                                        "fid": "5",
+                                        "items": null
+                                    }, {
+                                        "id": "8",
+                                        "name": "wholesale related",
+                                        "fid": "5",
+                                        "items": null
+                                    }, {
+                                        "id": "208",
+                                        "name": "B2B‘s others",
+                                        "fid": "5",
+                                        "items": null
+                                    }]
+                                }],
+                                container: '#treeContainer1', 
+                                iptClass: 'form-control input-sm', 
+                                width: '400px'
+                            });
+                            
+                            //设置选中的值
+                            document.getElementById('btnSetResult').onclick = function() {
+                                treeSelect.setSelected(3);
+                            }
+                            
+                            //设置选中的model
+                            document.getElementById('btnGetResult').onclick = function() {
+                                var result = treeSelect.selectedItem;
+                                var name = '你逗我呢，还没选';
+                                if(result) {
+                                    name = '你选中了：' + result.name;
+                                }
+                                oc.dialog.tips(name);
+                            }
+
+                            //设置选中的modelList
+                            document.getElementById('btnGetResultList').onclick = function() {
+                                var result = treeSelect.selectedList;
+                                var name = '你逗我呢，还没选';
+                                if(result && result.length) {
+                                    name = '你选中了：' + result.map(function(one) {return one.name;}).join(' - ');
+                                }
+                                oc.dialog.tips(name);
+                            }
+            
