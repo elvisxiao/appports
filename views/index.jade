@@ -34,7 +34,13 @@ block content
         }
 
     include ./components/slide
-    p.f26.tc.mt50(style="color: #3d4d65") LASTEST UPDATES
+
+    #indexJok.pr.pt30.pb30(style="background: #fff;")
+        .wrapper.tc
+            p.f26.tc.mt30(style="color: #3d4d65") 我们在做什么？
+            p.mt30.lh200(style="max-width:900px;margin:0 auto") 本站所有资源均开源并可免费用于任意用途，但由于资源有限，仅提供注册后保留用户资料，如果您有相关的需求，我们强烈建议注册后使用。我们会尽全力保持服务的持续性与数据安全，但个人资源有限，因此这并不作为我们的承若，也不对此付任何责任。
+    
+    
     
     .wrapper.mt50
         #indexStart.row
@@ -65,7 +71,7 @@ block content
         .wrapper.tc.p30
             p.f26.tc(style="color: #3d4d65") TAKE A BREATHER
             p.tl.mt20(style="font-size: 50px; color: #aaa; line-height:20px;") “
-            #indexJokContainer
+            #indexJokContainer(style="padding: 10px 0 40px 0; max-width: 900px; margin: 0 auto;")
                 
             span#jokCount 8
             
@@ -73,18 +79,31 @@ block content
     
     script.
         var jokArr = [
-            '翻出前些天的毕业照，刹那间感概万千。有一天我们会发现，时光就像筛子，大多朝夕相处的人，经过这个筛子，终会随风远去散落天涯。最后能留在筛子中的那些人，往往是脸大的。'
+            '翻出前些天的毕业照，刹那间感概万千。有一天我们会发现，时光就像筛子，大多朝夕相处的人，经过这个筛子，终会随风远去散落天涯。最后能留在筛子中的那些人，往往是脸大的。',
+            '今天一同事颠颠地跑过来小声跟我说：“我觉得你像古代的一位君王"。我龙颜大悦问道：”朕像谁？”。“春秋时期的越王。” “为什么？” “因为你够贱“',
+            '一青年随手将手上的易拉罐扔在马路旁，一警察过来说：“这么不文明，要是所有的人都像你样……”话音刚落，一捡破烂的老汉答道：“那我就发财了”。',
+            '小李为朋友演奏钢琴。小李：我弹得怎么样？朋友：你应该上电视里弹奏。小李：有那么好吗？朋友：如果你在电视里，我就可以马上把它关掉。',
+            '今天朋友发信息说想跟我借点钱，我给他回：十万以下千万别跟我开口，十万以上我也没有。',
+            '今天给我妈发了一个一百元的红包，她问我为啥点不开，我说你再试试，又发了一个一百的，然后她把俩都收了。',
+            '近日，小明在外面和别人打架，被抓到了公安局，Pol.ice问他为什么要打架?小明：“因为要开学了，我想进来躲几个月!”',
+            '上帝看见你口渴，创造了水；上帝看见你饿，创造了米；上帝看见你没有可爱的朋友，创造了我；然而他也看见这世界上没有白痴，顺便也创造你。'
         ]
         var eleJokContainer = $('#indexJokContainer');
         var eleCount = $('#jokCount');
         var timer = null;
+        var len = jokArr.length;
         (function() {
             timer && clearInterval(timer);
             eleCount.html(10);
-            
+            var seed = parseInt(Math.random() * len -1);
+            eleJokContainer.addClass('zPulse');
+            eleJokContainer.html(jokArr[seed]);
             var callee = arguments.callee;
             timer = setInterval(function() {
                 var count = parseInt(eleCount.html());
+                if(count < 2) {
+                    eleJokContainer.removeClass('zPulse');
+                }
                 if(count === 0) {
                     callee();
                 }
