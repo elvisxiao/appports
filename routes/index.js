@@ -15,22 +15,9 @@ router.get('/about', function(req, res, next) {
   	res.render('about');
 });
 
-router.get('/turntable', function(req, res, next) {
-  	res.render('turntable');
+router.get('/contact', function(req, res, next) {
+  	res.render('contact');
 });
-
-router.get('/slotmachine', function(req, res, next) {
-  	res.render('slotmachine');
-});
-
-router.get('/welfare', function(req, res, next) {
-  	res.render('welfare');
-});
-
-router.get('/life', function(req, res, next) {
-  	res.render('life', { title: 'Express' });
-});
-
 
 router.get('/lucky/turntable', function(req, res, next) {
   	res.render('lucky/turntable');
