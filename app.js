@@ -63,6 +63,7 @@ function requiredAuthentication(req, res, next) {
 
 app.use('/', require('./routes/index'));
 app.use('/lucky', requiredAuthentication, require('./routes/lucky'));
+app.use('/service', require('./routes/service'));
 app.use('/ui', require('./routes/ui'));
 
 app.use('/user', require('./routes/users'));
@@ -81,4 +82,8 @@ app.use(function(err, req, res, next) {
 
 app.listen(3100, function() {
     console.log('server is listen on port 3100');
+
+    // 开启定时任务----
+    require('./services');
 });
+

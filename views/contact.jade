@@ -26,7 +26,6 @@ block content
                     p 电话: +018688700889
                     p 邮箱: 
                         a(href="mailto:ivesxiao@msn.com") ivesxiao@msn.com
-
                     h4.mt30 其他信息
                     p Github: 
                         a(href="https://github.com/elvisxiao", target="_blank") https://github.com/elvisxiao
@@ -40,108 +39,36 @@ block content
                 p.f12 请尽量详细描述问题，并提供真实的邮箱地址，我们会在第一时间给予确认和反馈，并通过您提供的邮件告知问题处理方案，我们珍惜您的每一次珍贵的意见。
                 form#formComment.mt20
                     p 您的称呼：
-                        input.ipt(type="text", placeholder="YOUR NAME")
+                        input.ipt(type="text", placeholder="YOUR NAME", required, name="name", min="2", max="20")
                     p 您的邮箱：
-                        input.ipt(type="text", placeholder="EMAIL")
+                        input.ipt(type="email", placeholder="EMAIL", required, name="email")
                     p 您的问题：
-                        textarea.ipt(placeholder="COMMENT")
+                        textarea.ipt(placeholder="COMMENT", required, min="4", max="10000", name="content")
                     button.btn.btn-info.w100.mt20(type="submit", style="border-radius: 2px;") 发&nbsp;&nbsp;送
 
     script(src="http://api.map.baidu.com/api?key=&v=1.1&services=true")
     script.
-        //创建和初始化地图函数：
-        function initMap(){
-            createMap();//创建地图
-            setMapEvent();//设置地图事件
-            addMapControl();//向地图添加控件
-            addMarker();//向地图中添加marker
+        (function() {
+            var map = new BMap.Map("dituContent");  
+            map.centerAndZoom(new BMap.Point(112.889089, 28.236522), 12); 
+
+            var marker1 = new BMap.Marker(new BMap.Point(112.889089, 28.236522));  //创建标注
+            map.addOverlay(marker1);                 // 将标注添加到地图中
+            //创建信息窗口
+            var infoWindow1 = new BMap.InfoWindow("地址：<br>湖南省长沙市<br>岳麓区尖山路中电软件园");
+            marker1.addEventListener("click", function(){this.openInfoWindow(infoWindow1);});
+        })();
+        
+        var form = document.getElementById('formComment');
+        form.onsubmit = function() {
+            var mailInfo = oc.tools.form.getJson(form);
+            oc.tools.form.loadingButton(form);
+            oc.ajax.post('/service/mail', mailInfo, function() {
+                oc.dialog.tips('发送成功');
+                oc.tools.form.resetButton(form);
+                form.reset();
+            });
+            return false;
         }
         
-        //创建地图函数：
-        function createMap(){
-            var map = new BMap.Map("dituContent");//在百度地图容器中创建一个地图
-            var point = new BMap.Point(113.941088,22.546092);//定义一个中心点坐标
-            map.centerAndZoom(point,14);//设定地图的中心点和坐标并将地图显示在地图容器中
-            window.map = map;//将map变量存储在全局
-        }
         
-        //地图事件设置函数：
-        function setMapEvent(){
-            map.enableDragging();//启用地图拖拽事件，默认启用(可不写)
-            map.enableScrollWheelZoom();//启用地图滚轮放大缩小
-            map.enableDoubleClickZoom();//启用鼠标双击放大，默认启用(可不写)
-            map.enableKeyboard();//启用键盘上下左右键移动地图
-        }
-        
-        //地图控件添加函数：
-        function addMapControl(){
-            //向地图中添加缩放控件
-        var ctrl_nav = new BMap.NavigationControl({anchor:BMAP_ANCHOR_TOP_LEFT,type:BMAP_NAVIGATION_CONTROL_LARGE});
-        map.addControl(ctrl_nav);
-            //向地图中添加缩略图控件
-        var ctrl_ove = new BMap.OverviewMapControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT,isOpen:1});
-        map.addControl(ctrl_ove);
-            //向地图中添加比例尺控件
-        var ctrl_sca = new BMap.ScaleControl({anchor:BMAP_ANCHOR_BOTTOM_LEFT});
-        map.addControl(ctrl_sca);
-        }
-        
-        //标注点数组
-        var markerArr = [{title:"My&nbsp;Location",content:"Shenzhen&nbsp;City,&nbsp;Tao&nbsp;Yuan&nbsp;Road",point:"113.94098|22.546359",isOpen:0,icon:{w:23,h:25,l:46,t:21,x:9,lb:12}}
-             ];
-        //创建marker
-        function addMarker(){
-            for(var i=0;i<markerArr.length;i++){
-                var json = markerArr[i];
-                var p0 = json.point.split("|")[0];
-                var p1 = json.point.split("|")[1];
-                var point = new BMap.Point(p0,p1);
-                var iconImg = createIcon(json.icon);
-                var marker = new BMap.Marker(point,{icon:iconImg});
-                var iw = createInfoWindow(i);
-                var label = new BMap.Label(json.title,{"offset":new BMap.Size(json.icon.lb-json.icon.x+10,-20)});
-                marker.setLabel(label);
-                map.addOverlay(marker);
-                label.setStyle({
-                            borderColor:"#808080",
-                            color:"#333",
-                            cursor:"pointer"
-                });
-                
-                (function(){
-                    var index = i;
-                    var _iw = createInfoWindow(i);
-                    var _marker = marker;
-                    _marker.addEventListener("click",function(){
-                        this.openInfoWindow(_iw);
-                    });
-                    _iw.addEventListener("open",function(){
-                        _marker.getLabel().hide();
-                    })
-                    _iw.addEventListener("close",function(){
-                        _marker.getLabel().show();
-                    })
-                    label.addEventListener("click",function(){
-                        _marker.openInfoWindow(_iw);
-                    })
-                    if(!!json.isOpen){
-                        label.hide();
-                        _marker.openInfoWindow(_iw);
-                    }
-                })()
-            }
-        }
-        //创建InfoWindow
-        function createInfoWindow(i){
-            var json = markerArr[i];
-            var iw = new BMap.InfoWindow("<b class='iw_poi_title' title='" + json.title + "'>" + json.title + "</b><div class='iw_poi_content'>"+json.content+"</div>");
-            return iw;
-        }
-        //创建一个Icon
-        function createIcon(json){
-            var icon = new BMap.Icon("http://app.baidu.com/map/images/us_mk_icon.png", new BMap.Size(json.w,json.h),{imageOffset: new BMap.Size(-json.l,-json.t),infoWindowOffset:new BMap.Size(json.lb+5,1),offset:new BMap.Size(json.x,json.h)})
-            return icon;
-        }
-    
-        initMap();//创建和初始化地图
-              
