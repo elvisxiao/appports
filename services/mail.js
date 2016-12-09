@@ -1,6 +1,7 @@
+var config = require('../config');
 var nodemailer = require('nodemailer');
 var Mail = require('../models').Mail;
-var transporter = nodemailer.createTransport('smtps://xiaoqiong272@qq.com:cpwdpbhjypmibbjd@smtp.qq.com');
+var transporter = nodemailer.createTransport(config.smtp);
 
 module.exports = function() {
 	var self = this;
