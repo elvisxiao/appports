@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>AppPorts</title>
+    <meta content="text/html; charset=gb2312" http-equiv="Content-Type">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+    <meta http-equiv="X-UA-Compatible" content="IE=EDGE">
+
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-datepicker3.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/oc/oc.js" data-occss="/oc/oc.css"></script>
+    <link rel="stylesheet" type="text/css" href="/oc/oc.css">
+    <link rel="stylesheet" type="text/css" href="/oc/icons/style.css">
+    <script src="/js/bootstrap-datepicker.js"></script>
+    <script src="/js/gutil.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                    // Registration was successful
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }).catch(function(err) {
+                // registration failed :(
+                console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+    </script>
+</head>
+<body huaban_collector_injected="true">
+    Test for SW
+</body></html>

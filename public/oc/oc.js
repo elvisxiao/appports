@@ -119,6 +119,29 @@ Ajax.delete = function(url, cbOk, cbError, keepHTML) {
 }
 
 /**
+* Download文件方法
+* @param {string} url - ajax的url地址
+* @param {object} data - ajax的主题内容
+*/
+Ajax.download = function(options){
+    if(!options || !options.url) {
+        alert('无URL属性');
+        return;
+    }
+
+    var form = $('<form style="display: none;"></form>');
+    if(options.data && typeof options.data === 'object') {
+        for(var key in options.data) {
+            if(options.data.hasOwnProperty(key)) {
+                form.append('<input type="hidden" name="' + key + '" value="' + JSON.stringify(options.data[key]) + '" />')
+            }
+        }
+    }
+
+    form.attr('action', options.url).attr('method', options.method || 'GET').submit();
+}
+
+/**
 * Ajax出错时，通用处理方法
 * @param {object} res - HTTP Response,Ajax是服务器端返回的响应
 */
@@ -141,7 +164,6 @@ module.exports = Ajax;
 },{"./dialog":7,"./security":14}],2:[function(require,module,exports){
 
 var Instance = {}
-
 
 Instance.depthFirstInTree = function(treeData, targetId, key) {
     if(!key) {
@@ -178,6 +200,7 @@ Instance.depthFirstInTree = function(treeData, targetId, key) {
 
     return ret.reverse();
 }
+
 
 Instance.listToTree = function(list, idKey, parentIdKey, rootId, limitedLevel) {
     if(!list || !list.length) {
@@ -954,6 +977,25 @@ ZDate.formatPDT = function(date, format) {
 }
 
 /**
+* 根据传入格式，使用北京时间格式化输出
+* 格式化输出时间字符串
+* @param {date} date 时间值 - 可以为Timespane，或者'2015/01/01'、'2015-01-01'或其他可new Date()的时间字符串
+* @param {string} format 格式化输出方式 - yyyy年，mm月，dd天，hh小时，MM分钟，ss秒，ms，分秒
+* @returns {string} 格式化后的字符串
+*/
+ZDate.formatCN = function(date, format) {
+    if(!date) {
+        return '';
+    }
+    var date = ZDate.getUTCTimespan(date);
+    
+    var cnData = date + 8 * 60 * 60000;
+    
+    return ZDate.format(cnData, format);
+}
+
+
+/**
 * 根据传入格式，格式必须为 '2015-12-12 13:01:01'
 * 格式化本地时间的Timespan
 * @param {str} 时间字符串 - '2015-01-01'、'2015-01-01 12'、 '2015-01-01 12:11'、'2015-01-01 12:12:12'格式
@@ -1574,7 +1616,7 @@ module.exports = {
         return elePop;
     },
     
-    remove: function(ele) {
+    remove: function(ele){
         if(!ele){
             ele = $('.zDropdown');
         }
@@ -1714,8 +1756,9 @@ var FileView = function(options){
         heads: [],
         removeEmptyLine: false,
         afterLoad: null,
-        validHeads: null,
         showLineNo: false,
+        validHeads: null,
+        showLineNo: false
     };
 
     for(var key in options){
@@ -1849,11 +1892,11 @@ var FileView = function(options){
                     if(self.config.removeEmptyLine) {
                         self._dataList = self._dataList.filter(function(one) {
                             var isEmptyLine = true;
-                            for(var key in one) {
-                                if(one[key].toString().trim()) {
+                            one.map(function(item) {
+                                if($.trim(item)) {
                                     isEmptyLine = false;
                                 }
-                            }
+                            })
                             return !isEmptyLine;
                         });
                     }
@@ -2182,10 +2225,6 @@ var ImageCrop = function(options){
 
     var self = this;
 
-    self.getImage = function() {
-        return self.img;
-    }
-
     /** @method _render 初始化界面
     *@memberof ImageCrop 
     *@instance
@@ -2252,6 +2291,10 @@ var ImageCrop = function(options){
         })
     }
 
+    self.getImage = function() {
+        return self.img;
+    }
+
     /** 
     * 图片加载完成后显示该图片
     * @method imgLoaded 
@@ -2283,6 +2326,7 @@ var ImageCrop = function(options){
     */
     self.readFile = function(file){
         var reader = new FileReader();
+
 
         reader.onload = function(e){
             self.img.src = this.result;
@@ -2356,7 +2400,7 @@ var ImageCrop = function(options){
                 self.downPosition = e.originalEvent;
                 downLeft = self.filter.position().left;
                 downTop = self.filter.position().top;
-                
+       
                 $(document).off('mousemove');
                 $(document).on('mousemove', function(e){
                 	self.moveFilter(e);
@@ -2414,7 +2458,7 @@ var ImageCrop = function(options){
         self.resetFilter();
         self.resetCover();
     }
-    
+
     /** 放大或者缩小图片
     * @method range 
     * @memberof ImageCrop 
@@ -2449,15 +2493,16 @@ var ImageCrop = function(options){
         var height = self.filter.outerHeight();
         self.canvas.width = width;
         self.canvas.height = height;
+
         $(self.canvas).parent().css({
             'margin-left': self.canvas.width / -2.0,
             'margin-top': self.canvas.height / -2.0,
         });
-
         self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
 
         self.ctx.drawImage(self.img, self.filter.position().left / currRange, self.filter.position().top / currRange, 
            width / currRange, height / currRange, 0, 0, width, height);
+
         self.resetFilter();
         self.resetCover();
         
@@ -2544,7 +2589,7 @@ var ImageCrop = function(options){
         self.ele.find('.zImageCropCoverBottom').css({
             height: self.canvas.height - position.top - self.filter.height() - 2,
             width: '100%',
-            bottom: '0',
+            bottom: '2px',
             left: 0
         });
         self.ele.find('.zImageCropCoverRight').css({
@@ -2698,8 +2743,8 @@ module.exports = ImageCrop;
 			$("<link>").attr({ rel: "stylesheet", type: "text/css", href: 'http://localhost:3009/icons/style.css'}).appendTo("head");
 		}
 		else {
-			$("<link>").attr({ rel: "stylesheet", type: "text/css", href: 'http://static.oceanwing.com/webapp/js/oc/oc.css'}).appendTo("head");
-			$("<link>").attr({ rel: "stylesheet", type: "text/css", href: 'http://static.oceanwing.com/webapp/js/oc/icons/style.css'}).appendTo("head");
+			$("<link>").attr({ rel: "stylesheet", type: "text/css", href: 'http://static.oceanwing.com/webapp/js/oc/oc.css?r=' + Math.random()}).appendTo("head");
+			$("<link>").attr({ rel: "stylesheet", type: "text/css", href: 'http://static.oceanwing.com/webapp/js/oc/icons/style.css?r=' + + Math.random()}).appendTo("head");
 		}
 	}
 
@@ -2815,37 +2860,51 @@ Instance.getString = function(params) {
 	return this._generateString(params);
 }
 
+Instance.formatParams = function(searchStr) {
+	if(!searchStr || typeof searchStr !== 'string') {
+		return searchStr;
+	}
+	if(searchStr.indexOf('=') === -1) {
+		return {};
+	}
+	if(searchStr.indexOf('?') === 0) {
+		searchStr = searchStr.slice(1);
+	}
+	var params = {};
+	var paraStrings = searchStr.split('&');
+	
+	paraStrings.map(function(one) {
+		var keyValue = one.split('=');
+		var key = keyValue[0];
+		var val = decodeURI(keyValue[1]);
+		if(val.indexOf(',') > -1) {
+			val = val.split(',');
+		}
+		if(params[key]) {
+			if(typeof params[key] !== 'object') {
+				params[key] = [params[key]];
+			}
+			params[key].push(val);
+		}
+		else {
+			params[key] = val;
+		}
+	})
+
+	return params;
+}
+
 Instance.getParams = function(frame) {
 	if(!frame) {
 		frame = window;
 	}
 	
-	var params = {};
-
-	var searchString;
 	searchString = frame.location.search;
-    if(searchString && searchString.indexOf('=') > -1) { //将hash的参数转为paras对象，传入widget
-    	searchString = searchString.slice(1);
-    	var paraStrings = searchString.split('&');
-    	paraStrings.map(function(one) {
-    		var keyValue = one.split('=');
-    		var key = keyValue[0];
-    		var val = decodeURI(keyValue[1]);
-    		if(val.indexOf(',') > -1) {
-    			val = val.split(',');
-    		}
-    		if(params[key]) {
-    			if(typeof params[key] !== 'object') {
-    				params[key] = [params[key]];
-    			}
-    			params[key].push(val);
-    		}
-    		else {
-    			params[key] = val;
-    		}
-    	})
-    }
-    
+	var params = Instance.formatParams(searchString);
+	if(!params) {
+		params = {};
+	}
+
 	return params;
 }
 
@@ -2882,7 +2941,18 @@ Instance.setSearch = function(params, needReload) {
 
 Instance.setUrl = function(pathname, search, hash, needReload) {
 	var url = pathname;
-	var searchStr = Instance._generateString(search);
+	var params1 = {};
+	var index = url.indexOf('?');
+	if(index > 0) {
+		params1 = Instance.formatParams(url.slice(index + 1));
+		url = url.slice(0, index);
+	}
+	var searchStr = '';
+	if(search) {
+		var params2 = Instance.formatParams(search);
+		params2 = $.extend(params1, params2);
+		searchStr = Instance._generateString(params2);
+	}
 	if(searchStr) {
 		url += '?' + searchStr;
 	}
@@ -2893,7 +2963,7 @@ Instance.setUrl = function(pathname, search, hash, needReload) {
 	var state = {
 	 	url : url
 	};
-
+	
 	top.history.pushState(state, "", url);
 
 	if(typeof pathname === "boolean" || typeof search === "boolean" || typeof hash === "boolean" || needReload === true) {
@@ -2922,10 +2992,7 @@ Instance.replaceUrl = function(pathname, search, hash, needReload) {
 	}
 }
 
-
-
 module.exports = Instance;
-
 
 },{}],14:[function(require,module,exports){
 var Security = {};
@@ -3862,9 +3929,15 @@ var Instance = {}
 
 Instance.loadingButton = function(btn, noDisable) {
 	btn = $(btn);
+	if(!btn.length) {
+		return;
+	}
     if(btn[0].nodeName !== "BUTTON") {
     	btn = btn.find('button[type="submit"]:eq(0)');
     }
+    if(!btn.length) {
+		return;
+	}
 	var text = btn.html();
 	btn.html('<i class="zLoadingIcon"></i>').attr('data-html', text);
 	if(!noDisable) {
@@ -3874,10 +3947,15 @@ Instance.loadingButton = function(btn, noDisable) {
 
 Instance.resetButton = function(btn) {
 	btn = $(btn);
+	if(!btn.length) {
+		return;
+	}
     if(btn[0].nodeName !== "BUTTON") {
     	btn = btn.find('button[type="submit"]:eq(0)');
     }
-
+    if(!btn.length) {
+		return;
+	}
 	var text = btn.attr('data-html');
 	btn.removeAttr('disabled').html(text)
 };
@@ -3963,7 +4041,7 @@ Instance.getValueByParam = function(model, param) {
 	return value;
 };
 
-Instance.fill = function(form, model) {
+Instance.fill = function(form, model, attributeKey) {
 	form = $(form);
 	var ipts = form.find('input[name]:visible, select[name]:visible, textarea[name]:visible');
 
@@ -3987,6 +4065,19 @@ Instance.fill = function(form, model) {
 			$(this).val(value);
 		}
 	});
+
+	if(attributeKey) {
+		var otherEles = form.find('[' + attributeKey + ']');
+		otherEles.each(function() {
+			var name = this.getAttribute(attributeKey);
+			var value = Instance.getValueByParam(model, name) || '';
+			if(value && (value instanceof Array)) {
+				value = value.join(',');
+			}
+			$(this).html(value);
+		})
+	}
+
 };
 
 //isReplace: 如果为true, 相同key值将被替换，否则则生成数组, 默认替换---
@@ -4054,6 +4145,7 @@ Instance.toFixed = function(number, fixLength) {
     if(number === 0 || number === "0") {
         return 0;
     }
+    
     if(fixLength === undefined || fixLength === null) {
         fixLength = 2;
     }
@@ -6727,7 +6819,6 @@ UI.slide = function(width, showFullScreen) {
             $(fixRight.data('target')).find('tr.success').removeClass('success');
         }
         setTimeout(function() {
-            fixRight.onClose && fixRight.onClose();
             fixRight.data('onClose') && fixRight.data('onClose')();
             if(fixRight.data('target')) {
                 $(fixRight.data('target')).find('tr.success').removeClass('success');
@@ -6892,7 +6983,7 @@ var Uploader = function(options) {
 			this.config[key] = options[key];
 		}
 	}
-	
+
 	/** 
 	* 更新统计信息
     * @method _renderFoot 

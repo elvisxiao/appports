@@ -27,5 +27,4 @@ router.get('/lucky/slotmachine', function(req, res, next) {
   	res.render('lucky/slotmachine');
 });
 
-
 module.exports = router;
