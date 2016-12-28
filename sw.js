@@ -1,7 +1,7 @@
 var CACHE_NAME = 'appports-cache';
 var urlsToCache = [
   	'/appports/public/js/jquery.min.js',
-  	'/appports/public/datepicker.js',
+  	'/appports/public/js/datepicker.js',
   	'/appports/public/img/index-3.jpg'
 ];
 
