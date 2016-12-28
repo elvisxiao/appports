@@ -1,8 +1,8 @@
 var CACHE_NAME = 'appports-cache';
 var urlsToCache = [
   	'/appports/public/js/jquery.min.js',
-  	'/appports/public/js/datepicker.js',
-  	'/appports/public/img/index-3.jpg'
+    '/appports/public/js/datepicker.js',
+    '/appports/public/img/index-3.jpg'
 ];
 
 self.addEventListener('install', function(event) {
@@ -24,14 +24,16 @@ self.addEventListener('fetch', function (evt) {
             }
             var request = evt.request.clone();
             return fetch(request).then(function (response) {
-                if (!response && response.status !== 200 && !response.headers.get('Content-type').match(/image/)) {
+                if (!response && response.status !== 200) {
                     return response;
                 }
-                var responseClone = response.clone();
-                caches.open(CACHE_NAME).then(function (cache) {
-                    cache.put(evt.request, responseClone);
-                });
-                return response;
+                if(response.headers.get('Content-type').match(/image/)) {
+                    var responseClone = response.clone();
+                    caches.open(CACHE_NAME).then(function (cache) {
+                      cache.put(evt.request, responseClone);
+                    });
+                    return response;
+                }
             });
         })
     )
