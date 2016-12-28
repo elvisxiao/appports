@@ -27,13 +27,13 @@ self.addEventListener('fetch', function (evt) {
                 if (!response && response.status !== 200) {
                     return response;
                 }
-                if(response.headers.get('Content-type').match(/javascript/)) {
+                if(response && response.headers && response.headers.get('Content-type').match(/javascript/)) {
                     var responseClone = response.clone();
                     caches.open(CACHE_NAME).then(function (cache) {
                         cache.put(evt.request, responseClone);
                     });
-                    return response;
                 }
+                return response;
             });
         })
     )
