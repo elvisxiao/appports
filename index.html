@@ -6,15 +6,15 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
     <meta http-equiv="X-UA-Compatible" content="IE=EDGE">
 
-    <script src="/public/js/jquery.min.js"></script>
-    <script src="/public/bootstrap/js/bootstrap.min.js"></script>
-    <script src="/public/oc/oc.js" data-occss="/oc/oc.css"></script>
-    <script src="/public/js/bootstrap-datepicker.js"></script>
-    <script src="/public/js/gutil.js"></script>
+    <script src="./public/js/jquery.min.js"></script>
+    <script src="./public/bootstrap/js/bootstrap.min.js"></script>
+    <script src="./public/oc/oc.js" data-occss="/oc/oc.css"></script>
+    <script src="./public/js/bootstrap-datepicker.js"></script>
+    <script src="./public/js/gutil.js"></script>
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/public/sw.js').then(function(registration) {
+                navigator.serviceWorker.register('./public/sw.js').then(function(registration) {
                     // Registration was successful
                     console.log('ServiceWorker registration successful with scope: ', registration.scope);
                 }).catch(function(err) {
