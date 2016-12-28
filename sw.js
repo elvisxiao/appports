@@ -1,19 +1,4 @@
 var CACHE_NAME = 'appports-cache';
-var urlsToCache = [
-  	'/appports/public/js/jquery.min.js',
-    '/appports/public/js/datepicker.js',
-    '/appports/public/img/index-3.jpg'
-];
-
-self.addEventListener('install', function(event) {
-  	// Perform install steps
-  	event.waitUntil(
-    	caches.open(CACHE_NAME).then(function(cache) {
-        		console.log('Opened cache');
-        	return cache.addAll(urlsToCache);
-      	})
-  	);
-});
 
 // 缓存
 self.addEventListener('fetch', function (evt) {
