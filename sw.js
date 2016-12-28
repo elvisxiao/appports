@@ -1,8 +1,8 @@
 var CACHE_NAME = 'appports-cache';
 var urlsToCache = [
-  	'/appports/js/jquery.min.js',
-  	'/appports/datepicker.js',
-  	'/appports/img/index-3.jpg'
+  	'/appports/public/js/jquery.min.js',
+  	'/appports/public/datepicker.js',
+  	'/appports/public/img/index-3.jpg'
 ];
 
 self.addEventListener('install', function(event) {
