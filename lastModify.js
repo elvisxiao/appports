@@ -1,5 +1,3 @@
-var filePrefix = ['.js', '.css', '.'];
-
 var fs = require('fs');
 
 (function(path) {
@@ -17,8 +15,11 @@ var fs = require('fs');
 			if(stat.isDirectory()) {
 				callee.call(this, newPath);
 			}
-			else if(filePrefix.indexOf(prefix) !== -1){
-				console.log(newPath + ': ' + stat.mtime);
+			else {
+				var line = '\"' + newPath.replace(__dirname, '') + '\": ' + stat.mtime.getTime() + ',';
+				if(line.indexOf('/public') === 1) {
+					console.log(line);
+				}
 			}
 		}
 	});
