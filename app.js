@@ -65,6 +65,7 @@ app.use('/', require('./routes/index'));
 app.use('/lucky', requiredAuthentication, require('./routes/lucky'));
 app.use('/service', require('./routes/service'));
 app.use('/ui', require('./routes/ui'));
+app.use('/news', require('./routes/news'));
 
 app.use('/user', require('./routes/users'));
 

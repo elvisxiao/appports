@@ -1,0 +1,48 @@
+extends ../layout
+
+block content
+    style.
+        #newsContainer {
+            font-size: 13px;
+            color: #444;
+        }
+        #newsContainer article {
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+        }
+        #newsContainer article h3{
+            font-size: 15px;
+            color: #333;
+        }
+        #newsContainer article h3:hover {
+            color: 
+        }
+        #newsContainer article .articleTools {
+            color: #999;
+            font-size: 12px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 6px;
+        }
+        #newsContainer article .articleTools span {
+            margin-right: 20px;
+        }
+        #newsContainer article span.badge {
+            background-color: #ccc;
+            float: right;
+            border-radius: 2px;
+        }
+
+    .wrapper.pt50.pr
+        div#newsContainer 
+            article
+                h3 #{doc.title}
+                p.articleTools 
+                    span #{doc.creator}
+                    span #{doc.created_at.toISOString().slice(0, 10)}
+                    span.fr
+                    for tag in doc.tags
+                        span.badge #{tag}
+                div !{doc.content}
+
+        

@@ -1,0 +1,79 @@
+extends ../layout
+
+block content
+    style.
+        #newsContainer {
+            font-size: 13px;
+            color: #444;
+        }
+        #newsContainer article {
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+        }
+        #newsContainer article h3{
+            font-size: 15px;
+            color: #333;
+        }
+        #newsContainer article h3:hover {
+            color: 
+        }
+        #newsContainer article .articleTools {
+            color: #999;
+            font-size: 12px;
+        }
+        #newsContainer article .articleTools span {
+            margin-right: 20px;
+        }
+        #newsContainer article span.badge {
+            background-color: #ccc;
+            float: right;
+            border-radius: 2px;
+        }
+
+    .wrapper.pt50.pr
+        div#newsContainer
+            
+    script.
+        var pageList = [];
+        var container = $('#newsContainer');
+
+        var getTagText = function(item) {
+            if(!item || !item.tags || !item.tags.length) {
+                return "";
+            }
+            return '<span class="fr">' + item.tags.map(function(one) {
+                return '<span class="badge">' + one + '</span>';
+            }).join('') + '</span>';
+        }
+        var renderOne = function(item) {
+            var article = $('<article></article>');
+
+            if(item.brief) {
+                article.append('<h3><a href="/news/' + item._id + '">' + item.title + '</a></h3>');
+                var tools = $('<p class="articleTools">' + getTagText(item) + '</p>').appendTo(article);
+                tools.append('<span>' + item.creator + '<span class="ml30">' + item.created_at.slice(0, 10) + '</span></span>');
+                article.append('<div>' + item.brief + '</div>');
+            }
+            else {
+                article.append('<div>' + item.title + '</div>');
+            }
+
+            return article;
+        }
+        var appendList = function(list) {
+            list.map(function(one) {
+                var article = renderOne(one);
+                container.append(article[0].outerHTML);
+            })
+        }
+        oc.ajax.post('/news/list', {}, function(res) {
+            pageList.push(res);
+            appendList(res);
+        });
+
+
+        
+        
+
+    

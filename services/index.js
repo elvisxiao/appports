@@ -21,5 +21,16 @@ console.log('开始定时任务...');
 	});
 })
 
+//每天抓取News并存储在服务器上---
+;(function() {
+	var spiders = require('./spiders');
+	var rule = new schedule.RecurrenceRule();
+	rule.hour = 0;
+	rule.minute = 0;
+	rule.second = 0;
+	schedule.scheduleJob(rule, function() {
+		spiders();
+	});
+})
 
 console.log('定时任务服务开启');

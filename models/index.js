@@ -11,3 +11,4 @@ var db = mongoose.createConnection(connectionString);
 exports.User = db.model('User', require('./user'));
 exports.Lucky = db.model('Lucky', require('./lucky'));
 exports.Mail = db.model('Mail', require('./mail'));
+exports.News = db.model('News', require('./news'));
