@@ -27,7 +27,8 @@ module.exports = () => {
 	require('./aotu')(saveNewsItem)
 	require('./qiutc')(saveNewsItem)
 	require('./awesomes')(saveNewsItem)
-	require('./thunder')(saveNewsItem)
+	require('./thunder')(saveNewsItem, 1)
 }
 
-// require('./thunder')(saveNewsItem)
+// 首次全部抓取9页，以后每次只抓1页数据-----
+// require('./thunder')(saveNewsItem, 9)

@@ -6,7 +6,7 @@ const spider = require('./spiderInstance');
 var baseUrl = 'http://cued.xunlei.com/page/';
 
 
-module.exports = function(saveFn) {
+module.exports = function(saveFn, index) {
     var i = 1;
     var newsList = [];
 
@@ -48,8 +48,8 @@ module.exports = function(saveFn) {
             });
 
             newsList = newsList.concat(arr);
-
-            if(i < 8) {
+            
+            if(i < index || 1) {
                 i ++;
                 fetchOnePage();
             }
