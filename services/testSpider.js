@@ -1,1 +1,1 @@
-require('./spiders')()
+require('./spiders/qiutc')(fn => {})

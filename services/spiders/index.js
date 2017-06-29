@@ -22,5 +22,6 @@ var saveNewsItem = function(one) {
 module.exports = () => {
 	console.log('获取News任务启动'  + new Date().toString());
 	require('./aotu')(saveNewsItem)
+	require('./qiutc')(saveNewsItem)
 	require('./awesomes')(saveNewsItem)
 }
