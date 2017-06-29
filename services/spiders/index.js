@@ -1,10 +1,11 @@
 var News = require('../../models').News;
 
-var saveNewsItem = function(one) {
+var saveNewsItem = function(one, cb) {
 	let keywords = one.title || one.content;
 	News.findOne({ $or:[{ title: keywords },{ content: keywords }] }, function(err, doc) {
 		if(err) {
 			console.log('database error:', err);
+			cb && cb();
 			return;
 		}
 		if(!doc) {
@@ -14,6 +15,8 @@ var saveNewsItem = function(one) {
                     console.error('添加News失败:', err);
                 }
                 console.info('添加News成功', (doc.title || doc.content).slice(0, 30));
+
+                cb && cb();
             });
 		}
 	})
@@ -24,4 +27,7 @@ module.exports = () => {
 	require('./aotu')(saveNewsItem)
 	require('./qiutc')(saveNewsItem)
 	require('./awesomes')(saveNewsItem)
+	require('./thunder')(saveNewsItem)
 }
+
+// require('./thunder')(saveNewsItem)
