@@ -30,13 +30,25 @@ block content
             float: right;
             border-radius: 2px;
         }
+        #loadMore {
+            cursor: pointer;
+            color: #00b7ff;
+            margin-bottom: 20px;
+            padding: 15px 30px;
+        }
 
-    .wrapper.pt50.pr
-        div#newsContainer
+    .wrapper.pt30.pr
+        div.tc(style="background-color: #999; padding: 20px; background-image: linear-gradient(135deg,#ec971f,#d83b3b); color: #fff;") 每天刷一刷，快速跟上前端步伐
+
+        div#newsContainer.mt50
+
+        .tc.mt30
+            span#loadMore(onclick="fetchList()") 加载更多
             
     script.
         var pageList = [];
         var container = $('#newsContainer');
+        var btnLoad = $('#loadMore');
 
         var getTagText = function(item) {
             if(!item || !item.tags || !item.tags.length) {
@@ -67,11 +79,29 @@ block content
                 container.append(article[0].outerHTML);
             })
         }
-        oc.ajax.post('/news/list', {}, function(res) {
-            pageList.push(res);
-            appendList(res);
-        });
 
+        var currentPageNo = 0;
+        var pageSize = 10;
+
+        var fetchList = function() {
+            currentPageNo ++;
+            btnLoad.html('Loading ...').attr('disabled', true);
+            oc.ajax.post('/news/list', {pageNo: currentPageNo, pageSize: pageSize}, function(res) {
+                if(res.length < pageSize) {
+                    btnLoad.html('没有更多了');
+                }
+                else {
+                    btnLoad.html('加载更多').removeAttr('disabled');
+                }
+                
+                pageList.push(res);
+                appendList(res);
+            });
+        }
+
+        
+        fetchList();
+        
 
         
         

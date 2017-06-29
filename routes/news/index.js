@@ -30,9 +30,9 @@ router.post('/list', function(req, res, next) {
         pageNo = parseInt(queryParams.pageNo || 1) - 1;
         pageSize = parseInt(queryParams.pageSize) || 10;
     }
-    var skip = (pageNo - 1) * pageSize;
+    var skip = pageNo * pageSize;
 
-    News.find({}, {content: 0}).skip(skip).exec( (err, docs)=> {
+    News.find({}, {content: 0}).skip(skip).limit(pageSize).exec( (err, docs)=> {
         if(err) {
             console.error('访问出错，err:' + err.toString());
             return res.status(500).send('数据错误');
