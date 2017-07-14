@@ -1,1 +1,2 @@
-require('./spiders/qiutc')(fn => {})
+console.log('test spider');
+require('./spiders')();
