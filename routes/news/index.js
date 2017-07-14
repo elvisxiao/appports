@@ -32,7 +32,7 @@ router.post('/list', function(req, res, next) {
     }
     var skip = pageNo * pageSize;
 
-    News.find({}, {content: 0}).skip(skip).limit(pageSize).exec( (err, docs)=> {
+    News.find({}, {content: 0}).sort({created_at: -1}).skip(skip).limit(pageSize).exec( (err, docs)=> {
         if(err) {
             console.error('访问出错，err:' + err.toString());
             return res.status(500).send('数据错误');
