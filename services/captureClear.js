@@ -11,5 +11,5 @@ module.exports = function() {
         if(!stats.isDirectory()) {
             fs.unlinkSync(baseDir + '/' + file);
         }
-    }
+    })
 }
