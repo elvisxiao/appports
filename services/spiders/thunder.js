@@ -49,7 +49,7 @@ module.exports = function(saveFn, index) {
 
             newsList = newsList.concat(arr);
             
-            if(i < index || 1) {
+            if(i < (index || 1)) {
                 i ++;
                 fetchOnePage();
             }
