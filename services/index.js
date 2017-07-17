@@ -16,7 +16,6 @@ console.log('开始定时任务...');
 	var captureClear = require('./captureClear');
 	var rule = new schedule.RecurrenceRule();
 	rule.hour = 0;
-	rule.minute = 0;
 	schedule.scheduleJob(rule, function() {
 		captureClear();
 	});
@@ -27,8 +26,6 @@ console.log('开始定时任务...');
 	var spiders = require('./spiders');
 	var rule = new schedule.RecurrenceRule();
 	rule.hour = 0;
-	rule.minute = 0;
-	rule.second = 0;
 	schedule.scheduleJob(rule, function() {
 		spiders();
 	});

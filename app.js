@@ -38,7 +38,7 @@ app.use(session({
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function(req, res, next) {
-    console.log(req.method + ' ' + req.url + ' ' + req.headers["user-agent"] + ' httpVersion' + req.httpVersion + ' ip' + req.ip);
+    // console.log(req.method + ' ' + req.url + ' ' + req.headers["user-agent"] + ' httpVersion' + req.httpVersion + ' ip' + req.ip);
     res.locals.user = req.session.user;
     next();
 });

@@ -23,7 +23,7 @@ var saveNewsItem = function(one, cb) {
 }
 
 module.exports = () => {
-	console.log('获取News任务启动'  + new Date().toString());
+	console.log('Fetch News task start:'  + new Date().toString());
 	require('./aotu')(saveNewsItem)
 	require('./qiutc')(saveNewsItem)
 	require('./awesomes')(saveNewsItem)
