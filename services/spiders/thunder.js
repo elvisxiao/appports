@@ -24,6 +24,11 @@ module.exports = function(saveFn, index) {
             tags: [item.querySelector('.dc>a').innerHTML]
         }
 
+        //过滤招聘信息
+        if(!require('./filterTItle')(model.title)) {
+            return;
+        }
+
         spider.queue(model.link, (itemDoc) => {
             var itemDom = new JSDOM(itemDoc.res.body);
             var itemDoc = itemDom.window.document;

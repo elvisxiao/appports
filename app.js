@@ -36,7 +36,7 @@ app.use(session({
     // })
 }));
 
-var request = require('request');
+app.use(express.static(path.join(__dirname, 'public')));
 
 var proxy = require('http-proxy-middleware');
 app.use('/proxy', proxy({ 
@@ -47,8 +47,6 @@ app.use('/proxy', proxy({
         proxyReq.setHeader('referer', 'http://www.alloyteam.com');
     }
 }));
-
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function(req, res, next) {
     // console.log(req.method + ' ' + req.url + ' ' + req.headers["user-agent"] + ' httpVersion' + req.httpVersion + ' ip' + req.ip);
