@@ -1,3 +1,4 @@
+
 var express = require('express');
 var compression = require('compression');
 var path = require('path');
@@ -33,6 +34,18 @@ app.use(session({
     // store: new MongoStore({
     //     url: 'mongodb://' + config.db.user + ':' + config.db.pwd + '@' + config.db.host + ':' + config.db.port + '/' + config.db.db
     // })
+}));
+
+var request = require('request');
+
+var proxy = require('http-proxy-middleware');
+app.use('/proxy', proxy({ 
+    target: 'http://www.alloyteam.com', 
+    changeOrigin: true,
+    pathRewrite: {'^/proxy' : '/'},
+    onProxyReq: function(proxyReq, req, res) {
+        proxyReq.setHeader('referer', 'http://www.alloyteam.com');
+    }
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));

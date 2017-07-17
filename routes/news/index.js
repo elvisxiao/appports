@@ -18,6 +18,7 @@ router.get('/:id', function(req, res, next) {
             console.error('未找到News, id：' + id + ', err:', err);
             return res.render('404');
         }
+        doc.content = doc.content.replace(/(\bhttp:\/\/www\.alloyteam\.com)/g, '/proxy');
         res.render('news/detail', {doc, doc});
     });
 });

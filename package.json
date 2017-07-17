@@ -23,7 +23,8 @@
     "node-spider": "^1.4.1",
     "nodemailer": "~2.6",
     "phantom": "^4.0.4",
-    "serve-favicon": "~2.3.0"
+    "serve-favicon": "~2.3.0",
+    "http-proxy-middleware": "^0.17.4"
   },
   "devDependencies": {
     "gulp": "*",
