@@ -25,7 +25,7 @@ module.exports = function(saveFn, index) {
         }
 
         //过滤招聘信息
-        if(!require('./filterTItle')(model.title)) {
+        if(!require('./filterTitle')(model.title)) {
             return;
         }
 
