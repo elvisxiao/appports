@@ -1,5 +1,5 @@
 var schedule = require("node-schedule");
-console.log('开始定时任务...');
+console.log('Task monitor starting...');
 //定时扫描邮件表并发送邮件---
 ;(function() {
 	var mailService = require('./mail');
@@ -31,4 +31,4 @@ console.log('开始定时任务...');
 	});
 })();
 
-console.log('定时任务服务开启');
+console.log('Task monitor started');

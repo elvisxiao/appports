@@ -45,7 +45,7 @@ module.exports = function() {
 		});
 	}
 
-	console.log('邮件任务启动:' + new Date().toString());
+	console.log('Mail task started:' + new Date().toString());
 	Mail.find({ is_send: false }, function(err, docs) {
 		if(err) {
 			console.error('查询邮件失败：', err);
