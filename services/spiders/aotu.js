@@ -13,7 +13,7 @@ module.exports = function(saveFn) {
         var doc = dom.window.document;
         var list = doc.querySelectorAll('body .news-list ul li');
         
-        return Array.prototype.map.call(list, function(one, index) {
+        return [].map.call(list, function(one, index) {
             var link = one.querySelector('.news-item-content>a').href;
             var tagsElement = one.querySelectorAll('.news-item-tag');
             var tags = [];
