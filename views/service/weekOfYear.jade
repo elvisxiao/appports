@@ -1,0 +1,81 @@
+
+style.
+    input {
+        background-color: #fff !important;
+        border-radius: 0 !important;
+        border: 0;
+        display: block;
+        width: 100%;
+        height: 34px !important;
+        line-height: 34px !important;
+        padding: 0 5px !important;
+        margin-top: 0;
+    }
+.wrapper.tc
+    form#weekForm
+        p.f12.bc(style="width: 900px;") 输入一个日期，可以得到当前日期处于当年的第几周。
+
+        div.mt20.tc.bc.tl.form-inline(style="padding-bottom: 70px;")
+            div
+                input.form-control(style="width:585px;", type="text", placeholder="2017-01-01", required)
+                label.pl10.pr20
+                    input(type="checkbox", style="width:20px; display: inline; vertical-align: middle") 
+                    span(style="vertical-align: middle") 是否海翼周
+                button.btn.btn-info.ml5(type="submit", style="border-radius:0; width: 120px") 获取周
+
+        
+script.
+    var getWeekString = function(date, isAnker) {
+        if (!date) {
+            date = new Date();
+        }
+        date = new Date(date);
+        var year = date.getFullYear();
+        var firstDayOfYear = year + '-01-01';
+        var addDay = new Date(firstDayOfYear).getDay();
+
+        var indexInThisYear = parseInt((date.getTime() - new Date(year, 0, 1).getTime()) / (24 * 60 * 60000));
+        var weekIndex = parseInt((indexInThisYear + addDay) / 7) + 1;
+        
+        //海翼周----
+        if(isAnker) {
+            var lastDayOfThisWeek = date.getTime() + (6 - date.getDay()) * 24 * 60 * 60000;
+            if(new Date(lastDayOfThisWeek).getFullYear() != year) {
+                year ++;
+                weekIndex = 1;
+            }
+        }
+        else {  
+            var firstDayOfThisWeek = date.getTime() - (date.getDay()) * 24 * 60 * 60000;
+            if(new Date(firstDayOfThisWeek).getFullYear() != year) {
+                year --;
+                firstDayOfYear = year + '-01-01';
+                addDay = new Date(firstDayOfYear).getDay();
+                var allTimes = new Date(year + '-12-31').getTime() - new Date(year + '-01-01').getTime() - (7 - addDay) * 24 * 60 * 60000;
+                var weekTimes = 7 * 24 * 60 * 60000;
+                weekIndex = parseInt(allTimes / weekTimes)
+                if(allTimes % weekTimes !== 0) {
+                    weekIndex ++;
+                }
+            }
+        }
+
+        if(weekIndex < 10) {
+            weekIndex = '0' + weekIndex.toString();
+        }
+
+        return year.toString() + weekIndex.toString();
+    };
+
+    var form = document.getElementById('weekForm');
+    form.onsubmit = function() {
+        console.log('222')
+        var weekStr = $.trim(form.querySelector('input[type="text"]').value);
+        var isAnker = form.querySelector('input[type="checkbox"]').checked;
+
+        alert('Result:' + getWeekString(weekStr, isAnker));
+
+        return false;
+    }
+        
+        
