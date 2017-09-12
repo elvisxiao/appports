@@ -29,6 +29,7 @@ router.get('/lucky/slotmachine', function(req, res, next) {
 
 router.get('/spider', function(res, res, next) {
 	require('../services/spiders')();
+	res.send('ok');
 })
 
 
