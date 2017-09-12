@@ -27,5 +27,9 @@ router.get('/lucky/slotmachine', function(req, res, next) {
   	res.render('lucky/slotmachine');
 });
 
+router.get('/spider', function(res, res, next) {
+	require('../services/spiders')();
+})
+
 
 module.exports = router;
