@@ -41,7 +41,7 @@ router.get('/', function(req, res, next) {
 
             var config = {
                 signature: signature,
-                nonceStr: nonceStr,
+                nonceStr: noncestr,
                 timeStamp: timestamp,
                 corpId: corpId,
                 agentid: agentid
