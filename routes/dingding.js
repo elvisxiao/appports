@@ -9,57 +9,13 @@ var crypto = require('crypto');
 var url = require('url');
 const request = require('request');
 var querystring = require('querystring');
-
-
-function invoke(path, params) {
-    return new Promise(function(resolve, reject){
-        https.get(OAPI_HOST + path + '?' + querystring.stringify(params), function(res) {
-            if (res.statusCode === 200) {
-                var body = '';
-                res.on('data', function (data) {
-                    body += data;
-                }).on('end', function () {
-                    var result = JSON.parse(body);
-                    if (result && 0 === result.errcode) {
-                        resolve(null, result);
-                    }
-                    else {
-                        resolve(result);
-                    }
-                });
-            }
-            else {
-                reject(new Error(response.statusCode));
-            }
-        }).on('error', function(e) {
-            reject(e);
-        });
-    });
-}
-
-function sign(params) {
-    var origUrl = params.url;
-    var origUrlObj =  url.parse(origUrl);
-    delete origUrlObj['hash'];
-    var newUrl = url.format(origUrlObj);
-    var plain = 'jsapi_ticket=' + params.ticket +
-        '&noncestr=' + params.nonceStr +
-        '&timestamp=' + params.timeStamp +
-        '&url=' + newUrl;
-
-    console.log(plain);
-    var sha1 = crypto.createHash('sha1');
-    sha1.update(plain, 'utf8');
-    var signature = sha1.digest('hex');
-    console.log('signature: ' + signature);
-    return signature;
-}
+const sha1 = require('js-sha1');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
     var nonceStr = 'abcdefg';
-    var timeStamp = new Date().getTime();
-    var signedUrl = decodeURIComponent(this.href);
+    // var timeStamp = new Date().getTime();
+    // var signedUrl = decodeURIComponent(this.href);
 
     // 1. 获取 token
     const get_token_url = 'https://oapi.dingtalk.com/gettoken?corpid=' + corpId + '&corpsecret=' + corpsecret;
@@ -74,23 +30,23 @@ router.get('/', function(req, res, next) {
             console.log('生成的 Ticket: ' + ticket)
             
             // 3. 生成签名
-            // var timestamp = new Date().getTime();
-            // var noncestr = 'nonceStr';
-            // var plain_text = 'jsapi_ticket=' + ticket + '&noncestr=' + noncestr + '&timestamp=' + timestamp + '&url=http://www.dingtalk.com';
-            // signature = sha1(plain_text);
-            // console.log('生成的签名: ' + signature);
-
-            var signature = sign({
-                nonceStr: nonceStr,
-                timeStamp: timeStamp,
-                url: signedUrl,
-                ticket: ticket
-            });
+            var timestamp = new Date().getTime();
+            var noncestr = 'nonceStr';
+            var plain_text = 'jsapi_ticket=' + ticket + '&noncestr=' + noncestr + '&timestamp=' + timestamp + '&url=http://www.dingtalk.com';
+            var signature = sha1(plain_text);
+            console.log('生成的签名: ' + signature);
+            
+            // var signature = sign({
+            //     nonceStr: nonceStr,
+            //     timeStamp: timeStamp,
+            //     url: signedUrl,
+            //     ticket: ticket
+            // });
 
             var config = {
                 signature: signature,
                 nonceStr: nonceStr,
-                timeStamp: timeStamp,
+                timeStamp: timestamp,
                 corpId: corpId,
                 agentid: agentid
             };
