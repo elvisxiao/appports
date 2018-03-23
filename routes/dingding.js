@@ -14,7 +14,8 @@ const sha1 = require('js-sha1');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    let url = decodeURIComponent(this.href);
+    // let url = decodeURIComponent(this.href);
+    let url = decodeURIComponent('http://' + req.host + req.originalUrl)
 
     console.log('req url:', url);
     // 1. 获取 token
@@ -32,7 +33,7 @@ router.get('/', function(req, res, next) {
             // 3. 生成签名
             var timestamp = new Date().getTime();
             var noncestr = 'nonceStr';
-            var plain_text = 'jsapi_ticket=' + ticket + '&noncestr=' + noncestr + '&timestamp=' + timestamp + '&url=' + url;
+            var plain_text = 'jsapi_ticket=' + ticket + '&noncestr=' + noncestr + '&timestamp=' + timestamp + '&url=' + req.url;
             var signature = sha1(plain_text);
             console.log('生成的签名: ' + signature);
             
