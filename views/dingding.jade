@@ -9,6 +9,8 @@ html
             .row
                 .col-sm-5.col-xs-12
                     .f14.lh200 钉钉测试
+                    h3#username
+                    img#avatar
 
         script(src="//g.alicdn.com/ilw/cdnjs/jquery/2.1.4/jquery.min.js")
         script(src="http://g.alicdn.com/dingding/open-develop/1.6.9/dingtalk.js")
@@ -37,7 +39,9 @@ html
                 dd.biz.user.get({
                     //- corpId:'xxx', // 可选参数，如果不传则使用用户当前企业的corpId。
                     onSuccess: function (info) {
-                        alert('userGet success: ' + JSON.stringify(info));
+                        var user = JSON.stringify(info);
+                        $('#username').html(user.emplld);
+                        $('#avatar').attr('src', user.avatar);
                     },
                     onFail: function (err) {
                         alert('userGet fail: ' + JSON.stringify(err));
