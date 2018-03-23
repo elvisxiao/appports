@@ -21,11 +21,14 @@ html
                 timeStamp: '#{timeStamp}',
                 nonceStr: '#{nonceStr}',
                 signature: '#{signature}',
-                jsApiList: ['device.notification.confirm',
+                jsApiList: [
+                    'device.notification.confirm',
                     'device.notification.alert',
                     'device.notification.prompt',
                     'biz.chat.chooseConversation',
-                    'biz.ding.post']
+                    'biz.ding.post',
+                    'biz.user.get'
+                ]
             });
 
             dd.ready(function() {
