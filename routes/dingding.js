@@ -10,7 +10,24 @@ var crypto = require('crypto');
 var url = require('url');
 const request = require('request');
 var querystring = require('querystring');
-const sha1 = require('js-sha1');
+
+function sign(params) {
+    var origUrl = params.url;
+    var origUrlObj =  url.parse(origUrl);
+    delete origUrlObj['hash'];
+    var newUrl = url.format(origUrlObj);
+    var plain = 'jsapi_ticket=' + params.ticket +
+        '&noncestr=' + params.nonceStr +
+        '&timestamp=' + params.timeStamp +
+        '&url=' + newUrl;
+
+    console.log(plain);
+    var sha1 = crypto.createHash('sha1');
+    sha1.update(plain, 'utf8');
+    var signature = sha1.digest('hex');
+    console.log('signature: ' + signature);
+    return signature;
+}
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -31,23 +48,23 @@ router.get('/', function(req, res, next) {
             console.log('生成的 Ticket: ' + ticket)
             
             // 3. 生成签名
-            var timestamp = new Date().getTime();
-            var noncestr = 'nonceStr';
-            var plain_text = 'jsapi_ticket=' + ticket + '&noncestr=' + noncestr + '&timestamp=' + timestamp + '&url=' + req.url;
-            var signature = sha1(plain_text);
-            console.log('生成的签名: ' + signature);
+            var nonceStr = 'abcdefg';
+            var timeStamp = new Date().getTime();
+            // var plain_text = 'jsapi_ticket=' + ticket + '&noncestr=' + noncestr + '&timestamp=' + timestamp + '&url=' + req.url;
+            // var signature = sha1(plain_text);
+            // console.log('生成的签名: ' + signature);
             
-            // var signature = sign({
-            //     nonceStr: nonceStr,
-            //     timeStamp: timeStamp,
-            //     url: signedUrl,
-            //     ticket: ticket
-            // });
+            var signature = sign({
+                nonceStr: nonceStr,
+                timeStamp: timeStamp,
+                url: url,
+                ticket: ticket
+            });
 
             var config = {
                 signature: signature,
-                nonceStr: noncestr,
-                timeStamp: timestamp,
+                nonceStr: nonceStr,
+                timeStamp: timeStamp,
                 corpId: corpId,
                 agentid: agentid
             };
