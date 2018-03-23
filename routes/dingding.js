@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var corpId = 'dingcd11234ee8e7457235c2f4657eb6378f';
+              
 var corpsecret = 'Ozo5eZB-COnPlGY_6XNan9bjzz4zCHMrvRp2CAxJkfVXnZT4eZGwHY_C7df3UfSG';
 var agentid = '168144040';
 
@@ -13,6 +14,8 @@ const sha1 = require('js-sha1');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+    console.log('req url:', req.url);
+
     // 1. 获取 token
     const get_token_url = 'https://oapi.dingtalk.com/gettoken?corpid=' + corpId + '&corpsecret=' + corpsecret;
     request.get(get_token_url, (error, response, body) => {
@@ -28,7 +31,7 @@ router.get('/', function(req, res, next) {
             // 3. 生成签名
             var timestamp = new Date().getTime();
             var noncestr = 'nonceStr';
-            var plain_text = 'jsapi_ticket=' + ticket + '&noncestr=' + noncestr + '&timestamp=' + timestamp + '&url=http://www.dingtalk.com';
+            var plain_text = 'jsapi_ticket=' + ticket + '&noncestr=' + noncestr + '&timestamp=' + timestamp + '&url=' + req.url;
             var signature = sha1(plain_text);
             console.log('生成的签名: ' + signature);
             
