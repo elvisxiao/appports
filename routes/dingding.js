@@ -13,10 +13,6 @@ const sha1 = require('js-sha1');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    var nonceStr = 'abcdefg';
-    // var timeStamp = new Date().getTime();
-    // var signedUrl = decodeURIComponent(this.href);
-
     // 1. 获取 token
     const get_token_url = 'https://oapi.dingtalk.com/gettoken?corpid=' + corpId + '&corpsecret=' + corpsecret;
     request.get(get_token_url, (error, response, body) => {
