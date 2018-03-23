@@ -14,8 +14,9 @@ const sha1 = require('js-sha1');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    console.log('req url:', req.url);
+    let url = 'http://' + req.host + req.originalUrl;
 
+    console.log('req url:', url);
     // 1. 获取 token
     const get_token_url = 'https://oapi.dingtalk.com/gettoken?corpid=' + corpId + '&corpsecret=' + corpsecret;
     request.get(get_token_url, (error, response, body) => {
