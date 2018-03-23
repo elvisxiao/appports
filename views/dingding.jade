@@ -39,6 +39,7 @@ html
                 dd.biz.user.get({
                     //- corpId:'xxx', // 可选参数，如果不传则使用用户当前企业的corpId。
                     onSuccess: function (info) {
+                        alert(info);
                         var user = JSON.stringify(info);
                         alert(user.avatar + '_' + user.emplld);
                         $('#username').html(user.emplld);
