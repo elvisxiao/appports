@@ -19,10 +19,6 @@ router.get('/contact', function(req, res, next) {
   	res.render('contact');
 });
 
-router.get('/dingding', function(req, res, next) {
-  res.render('dingding');
-})
-
 router.get('/lucky/turntable', function(req, res, next) {
   	res.render('lucky/turntable');
 });

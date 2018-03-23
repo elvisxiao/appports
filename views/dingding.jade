@@ -1,30 +1,61 @@
-extends layout
+doctype html
+html
+    head
+        title AppPorts
+        meta(content="text/html; charset=gb2312", http-equiv="Content-Type")
+        meta(http-equiv="X-UA-Compatible", content="IE=EDGE")
+    body
+        .wrapper.mt20
+            .row
+                .col-sm-5.col-xs-12
+                    .f14.lh200 钉钉测试
 
-block content
-    style.
-        #footer_bg, nav, #navSpace {
-            display: none;
-        }
-        input, textarea {
-            background: #ddd;
-            border: 1px solid #ccc;
-            display: block;
-            width: 100%;
-            height: 36px;
-            line-height: 36px;
-            padding: 0 15px;
-            margin-top: 5px;
-        }
-        textarea{
-            min-height: 120px;
-        }
-    
-    .wrapper.mt20
-        .row
-            .col-sm-5.col-xs-12
-                .f14.lh200 钉钉测试
-
-    script.
-        var form = document.getElementById('formComment');
+        script(src="//g.alicdn.com/ilw/cdnjs/jquery/2.1.4/jquery.min.js")
+        script(src="http://g.alicdn.com/dingding/open-develop/1.6.9/dingtalk.js")
         
+        script.
+            //文档见http://open.dingtalk.com/doc/#权限验证配置-beta
+            dd.config({
+                agentId: '#{agentid}',
+                corpId: '#{corpId}',
+                timeStamp: '#{timeStamp}',
+                nonceStr: '#{nonceStr}',
+                signature: '#{signature}',
+                jsApiList: ['device.notification.confirm',
+                    'device.notification.alert',
+                    'device.notification.prompt',
+                    'biz.chat.chooseConversation',
+                    'biz.ding.post']
+            });
+
+            dd.ready(function() {
+                alert('dd ready');
+
+                //- document.addEventListener('pause', function() {
+                //-     alert('pause');
+                //- });
+
+                //- document.addEventListener('resume', function() {
+                //-     alert('resume');
+                //- });
+
+                //- var head = document.querySelector('h1');
+                //- head.innerHTML = head.innerHTML + ' It rocks!';
+
+                //- dd.device.notification.alert({
+                //-     message: 'dd.device.notification.alert',
+                //-     title: 'This is title',
+                //-     buttonName: 'button',
+                //-     onSuccess: function(data) {
+                //-         alert('win: ' + JSON.stringify(data));
+                //-     },
+                //-     onFail: function(err) {
+                //-         alert('fail: ' + JSON.stringify(err));
+                //-     }
+                //- });
+            });
+
+            dd.error(function(err) {
+                alert('dd error: ' + JSON.stringify(err));
+            });
         

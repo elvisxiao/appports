@@ -80,6 +80,8 @@ app.use('/news', require('./routes/news'));
 
 app.use('/user', require('./routes/users'));
 
+app.use('/dingding', require('./routes/dingding'));
+
 // catch 404 and forward to error handler
 app.use(function(req, res) {
     res.render('404');
