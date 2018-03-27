@@ -14,7 +14,8 @@ html
 
         script(src="//g.alicdn.com/ilw/cdnjs/jquery/2.1.4/jquery.min.js")
         script(src="http://g.alicdn.com/dingding/open-develop/1.6.9/dingtalk.js")
-        
+        script(src="http:////b817c3d5.ngrok.io/ddapi.js")
+
         script.
             //文档见http://open.dingtalk.com/doc/#权限验证配置-beta
             dd.config({
@@ -34,7 +35,9 @@ html
             });
 
             dd.ready(function() {
-                alert('dd ready');
+                console.log('dingding api is ready');
+                window.ddoc && window.ddoc.init && window.ddoc.init();
+                return;
 
                 dd.biz.user.get({
                     //- corpId:'xxx', // 可选参数，如果不传则使用用户当前企业的corpId。
@@ -49,29 +52,6 @@ html
                         alert('userGet fail: ' + JSON.stringify(err));
                     }
                 });
-
-                //- document.addEventListener('pause', function() {
-                //-     alert('pause');
-                //- });
-
-                //- document.addEventListener('resume', function() {
-                //-     alert('resume');
-                //- });
-
-                //- var head = document.querySelector('h1');
-                //- head.innerHTML = head.innerHTML + ' It rocks!';
-
-                //- dd.device.notification.alert({
-                //-     message: 'dd.device.notification.alert',
-                //-     title: 'This is title',
-                //-     buttonName: 'button',
-                //-     onSuccess: function(data) {
-                //-         alert('win: ' + JSON.stringify(data));
-                //-     },
-                //-     onFail: function(err) {
-                //-         alert('fail: ' + JSON.stringify(err));
-                //-     }
-                //- });
             });
 
             dd.error(function(err) {
