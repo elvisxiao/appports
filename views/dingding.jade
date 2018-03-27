@@ -24,13 +24,18 @@ html
             }
     body
         #app
-
+            
         script(src="//g.alicdn.com/ilw/cdnjs/jquery/2.1.4/jquery.min.js")
         script(src="http://g.alicdn.com/dingding/open-develop/1.6.9/dingtalk.js")
         script(src="http:////b817c3d5.ngrok.io/app.js?r=#{new Date().getTime()}")
         //- script(src="http://localhost:5000/app.js?r=#{new Date().getTime()}")
-
+        
         script.
+            if(!window.app || !window.app.init || !window.app.jsApiList) {
+                return;
+            }
+
+            var jsApiList = window.app.jsApiList;
             //文档见http://open.dingtalk.com/doc/#权限验证配置-beta
             dd.config({
                 agentId: '#{agentid}',
@@ -38,34 +43,12 @@ html
                 timeStamp: '#{timeStamp}',
                 nonceStr: '#{nonceStr}',
                 signature: '#{signature}',
-                jsApiList: [
-                    'device.notification.confirm',
-                    'device.notification.alert',
-                    'device.notification.prompt',
-                    'biz.chat.chooseConversation',
-                    'biz.ding.post',
-                    'biz.user.get'
-                ]
+                jsApiList: jsApiList
             });
 
             dd.ready(function() {
                 console.log('dingding api is ready');
                 window.app && window.app.init && window.app.init();
-                return;
-
-                dd.biz.user.get({
-                    //- corpId:'xxx', // 可选参数，如果不传则使用用户当前企业的corpId。
-                    onSuccess: function (user) {
-                        //- alert(user);
-                        //- alet(JSON.stringify(info));
-                        //- alert(user.avatar + '_' + user.emplld);
-                        $('#username').html(user.nickName);
-                        $('#avatar').attr('src', user.avatar);
-                    },
-                    onFail: function (err) {
-                        alert('userGet fail: ' + JSON.stringify(err));
-                    }
-                });
             });
 
             dd.error(function(err) {
