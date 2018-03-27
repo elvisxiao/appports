@@ -31,27 +31,26 @@ html
         //- script(src="http://localhost:5000/app.js?r=#{new Date().getTime()}")
         
         script.
-            if(!window.app || !window.app.init || !window.app.jsApiList) {
-                return;
+            if(window.app || window.app.init || window.app.jsApiList) {
+                var jsApiList = window.app.jsApiList;
+                //文档见http://open.dingtalk.com/doc/#权限验证配置-beta
+                dd.config({
+                    agentId: '#{agentid}',
+                    corpId: '#{corpId}',
+                    timeStamp: '#{timeStamp}',
+                    nonceStr: '#{nonceStr}',
+                    signature: '#{signature}',
+                    jsApiList: jsApiList
+                });
+
+                dd.ready(function() {
+                    console.log('dingding api is ready');
+                    window.app && window.app.init && window.app.init();
+                });
+
+                dd.error(function(err) {
+                    alert('dd error: ' + JSON.stringify(err));
+                });
             }
-
-            var jsApiList = window.app.jsApiList;
-            //文档见http://open.dingtalk.com/doc/#权限验证配置-beta
-            dd.config({
-                agentId: '#{agentid}',
-                corpId: '#{corpId}',
-                timeStamp: '#{timeStamp}',
-                nonceStr: '#{nonceStr}',
-                signature: '#{signature}',
-                jsApiList: jsApiList
-            });
-
-            dd.ready(function() {
-                console.log('dingding api is ready');
-                window.app && window.app.init && window.app.init();
-            });
-
-            dd.error(function(err) {
-                alert('dd error: ' + JSON.stringify(err));
-            });
+            
         
