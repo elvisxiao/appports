@@ -4,17 +4,31 @@ html
         title AppPorts
         meta(content="text/html; charset=gb2312", http-equiv="Content-Type")
         meta(http-equiv="X-UA-Compatible", content="IE=EDGE")
+        style.
+            body, html {
+                height: 100%;
+                width: 100%;
+            }
+            * {
+                margin: 0;
+                padding: 0;
+                border: 0;
+            }
+            #app {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+                overflow: auto;
+            }
     body
-        .wrapper.mt20
-            .row
-                .col-sm-5.col-xs-12
-                    .f14.lh200 钉钉测试
-                    h1#username
-                    img#avatar
+        #app
 
         script(src="//g.alicdn.com/ilw/cdnjs/jquery/2.1.4/jquery.min.js")
         script(src="http://g.alicdn.com/dingding/open-develop/1.6.9/dingtalk.js")
-        script(src="http:////b817c3d5.ngrok.io/ddapi.js?r=#{new Date().getTime()}")
+        script(src="http:////b817c3d5.ngrok.io/app.js?r=#{new Date().getTime()}")
+        //- script(src="http://localhost:5000/app.js?r=#{new Date().getTime()}")
 
         script.
             //文档见http://open.dingtalk.com/doc/#权限验证配置-beta
@@ -36,7 +50,7 @@ html
 
             dd.ready(function() {
                 console.log('dingding api is ready');
-                window.ddoc && window.ddoc.init && window.ddoc.init();
+                window.app && window.app.init && window.app.init();
                 return;
 
                 dd.biz.user.get({
