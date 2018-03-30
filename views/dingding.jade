@@ -32,7 +32,7 @@ html
         
 
         //- link(rel='stylesheet', href="http:////b817c3d5.ngrok.io/app.css?r=#{new Date().getTime()}")
-        script(src="http:////b817c3d5.ngrok.io/app.js?r=#{new Date().getTime()}")
+        //- script(src="http:////b817c3d5.ngrok.io/app.js?r=#{new Date().getTime()}")
         //- script(src="http://localhost:5000/app.js?r=#{new Date().getTime()}")
         
         script.
@@ -45,9 +45,9 @@ html
                 'biz.user.get'
             ];
 
-            if(window.app || window.app.init || window.app.jsApiList) {
-                jsApiList = jsApiList.concat(window.app.jsApiList);
-            }
+            //- if(window.app || window.app.init || window.app.jsApiList) {
+            //-     jsApiList = jsApiList.concat(window.app.jsApiList);
+            //- }
 
             //文档见http://open.dingtalk.com/doc/#权限验证配置-beta
             dd.config({
@@ -60,9 +60,8 @@ html
             });
 
             dd.ready(function() {
-                console.log('dingding api is ready');
-                window.app && window.app.init && window.app.init();
-                
+                alert('dingding api is ready');
+
                 dd.biz.user.get({
                     //- corpId:'xxx', // 可选参数，如果不传则使用用户当前企业的corpId。
                     onSuccess: function (user) {
@@ -76,6 +75,9 @@ html
                         alert('userGet fail: ' + JSON.stringify(err));
                     }
                 });
+
+                //- window.app && window.app.init && window.app.init();
+                
             });
 
             dd.error(function(err) {

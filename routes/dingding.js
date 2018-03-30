@@ -77,19 +77,4 @@ router.get('/', function(req, res, next) {
     });
 });
 
-router.get('/record', function(req, res, next) {
-    var userId = req.session.user._id;
-    userId = mongoose.Types.ObjectId(userId);
-    Record.find({ user: userId }, function(err, docs) {
-        if(err) {
-            console.error('访问申请记录出错，err:', err);
-            res.render('record', { docs: [] });
-        }
-        if(!docs) {
-            res.redirect('/');
-        }
-        res.render('record', { docs: docs });
-    });
-});
-
 module.exports = router;
