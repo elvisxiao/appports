@@ -1,4 +1,6 @@
 var fs = require('fs');
+var path = require('path');
+
 var baseDir = path.join(__dirname, 'public', 'phantomjs');
 
 module.exports = function() {
