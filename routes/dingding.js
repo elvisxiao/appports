@@ -77,4 +77,8 @@ router.get('/', function(req, res, next) {
     });
 });
 
+router.get('/update_url', function(req, res, next) {
+    res.send('ok');
+})
+
 module.exports = router;
