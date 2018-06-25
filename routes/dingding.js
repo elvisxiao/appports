@@ -78,6 +78,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/update_url', function(req, res, next) {
+    console.log('get chrome extennsion called');
     res.send('ok');
 })
 
