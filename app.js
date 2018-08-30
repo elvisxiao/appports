@@ -7,8 +7,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
-const config  = require('./config');
+// var MongoStore = require('connect-mongo')(session);
+// const config  = require('./config');
 var app = express();
 
 // view engine setup
@@ -73,14 +73,14 @@ function requiredAuthentication(req, res, next) {
 }
 
 app.use('/', require('./routes/index'));
-app.use('/lucky', requiredAuthentication, require('./routes/lucky'));
-app.use('/service', require('./routes/service'));
+// app.use('/lucky', requiredAuthentication, require('./routes/lucky'));
+// app.use('/service', require('./routes/service'));
 app.use('/ui', require('./routes/ui'));
-app.use('/news', require('./routes/news'));
+// app.use('/news', require('./routes/news'));
 
-app.use('/user', require('./routes/users'));
+// app.use('/user', require('./routes/users'));
 
-app.use('/dingding', require('./routes/dingding'));
+// app.use('/dingding', require('./routes/dingding'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res) {
@@ -98,6 +98,6 @@ app.listen(3100, function() {
     console.log('server is listen on port 3100');
 
     // 开启定时任务----
-    require('./services');
+    // require('./services');
 });
 

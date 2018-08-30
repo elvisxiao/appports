@@ -14,31 +14,31 @@ nav.navbar.navbar-default(style="margin: 0")
                 li
                     a(href="/") 首页
 
-                li
-                    a(href="/news/list") 前端资讯
+                //- li
+                //-     a(href="/news/list") 前端资讯
                     
-                li.dropdown
-                    a.dropdown-toggle(href="#", data-toggle="dropdown") 在线抽奖
-                        span.caret
-                    ul.dropdown-menu
-                        li
-                            a(href="/lucky/slotmachine") 老虎机
-                        li
-                            a(href="/lucky/turntable") 幸运转盘
+                //- li.dropdown
+                //-     a.dropdown-toggle(href="#", data-toggle="dropdown") 在线抽奖
+                //-         span.caret
+                //-     ul.dropdown-menu
+                //-         li
+                //-             a(href="/lucky/slotmachine") 老虎机
+                //-         li
+                //-             a(href="/lucky/turntable") 幸运转盘
                         
-                li.dropdown
-                    a(href="/ui") UI组件
+                //- li.dropdown
+                //-     a(href="/ui") UI组件
                 //- li
                     //- a(href="/contact") 联系我们
 
-                -if(user && user.email) 
-                    li
-                        a(style="text-transform: capitalize;") #{user.email.slice(0, user.email.indexOf('@'))} 
-                    li
-                        a#aLogout(href="/logout", style="padding-left:0; padding-right:0") 注销
-                -else
-                    li
-                        a#aPerson(href="/") 登录
+                // -if(user && user.email) 
+                //     li
+                //         a(style="text-transform: capitalize;") #{user.email.slice(0, user.email.indexOf('@'))} 
+                //     li
+                //         a#aLogout(href="/logout", style="padding-left:0; padding-right:0") 注销
+                // -else
+                //     li
+                //         a#aPerson(href="/") 登录
                 
                 
 #navSpace

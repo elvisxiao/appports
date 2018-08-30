@@ -27,10 +27,10 @@ router.get('/lucky/slotmachine', function(req, res, next) {
   	res.render('lucky/slotmachine');
 });
 
-router.get('/spider', function(req, res, next) {
-	require('../services/spiders')();
-	res.send('ok');
-})
+// router.get('/spider', function(req, res, next) {
+// 	require('../services/spiders')();
+// 	res.send('ok');
+// })
 
 
 
