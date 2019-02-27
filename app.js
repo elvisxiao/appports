@@ -38,6 +38,7 @@ app.use(session({
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 var proxy = require('http-proxy-middleware');
 app.use('/proxy', proxy({ 
     target: 'http://www.alloyteam.com', 
